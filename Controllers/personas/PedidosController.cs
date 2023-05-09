@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TACOS.Business;
 
-namespace TACOS.Controllers.menu
+namespace TACOS.Controllers.personas
 {
     [ApiController]
-    [Route("menu/[controller]")]
+    [Route("personas/[controller]")]
     public class PedidosController : Controller
     {
 
@@ -15,7 +15,7 @@ namespace TACOS.Controllers.menu
                                   IMenuMgt menuMgr)
         {
             this.logger = logger;
-            this._menuMgr = menuMgr;
+            _menuMgr = menuMgr;
         }
 
         [HttpPost(Name = "PostPedido")]
