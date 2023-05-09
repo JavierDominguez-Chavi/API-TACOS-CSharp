@@ -20,7 +20,7 @@
         [HttpGet(Name = "GetAlimentos")]
         public IActionResult ObtenerAlimentos()
         {
-            return new JsonResult(_menuMgr.ObtenerAlimentos());
+            return new JsonResult(_menuMgr.ObtenerAlimentos()) { StatusCode = 202 };
         }
     }
 }
