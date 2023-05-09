@@ -1,0 +1,36 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "TACOS",
+    "version": "1.0"
+  },
+  "paths": {
+    "/menu/Alimentos": {
+      "get": {
+        "tags": [
+          "Alimentos"
+        ],
+        "operationId": "GetAlimentos",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/personas/Pedidos": {
+      "post": {
+        "tags": [
+          "Pedidos"
+        ],
+        "operationId": "PostPedido",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {}
+}
