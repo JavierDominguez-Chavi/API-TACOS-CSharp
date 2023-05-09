@@ -22,11 +22,5 @@
         {
             return new JsonResult(_menuMgr.ObtenerAlimentos());
         }
-
-        [HttpPost(Name = "PostAlimentos")]
-        public void RegistrarPedido()
-        {
-            _menuMgr.RegistrarPedido();
-        }
     }
 }
