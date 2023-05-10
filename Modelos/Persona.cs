@@ -1,5 +1,7 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace TACOS.Modelos;
 
@@ -19,9 +21,6 @@ public partial class Persona
 
     public string Telefono { get; set; } = null!;
 
-    public DateTime CreatedAt { get; set; }
-
-    public DateTime UpdatedAt { get; set; }
-
+    [JsonIgnore]
     public ICollection<Miembro> Miembros { get; set; } = new List<Miembro>();
 }

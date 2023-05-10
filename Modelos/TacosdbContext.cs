@@ -46,9 +46,6 @@ public partial class TacosdbContext : DbContext
             entity.HasIndex(e => e.IdCategoria, "idCategoria");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("createdAt");
             entity.Property(e => e.Descripcion)
                 .HasMaxLength(1000)
                 .HasColumnName("descripcion");
@@ -61,9 +58,6 @@ public partial class TacosdbContext : DbContext
                 .HasMaxLength(50)
                 .HasColumnName("nombre");
             entity.Property(e => e.Precio).HasColumnName("precio");
-            entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("updatedAt");
 
             entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Alimentos)
                 .HasForeignKey(d => d.IdCategoria)
@@ -83,14 +77,8 @@ public partial class TacosdbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Cantidad).HasColumnName("cantidad");
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("createdAt");
             entity.Property(e => e.IdAlimento).HasColumnName("idAlimento");
             entity.Property(e => e.IdPedido).HasColumnName("idPedido");
-            entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("updatedAt");
 
             entity.HasOne(d => d.IdAlimentoNavigation).WithMany(p => p.Alimentospedidos)
                 .HasForeignKey(d => d.IdAlimento)
@@ -110,18 +98,12 @@ public partial class TacosdbContext : DbContext
             entity.ToTable("categoria");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("createdAt");
             entity.Property(e => e.Medida)
                 .HasMaxLength(30)
                 .HasColumnName("medida");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(30)
                 .HasColumnName("nombre");
-            entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("updatedAt");
         });
 
         modelBuilder.Entity<Miembro>(entity =>
@@ -136,15 +118,8 @@ public partial class TacosdbContext : DbContext
             entity.Property(e => e.Contrasena)
                 .HasMaxLength(255)
                 .HasColumnName("contrasena");
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("createdAt");
             entity.Property(e => e.IdPersona).HasColumnName("idPersona");
             entity.Property(e => e.PedidosPagados).HasColumnName("pedidosPagados");
-            entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("updatedAt");
-
             
             entity.HasOne(d => d.Persona).WithMany(p => p.Miembros)
                 .HasForeignKey(d => d.IdPersona)
@@ -161,17 +136,15 @@ public partial class TacosdbContext : DbContext
             entity.HasIndex(e => e.IdMiembro, "idMiembro");
 
             entity.Property(e => e.Id).HasColumnName("id");
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("createdAt");
+
             entity.Property(e => e.Estado)
                 .HasMaxLength(255)
                 .HasColumnName("estado");
             entity.Property(e => e.IdMiembro).HasColumnName("idMiembro");
             entity.Property(e => e.Total).HasColumnName("total");
-            entity.Property(e => e.UpdatedAt)
+            entity.Property(e => e.Fecha)
                 .HasColumnType("datetime")
-                .HasColumnName("updatedAt");
+                .HasColumnName("fecha");
 
             entity.HasOne(d => d.IdMiembroNavigation).WithMany(p => p.Pedidos)
                 .HasForeignKey(d => d.IdMiembro)
@@ -194,9 +167,6 @@ public partial class TacosdbContext : DbContext
             entity.Property(e => e.ApellidoPaterno)
                 .HasMaxLength(255)
                 .HasColumnName("apellidoPaterno");
-            entity.Property(e => e.CreatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("createdAt");
             entity.Property(e => e.Direccion)
                 .HasMaxLength(255)
                 .HasColumnName("direccion");
@@ -207,9 +177,6 @@ public partial class TacosdbContext : DbContext
             entity.Property(e => e.Telefono)
                 .HasMaxLength(255)
                 .HasColumnName("telefono");
-            entity.Property(e => e.UpdatedAt)
-                .HasColumnType("datetime")
-                .HasColumnName("updatedAt");
         });
 
         OnModelCreatingPartial(modelBuilder);

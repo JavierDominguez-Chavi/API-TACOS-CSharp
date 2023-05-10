@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace TACOS.Modelos;
@@ -17,13 +18,13 @@ public partial class Alimento
 
     public double? Precio { get; set; }
 
-    public DateTime CreatedAt { get; set; }
-
-    public DateTime UpdatedAt { get; set; }
-
     public int IdCategoria { get; set; }
 
+    [JsonIgnore]
     public virtual ICollection<Alimentospedido> Alimentospedidos { get; set; } = new List<Alimentospedido>();
 
+    [JsonIgnore]
     public virtual Categorium IdCategoriaNavigation { get; set; } = null!;
+    
+
 }

@@ -9,10 +9,6 @@ public partial class Categorium
 
     public string? Nombre { get; set; }
 
-    public DateTime CreatedAt { get; set; }
-
-    public DateTime UpdatedAt { get; set; }
-
     public string? Medida { get; set; }
 
     public virtual ICollection<Alimento> Alimentos { get; set; } = new List<Alimento>();

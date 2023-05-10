@@ -5,6 +5,7 @@ namespace TACOS.Negocio.Interfaces
     public interface IMenuMgt
     {
         public List<Alimento> ObtenerAlimentos();
-        public void RegistrarPedido();
+        public int ActualizarExistencia(Alimentospedido alimento);
+        public bool RegistrarPedido(Pedido nuevoPedido);
     }
 }

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TACOS.Modelos;
 using TACOS.Negocio.Interfaces;
+using TACOS.Negocio;
 
 namespace TACOS.Controladores.personas
 {
@@ -18,10 +20,18 @@ namespace TACOS.Controladores.personas
             _menuMgr = menuMgr;
         }
 
-        [HttpPost(Name = "PostPedido")]
-        public void RegistrarPedido()
+        [HttpPost(Name = "RegistrarPedido")]
+        public IActionResult RegistrarPedido([FromBody] Pedido pedido)
         {
-            _menuMgr.RegistrarPedido();
+            try
+            {
+                return new JsonResult(_menuMgr.RegistrarPedido(pedido));
+            }
+            catch (Exception exception)
+            {
+                return new JsonResult(new Error { Mensaje = exception.Message}) { StatusCode = 500};
+            }
+            
         }
     }
 }
