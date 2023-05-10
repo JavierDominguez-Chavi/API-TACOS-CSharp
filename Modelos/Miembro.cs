@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TACOS.Models;
+namespace TACOS.Modelos;
 
 public partial class Miembro
 {
@@ -17,7 +17,7 @@ public partial class Miembro
 
     public int IdPersona { get; set; }
 
-    public virtual Persona IdPersonaNavigation { get; set; } = null!;
+    public Persona Persona { get; set; } = null!;
 
     public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
 }

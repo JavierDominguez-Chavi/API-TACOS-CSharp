@@ -1,7 +1,7 @@
-﻿namespace TACOS.Controllers.menu
+﻿namespace TACOS.Controladores.menu
 {
     using Microsoft.AspNetCore.Mvc;
-    using TACOS.Business;
+    using TACOS.Negocio.Interfaces;
 
     [ApiController]
     [Route("menu/[controller]")]
@@ -20,6 +20,8 @@
         [HttpGet(Name = "GetAlimentos")]
         public IActionResult ObtenerAlimentos()
         {
+            
+
             return new JsonResult(_menuMgr.ObtenerAlimentos()) { StatusCode = 202 };
         }
     }

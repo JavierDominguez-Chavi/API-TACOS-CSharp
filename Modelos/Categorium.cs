@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TACOS.Models;
+namespace TACOS.Modelos;
 
 public partial class Categorium
 {

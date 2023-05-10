@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
-namespace TACOS.Models;
+namespace TACOS.Modelos;
 
 public partial class TacosdbContext : DbContext
 {
@@ -145,7 +145,8 @@ public partial class TacosdbContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("updatedAt");
 
-            entity.HasOne(d => d.IdPersonaNavigation).WithMany(p => p.Miembros)
+            
+            entity.HasOne(d => d.Persona).WithMany(p => p.Miembros)
                 .HasForeignKey(d => d.IdPersona)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("miembros_ibfk_1");
