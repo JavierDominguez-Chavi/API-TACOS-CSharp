@@ -22,9 +22,7 @@ namespace TACOS.Controladores.personas
 
         [HttpPost(Name = "PostMiembros")]
         public IActionResult IniciarSesion([FromBody] Credenciales credenciales)
-        {
-            Console.WriteLine("iniciar sesion en controller");
-            
+        {            
             try
             {
                 return new JsonResult(this._consultanteMgr.IniciarSesion(credenciales));

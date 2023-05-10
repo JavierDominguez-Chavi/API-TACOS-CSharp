@@ -9,9 +9,7 @@ public partial class Pedido
 
     public double? Total { get; set; }
 
-    public DateTime CreatedAt { get; set; }
-
-    public DateTime UpdatedAt { get; set; }
+    public DateTime Fecha { get; set; }
 
     public int IdMiembro { get; set; }
 
@@ -19,5 +17,5 @@ public partial class Pedido
 
     public virtual ICollection<Alimentospedido> Alimentospedidos { get; set; } = new List<Alimentospedido>();
 
-    public virtual Miembro IdMiembroNavigation { get; set; } = null!;
+    public virtual Miembro? IdMiembroNavigation { get; set; } = null!;
 }
