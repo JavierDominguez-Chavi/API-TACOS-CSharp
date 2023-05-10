@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TACOS.Models;
+namespace TACOS.Modelos;
 
 public partial class Persona
 {
@@ -23,5 +23,5 @@ public partial class Persona
 
     public DateTime UpdatedAt { get; set; }
 
-    public virtual ICollection<Miembro> Miembros { get; set; } = new List<Miembro>();
+    public ICollection<Miembro> Miembros { get; set; } = new List<Miembro>();
 }

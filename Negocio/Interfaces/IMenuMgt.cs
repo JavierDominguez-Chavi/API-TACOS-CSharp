@@ -1,6 +1,6 @@
-﻿using TACOS.Models;
+﻿using TACOS.Modelos;
 
-namespace TACOS.Business
+namespace TACOS.Negocio.Interfaces
 {
     public interface IMenuMgt
     {

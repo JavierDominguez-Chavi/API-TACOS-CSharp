@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TACOS.Business;
+using TACOS.Negocio.Interfaces;
 
-namespace TACOS.Controllers.personas
+namespace TACOS.Controladores.personas
 {
     [ApiController]
     [Route("personas/[controller]")]

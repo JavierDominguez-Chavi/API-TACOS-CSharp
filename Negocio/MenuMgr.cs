@@ -1,20 +1,15 @@
-﻿namespace TACOS.Business;
+﻿namespace TACOS.Negocio;
 using System.Collections.Generic;
 using System.Globalization;
+using TACOS.Negocio.Interfaces;
+using TACOS.Modelos;
 
-using TACOS.Models;
-
-public class MenuMgr : IMenuMgt
+public class MenuMgr : ManagerBase, IMenuMgt
 {
-
-    private TacosdbContext tacosdbContext;
-
-    public MenuMgr(TacosdbContext tacosdbContext)
+    public MenuMgr(TacosdbContext tacosdbContext) : base(tacosdbContext)
     {
-        string culture = "es-MX";
-        Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(culture);
-        this.tacosdbContext = tacosdbContext;
     }
+
     public List<Alimento> ObtenerAlimentos()
     {
         return this.tacosdbContext.Alimentos.OrderBy(a => a.Nombre)
