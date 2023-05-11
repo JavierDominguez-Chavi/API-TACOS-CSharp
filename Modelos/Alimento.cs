@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TACOS.Modelos;
 
@@ -13,6 +15,7 @@ public partial class Alimento
 
     public int? Existencia { get; set; }
 
+    [Column(TypeName = "mediumblob")]
     public byte[]? Imagen { get; set; }
 
     public double? Precio { get; set; }

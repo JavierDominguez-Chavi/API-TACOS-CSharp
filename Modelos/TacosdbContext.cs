@@ -52,7 +52,7 @@ public partial class TacosdbContext : DbContext
             entity.Property(e => e.Existencia).HasColumnName("existencia");
             entity.Property(e => e.IdCategoria).HasColumnName("idCategoria");
             entity.Property(e => e.Imagen)
-                .HasColumnType("blob")
+                .HasColumnType("mediumblob")
                 .HasColumnName("imagen");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
