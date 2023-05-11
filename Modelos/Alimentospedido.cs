@@ -1,4 +1,4 @@
-﻿
+﻿using System.Text.Json;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
@@ -16,8 +16,7 @@ public partial class Alimentospedido
     public int IdPedido { get; set; }
 
     [JsonIgnore]
-    public Alimento? IdAlimentoNavigation { get; set; } = null!;
-
+    public virtual Alimento? Alimento { get; set; } = null!;
     [JsonIgnore]
-    public Pedido? IdPedidoNavigation { get; set; } = null!;
+    public virtual Pedido? Pedido { get; set; } = null!;
 }

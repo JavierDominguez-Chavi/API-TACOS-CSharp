@@ -8,7 +8,7 @@ using TACOS.Modelos;
 namespace TACOS.Controladores.personas
 {
     [ApiController]
-    [Route("personas/[controller]")]
+    [Route("[controller]")]
     public class MiembrosController : ControllerBase
     {
         private readonly ILogger<MiembrosController> logger;
@@ -20,8 +20,8 @@ namespace TACOS.Controladores.personas
             this._consultanteMgr = consultanteMgr;
         }
 
-        [HttpPost(Name = "PostMiembros")]
-        public IActionResult IniciarSesion([FromBody] Credenciales credenciales)
+        [HttpPost(Name = "IniciarSesion")]
+        public IActionResult IniciarSesion([FromBody] Persona credenciales)
         {            
             try
             {

@@ -1,7 +1,5 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace TACOS.Modelos;
 
@@ -21,6 +19,5 @@ public partial class Persona
 
     public string Telefono { get; set; } = null!;
 
-    [JsonIgnore]
-    public ICollection<Miembro> Miembros { get; set; } = new List<Miembro>();
+    public virtual ICollection<Miembro> Miembros { get; set; } = new List<Miembro>();
 }

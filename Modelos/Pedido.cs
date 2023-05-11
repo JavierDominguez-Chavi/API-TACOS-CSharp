@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace TACOS.Modelos;
 
@@ -9,13 +10,14 @@ public partial class Pedido
 
     public double? Total { get; set; }
 
-    public DateTime Fecha { get; set; }
-
     public int IdMiembro { get; set; }
 
     public string? Estado { get; set; }
 
+    public DateTime? Fecha { get; set; }
+
     public virtual ICollection<Alimentospedido> Alimentospedidos { get; set; } = new List<Alimentospedido>();
 
-    public virtual Miembro? IdMiembroNavigation { get; set; } = null!;
+    [JsonIgnore]
+    public virtual Miembro? Miembro { get; set; } = null!;
 }

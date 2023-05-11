@@ -14,8 +14,8 @@ public partial class Miembro
 
     public int IdPersona { get; set; }
 
-    public Persona Persona { get; set; } = null!;
-
     [JsonIgnore]
-    public virtual ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
+    public virtual Persona? Persona { get; set; }
+    [JsonIgnore]
+    public virtual ICollection<Pedido>? Pedidos { get; set; } = new List<Pedido>();
 }
