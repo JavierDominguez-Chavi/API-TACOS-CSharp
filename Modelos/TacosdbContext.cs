@@ -59,7 +59,7 @@ public partial class TacosdbContext : DbContext
                 .HasColumnName("nombre");
             entity.Property(e => e.Precio).HasColumnName("precio");
 
-            entity.HasOne(d => d.IdCategoriaNavigation).WithMany(p => p.Alimentos)
+            entity.HasOne(d => d.Categoria).WithMany(p => p.Alimentos)
                 .HasForeignKey(d => d.IdCategoria)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("alimentos_ibfk_1");
@@ -80,12 +80,12 @@ public partial class TacosdbContext : DbContext
             entity.Property(e => e.IdAlimento).HasColumnName("idAlimento");
             entity.Property(e => e.IdPedido).HasColumnName("idPedido");
 
-            entity.HasOne(d => d.IdAlimentoNavigation).WithMany(p => p.Alimentospedidos)
+            entity.HasOne(d => d.Alimento).WithMany(p => p.Alimentospedidos)
                 .HasForeignKey(d => d.IdAlimento)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("alimentospedidos_ibfk_1");
 
-            entity.HasOne(d => d.IdPedidoNavigation).WithMany(p => p.Alimentospedidos)
+            entity.HasOne(d => d.Pedido).WithMany(p => p.Alimentospedidos)
                 .HasForeignKey(d => d.IdPedido)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("alimentospedidos_ibfk_2");
@@ -120,7 +120,7 @@ public partial class TacosdbContext : DbContext
                 .HasColumnName("contrasena");
             entity.Property(e => e.IdPersona).HasColumnName("idPersona");
             entity.Property(e => e.PedidosPagados).HasColumnName("pedidosPagados");
-            
+
             entity.HasOne(d => d.Persona).WithMany(p => p.Miembros)
                 .HasForeignKey(d => d.IdPersona)
                 .OnDelete(DeleteBehavior.ClientSetNull)
@@ -136,17 +136,16 @@ public partial class TacosdbContext : DbContext
             entity.HasIndex(e => e.IdMiembro, "idMiembro");
 
             entity.Property(e => e.Id).HasColumnName("id");
-
             entity.Property(e => e.Estado)
                 .HasMaxLength(255)
                 .HasColumnName("estado");
-            entity.Property(e => e.IdMiembro).HasColumnName("idMiembro");
-            entity.Property(e => e.Total).HasColumnName("total");
             entity.Property(e => e.Fecha)
                 .HasColumnType("datetime")
                 .HasColumnName("fecha");
+            entity.Property(e => e.IdMiembro).HasColumnName("idMiembro");
+            entity.Property(e => e.Total).HasColumnName("total");
 
-            entity.HasOne(d => d.IdMiembroNavigation).WithMany(p => p.Pedidos)
+            entity.HasOne(d => d.Miembro).WithMany(p => p.Pedidos)
                 .HasForeignKey(d => d.IdMiembro)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("pedidos_ibfk_1");

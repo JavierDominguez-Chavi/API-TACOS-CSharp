@@ -4,6 +4,7 @@ namespace TACOS.Negocio.Interfaces
 {
     public interface IConsultanteMgt
     {
-        public Miembro IniciarSesion(Credenciales credenciales);
+        public Persona IniciarSesion(Persona credenciales);
+        public bool RegistrarMiembro(Persona persona);
     }
 }
