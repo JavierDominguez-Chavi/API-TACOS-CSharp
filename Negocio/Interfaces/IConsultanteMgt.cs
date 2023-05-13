@@ -6,5 +6,7 @@ namespace TACOS.Negocio.Interfaces
     {
         public Persona IniciarSesion(Persona credenciales);
         public bool RegistrarMiembro(Persona persona);
+
+        public bool ConfirmarRegistro(Persona persona);
     }
 }

@@ -119,6 +119,7 @@ public partial class TacosdbContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("contrasena");
             entity.Property(e => e.IdPersona).HasColumnName("idPersona");
+            entity.Property(e => e.CodigoConfirmacion).HasColumnName("codigoConfirmacion");
             entity.Property(e => e.PedidosPagados).HasColumnName("pedidosPagados");
 
             entity.HasOne(d => d.Persona).WithMany(p => p.Miembros)
