@@ -12,7 +12,7 @@
         ],
         "operationId": "GetAlimentos",
         "responses": {
-          "200": {
+          "202": {
             "description": "Success"
           }
         }

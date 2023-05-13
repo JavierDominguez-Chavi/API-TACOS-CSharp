@@ -22,14 +22,33 @@ namespace TACOS.Controladores.personas
 
         [HttpPost(Name = "IniciarSesion")]
         public IActionResult IniciarSesion([FromBody] Persona credenciales)
-        {            
+        {
             try
             {
-                return new JsonResult(this._consultanteMgr.IniciarSesion(credenciales));
+                return new JsonResult(this._consultanteMgr.IniciarSesion(credenciales))
+                {
+                    StatusCode = 200
+                };
             }
-            catch (ArgumentException aException)
+            catch (ArgumentException exception)
             {
-                return new JsonResult(new Error { Mensaje = aException.Message }) { StatusCode = 401 };
+                string mensaje;
+                switch (exception.Message)
+                {
+                    case "400":
+                        mensaje = "Todos los campos son obligatorios.";
+                        break;
+                    case "401":
+                        mensaje = "No se encontró ninguna cuenta con ese email y/o contraseña.";
+                        break;
+                    default:
+                        mensaje = "No hay conexión con la base de datos.";
+                        break;
+                }
+                return new JsonResult(new { mensaje })
+                {
+                    StatusCode = Int32.Parse(exception.Message)
+                };
             }
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TACOS.Modelos;
 
-public partial class Persona
+public partial class Persona : ICloneable
 {
     public int Id { get; set; }
 
@@ -20,4 +20,9 @@ public partial class Persona
     public string Telefono { get; set; } = null!;
 
     public virtual ICollection<Miembro> Miembros { get; set; } = new List<Miembro>();
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
 }

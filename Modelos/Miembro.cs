@@ -14,6 +14,8 @@ public partial class Miembro
 
     public int IdPersona { get; set; }
 
+    public int? CodigoConfirmacion { get; set; }
+
     [JsonIgnore]
     public virtual Persona? Persona { get; set; }
     [JsonIgnore]
