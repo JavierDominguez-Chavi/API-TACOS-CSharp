@@ -138,7 +138,6 @@ public partial class TacosdbContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Estado)
-                .HasMaxLength(255)
                 .HasColumnName("estado");
             entity.Property(e => e.Fecha)
                 .HasColumnType("datetime")

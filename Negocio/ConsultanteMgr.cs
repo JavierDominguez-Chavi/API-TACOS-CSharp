@@ -4,6 +4,7 @@ using TACOS.Negocio.Interfaces;
 using TACOS.Modelos;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
+using System.Collections.ObjectModel;
 
 public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 {
@@ -43,12 +44,12 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 
     public bool RegistrarMiembro(Persona persona)
     {
-        bool operacionExitosa = false;
+        bool confirmacion = false;
         this.tacosdbContext.Personas.Add(persona);
         try
         {
             int columnasAfectadas = this.tacosdbContext.SaveChanges();
-            operacionExitosa =
+            confirmacion =
                 (AsignarCodigoConfirmacion(persona)
                 && columnasAfectadas > 0);
         }
@@ -56,11 +57,11 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         {
             throw new ArgumentException("422");
         }
-        if (!operacionExitosa)
+        if (!confirmacion)
         {
             throw new ArgumentException("500");
         }
-        return operacionExitosa;
+        return confirmacion;
     }
 
     public bool AsignarCodigoConfirmacion(Persona persona)
@@ -97,5 +98,71 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
             throw new ArgumentException("500");
         }
         return confirmacion;
+    }
+
+    public ObservableCollection<Pedido> ObtenerPedidos()
+    {
+        return new ObservableCollection<Pedido>(
+            this.tacosdbContext.Pedidos.OrderBy(p => p.Estado).ToList()
+        );
+    }
+
+    public bool RegistrarPedido(Pedido nuevoPedido)
+    {
+        this.tacosdbContext.Pedidos.Add(nuevoPedido);
+        return this.tacosdbContext.SaveChanges() > 0;
+    }
+
+    public bool ActualizarPedido(Pedido pedidoActualizado)
+    {
+        if (pedidoActualizado is null
+            || pedidoActualizado.Id is 0
+            || pedidoActualizado.IdMiembro is 0)
+        {
+            throw new HttpRequestException("400");
+        }
+
+        Pedido pedidoEncontrado = 
+            this.tacosdbContext.Pedidos.FirstOrDefault(p => p.Id == pedidoActualizado!.Id);
+        if (pedidoEncontrado is null)
+        {
+            throw new HttpRequestException("404");
+        }
+
+        if (pedidoActualizado.IdMiembro != pedidoEncontrado.IdMiembro)
+        {
+            throw new HttpRequestException("422");
+        }
+
+        if (pedidoEncontrado.Estado == 3)
+        {
+            throw new HttpRequestException("403");
+        }
+
+        pedidoEncontrado.Estado = pedidoActualizado.Estado;
+        ActualizarPedidosPagados(pedidoEncontrado, pedidoEncontrado);
+
+        bool confirmacion = this.tacosdbContext.SaveChanges() > 0;
+        if (!confirmacion)
+        {
+            throw new HttpRequestException("500");
+        }
+        return confirmacion;
+    }
+    public void ActualizarPedidosPagados(
+        Pedido pedidoActualizado, 
+        Pedido pedidoEncontrado)
+    {
+        if (pedidoActualizado.Estado == 3)
+        {
+            Miembro miembroDelPedido =
+                this.tacosdbContext.Miembros.FirstOrDefault(m => m.Id == pedidoActualizado.IdMiembro);
+            if (miembroDelPedido is null)
+            {
+                throw new HttpRequestException("404");
+            }
+
+            miembroDelPedido.PedidosPagados += 1;
+        }
     }
 }
