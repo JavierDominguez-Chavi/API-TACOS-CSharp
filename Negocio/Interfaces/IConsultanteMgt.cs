@@ -1,4 +1,5 @@
-﻿using TACOS.Modelos;
+﻿using System.Collections.ObjectModel;
+using TACOS.Modelos;
 
 namespace TACOS.Negocio.Interfaces
 {
@@ -6,7 +7,9 @@ namespace TACOS.Negocio.Interfaces
     {
         public Persona IniciarSesion(Persona credenciales);
         public bool RegistrarMiembro(Persona persona);
-
         public bool ConfirmarRegistro(Persona persona);
+        public bool RegistrarPedido(Pedido nuevoPedido);
+        public ObservableCollection<Pedido> ObtenerPedidos();
+        public bool ActualizarPedido(Pedido pedido);
     }
 }

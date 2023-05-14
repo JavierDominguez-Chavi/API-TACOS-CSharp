@@ -1,4 +1,5 @@
-﻿using TACOS.Modelos;
+﻿using System.Collections.ObjectModel;
+using TACOS.Modelos;
 
 namespace TACOS.Negocio.Interfaces
 {
@@ -6,6 +7,5 @@ namespace TACOS.Negocio.Interfaces
     {
         public List<Alimento> ObtenerAlimentos();
         public int ActualizarExistencia(Alimentospedido alimento);
-        public bool RegistrarPedido(Pedido nuevoPedido);
     }
 }

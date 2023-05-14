@@ -16,7 +16,7 @@ namespace SistemaDeEmail
         {
             Email email = new Email()
             {
-                Asunto = "Confirma tu registro a TACOS.",
+                Asunto = "[TACOS] Tu código es: " + codigoConfirmacion,
                 Encabezado = "Confirma tu registro a TACOS.",
                 Cuerpo = "Tu código de confirmación es: " + codigoConfirmacion,
             };
