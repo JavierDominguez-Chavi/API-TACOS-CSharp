@@ -5,6 +5,7 @@ using TACOS.Modelos;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 {
@@ -33,9 +34,9 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
                 m.IdPersona == personaEncontrada.Id
                 && m.Contrasena!.Equals(credenciales.Miembros.ElementAt(0).Contrasena)
             );
-        if (miembroDePersonaEncontrada is null) 
-        { 
-            throw new ArgumentException("400"); 
+        if (miembroDePersonaEncontrada is null)
+        {
+            throw new ArgumentException("400");
         }
 
         personaEncontrada.Miembros.Add(miembroDePersonaEncontrada);
@@ -66,12 +67,12 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 
     public bool AsignarCodigoConfirmacion(Persona persona)
     {
-        Miembro miembroEncontrado = 
+        Miembro miembroEncontrado =
             this.tacosdbContext.Miembros.FirstOrDefault(m => m.IdPersona == persona.Id);
         if (miembroEncontrado != null)
         {
             miembroEncontrado!.CodigoConfirmacion = new Random().Next(10000, 100000);
-            persona.Miembros.ElementAt(0).CodigoConfirmacion = 
+            persona.Miembros.ElementAt(0).CodigoConfirmacion =
                 miembroEncontrado.CodigoConfirmacion;
         }
         return this.tacosdbContext.SaveChanges() > 0;
@@ -80,9 +81,9 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
     public bool ConfirmarRegistro(Persona persona)
     {
         Miembro miembro = persona.Miembros.ElementAt(0);
-        Miembro miembroEncontrado = 
+        Miembro miembroEncontrado =
             this.tacosdbContext.Miembros.SingleOrDefault(m => m.Id == miembro.Id);
-        if (miembroEncontrado is null) 
+        if (miembroEncontrado is null)
         {
             throw new ArgumentException("404");
         }
@@ -122,7 +123,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
             throw new HttpRequestException("400");
         }
 
-        Pedido pedidoEncontrado = 
+        Pedido pedidoEncontrado =
             this.tacosdbContext.Pedidos.FirstOrDefault(p => p.Id == pedidoActualizado!.Id);
         if (pedidoEncontrado is null)
         {
@@ -150,7 +151,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         return confirmacion;
     }
     public void ActualizarPedidosPagados(
-        Pedido pedidoActualizado, 
+        Pedido pedidoActualizado,
         Pedido pedidoEncontrado)
     {
         if (pedidoActualizado.Estado == 3)
@@ -164,5 +165,35 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 
             miembroDelPedido.PedidosPagados += 1;
         }
+    }
+
+    public List<Resena> ObtenerResenas()
+    {
+        List<Resena> resenas = this.tacosdbContext.Resenas.OrderBy(a => a.Fecha).ToList();
+        if (resenas is null)
+        {
+            throw new HttpRequestException("409");
+        }
+        List<Resena> resenasObtenidas = new List<Resena>();
+        foreach (Resena resena in resenas)
+        {
+            var idPersona = (from Miembro in tacosdbContext.Miembros
+                                       where Miembro.Id == resena.IdMiembro
+                                       select Miembro.IdPersona).FirstOrDefault();
+            var miembro = resena.Miembro;
+            miembro.IdPersona = idPersona;
+            resena.Miembro = miembro;
+            var persona =
+                   (from Persona in tacosdbContext.Personas
+                    join Miembro in tacosdbContext.Miembros
+                    on Persona.Id equals Miembro.IdPersona
+                    where Miembro.Id == resena.IdMiembro
+                    select Persona).ToList();
+            miembro.Persona = new Persona();
+            miembro.Persona.Nombre = persona.FirstOrDefault().Nombre;
+            miembro.Persona.ApellidoPaterno = persona.FirstOrDefault().ApellidoPaterno;
+            resenasObtenidas.Add(resena);
+        }
+        return resenasObtenidas;
     }
 }
