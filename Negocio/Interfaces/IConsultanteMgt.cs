@@ -11,5 +11,6 @@ namespace TACOS.Negocio.Interfaces
         public bool RegistrarPedido(Pedido nuevoPedido);
         public ObservableCollection<Pedido> ObtenerPedidos();
         public bool ActualizarPedido(Pedido pedido);
+        public List<Resena> ObtenerResenas();
     }
 }

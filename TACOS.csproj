@@ -6,10 +6,6 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
-	<ItemGroup>
-		<Protobuf Include="*.proto" OutputDir="%(RelativePath)ProtoModels/"></Protobuf>
-	</ItemGroup>
-	
   <ItemGroup>
     <Compile Remove="SistemaDeEmail\**" />
     <Content Remove="SistemaDeEmail\**" />
@@ -18,12 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.23.0" />
-    <PackageReference Include="Grpc" Version="2.46.6" />
-    <PackageReference Include="Grpc.Tools" Version="2.54.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
@@ -37,10 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="SistemaDeEmail\SistemaDeEmail.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ProtoModels\" />
   </ItemGroup>
 
 </Project>

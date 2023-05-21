@@ -27,6 +27,8 @@ public partial class TacosdbContext : DbContext
 
     public virtual DbSet<Persona> Personas { get; set; }
 
+    public virtual DbSet<Resena> Resenas { get; set; }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySql("server=localhost;database=tacosdb;uid=tacosUser;pwd=T4C05", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.29-mysql"));
@@ -176,6 +178,29 @@ public partial class TacosdbContext : DbContext
             entity.Property(e => e.Telefono)
                 .HasMaxLength(255)
                 .HasColumnName("telefono");
+        });
+
+        modelBuilder.Entity<Resena>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("resenas");
+
+            entity.HasIndex(e => e.IdMiembro, "idMiembro");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Descripcion)
+                .HasMaxLength(1000)
+                .HasColumnName("descripcion");
+            entity.Property(e => e.Imagen)
+                .HasColumnType("mediumblob")
+                .HasColumnName("imagen");
+            entity.Property(e => e.Fecha).HasColumnName("fecha");
+
+            entity.HasOne(d => d.Miembro).WithMany(p => p.Resenas)
+                .HasForeignKey(d => d.IdMiembro)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("resenas_ibfk_1");
         });
 
         OnModelCreatingPartial(modelBuilder);
