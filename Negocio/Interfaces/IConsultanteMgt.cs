@@ -10,7 +10,7 @@ namespace TACOS.Negocio.Interfaces
         public bool ConfirmarRegistro(Persona persona);
         public bool RegistrarPedido(Pedido nuevoPedido);
         public List<Pedido> ObtenerPedidos();
-        public bool ActualizarPedido(Pedido pedido);
+        public bool ActualizarPedido(PedidoSimple pedido);
         public List<Resena> ObtenerResenas();
     }
 }

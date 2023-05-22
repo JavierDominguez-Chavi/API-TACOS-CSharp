@@ -51,7 +51,7 @@ namespace TACOS.Controladores.personas
         }
 
         [HttpPatch(Name = "ActualizarPedido")]
-        public IActionResult ActualizarPedido(Pedido pedido)
+        public IActionResult ActualizarPedido(PedidoSimple pedido)
         {
             try
             {
