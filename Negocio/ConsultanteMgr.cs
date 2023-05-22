@@ -101,11 +101,24 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         return confirmacion;
     }
 
-    public ObservableCollection<Pedido> ObtenerPedidos()
+    public List<Pedido> ObtenerPedidos()
     {
-        return new ObservableCollection<Pedido>(
-            this.tacosdbContext.Pedidos.OrderBy(p => p.Estado).ToList()
-        );
+        List<Pedido> pedidos = this.tacosdbContext.Pedidos.OrderBy(p => p.Fecha).ToList();
+        int numPedidos = pedidos.Count();
+        for (int i = 0; i < numPedidos; i++)
+        {
+            Miembro? miembroPedido = this.tacosdbContext
+                                        .Miembros
+                                        .FirstOrDefault(m => m.Id == pedidos[i].IdMiembro);
+            if (miembroPedido != null)
+            {
+                miembroPedido.Persona = this.tacosdbContext
+                                            .Personas
+                                            .FirstOrDefault(p => p.Id == miembroPedido.IdPersona);
+            }
+            pedidos[i].Miembro = miembroPedido;
+        }
+        return pedidos;
     }
 
     public bool RegistrarPedido(Pedido nuevoPedido)
