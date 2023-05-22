@@ -127,7 +127,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         return this.tacosdbContext.SaveChanges() > 0;
     }
 
-    public bool ActualizarPedido(Pedido pedidoActualizado)
+    public bool ActualizarPedido(PedidoSimple pedidoActualizado)
     {
         if (pedidoActualizado is null
             || pedidoActualizado.Id is 0
