@@ -18,6 +18,5 @@ public partial class Pedido
 
     public virtual ICollection<Alimentospedido> Alimentospedidos { get; set; } = new List<Alimentospedido>();
 
-    [JsonIgnore]
     public virtual Miembro? Miembro { get; set; } = null!;
 }

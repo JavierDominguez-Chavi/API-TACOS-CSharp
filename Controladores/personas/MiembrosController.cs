@@ -4,6 +4,7 @@ using TACOS.Negocio;
 using TACOS.Negocio.Interfaces;
 using TACOS.Controladores.menu;
 using TACOS.Modelos;
+using JWTTokens;
 
 namespace TACOS.Controladores.personas
 {
@@ -13,11 +14,15 @@ namespace TACOS.Controladores.personas
     {
         private readonly ILogger<MiembrosController> logger;
         private IConsultanteMgt _consultanteMgr;
+        private JwtTokenHandler jwtTokenHandler;
+
         public MiembrosController(ILogger<MiembrosController> logger,
-                                  IConsultanteMgt consultanteMgr)
+                                  IConsultanteMgt consultanteMgr,
+                                  JwtTokenHandler jwtTokenHandler)
         {
             this.logger = logger;
             this._consultanteMgr = consultanteMgr;
+            this.jwtTokenHandler=jwtTokenHandler;
         }
 
         [HttpPost(Name = "IniciarSesion")]
@@ -25,10 +30,19 @@ namespace TACOS.Controladores.personas
         {
             try
             {
-                return new JsonResult(this._consultanteMgr.IniciarSesion(credenciales))
+                Persona persona = this._consultanteMgr.IniciarSesion(credenciales);
+                var token = jwtTokenHandler.GenerarToken(
+                    persona.Email,
+                    $"{persona.Nombre} {persona.ApellidoPaterno} {persona.ApellidoMaterno}",
+                    persona.Id.ToString()
+                );
+                return new JsonResult(new
                 {
-                    StatusCode = 200
-                };
+                    persona = persona,
+                    token = token.Item1,
+                    expira = token.Item2
+                })
+                { StatusCode = 200 };
             }
             catch (ArgumentException exception)
             {

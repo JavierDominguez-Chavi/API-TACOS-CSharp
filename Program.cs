@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using TACOS.Negocio;
 using TACOS.Negocio.Interfaces;
 using TACOS.Modelos;
+using JWTTokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,7 @@ builder.Services.AddDbContext<TacosdbContext>(options =>
                 )));
 builder.Services.AddScoped<IMenuMgt, MenuMgr>();
 builder.Services.AddScoped<IConsultanteMgt, ConsultanteMgr>();
-
+builder.Services.AddScoped<JwtTokenHandler>();
 
 var app = builder.Build();
 
