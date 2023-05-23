@@ -15,8 +15,9 @@ public partial class Alimento
 
     public int? Existencia { get; set; }
 
-    [Column(TypeName = "mediumblob")]
-    public byte[]? Imagen { get; set; }
+    public int IdImagen { get; set; }
+
+    public Imagen Imagen { get; set; }
 
     public double? Precio { get; set; }
 

@@ -5,6 +5,7 @@ using TACOS.Negocio.Interfaces;
 using TACOS.Modelos;
 using Microsoft.AspNetCore.Http.HttpResults;
 using System.Collections.ObjectModel;
+using System.Threading.Channels;
 
 public class MenuMgr : ManagerBase, IMenuMgt
 {
@@ -34,4 +35,5 @@ public class MenuMgr : ManagerBase, IMenuMgt
         return this.tacosdbContext.Alimentos.OrderBy(a => a.Nombre)
                                             .ToList();
     }
+
 }

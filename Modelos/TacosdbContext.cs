@@ -53,9 +53,8 @@ public partial class TacosdbContext : DbContext
                 .HasColumnName("descripcion");
             entity.Property(e => e.Existencia).HasColumnName("existencia");
             entity.Property(e => e.IdCategoria).HasColumnName("idCategoria");
-            entity.Property(e => e.Imagen)
-                .HasColumnType("mediumblob")
-                .HasColumnName("imagen");
+            entity.Property(e => e.IdImagen)
+                .HasColumnName("idImagen");
             entity.Property(e => e.Nombre)
                 .HasMaxLength(50)
                 .HasColumnName("nombre");
@@ -65,6 +64,26 @@ public partial class TacosdbContext : DbContext
                 .HasForeignKey(d => d.IdCategoria)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("alimentos_ibfk_1");
+
+            entity.HasOne(d => d.Imagen).WithMany(p => p.Alimentos)
+                .HasForeignKey(d => d.IdImagen)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("alimentos_ibfk_2");
+        });
+
+        modelBuilder.Entity<Imagen>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("imagenes");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Nombre)
+                .HasMaxLength(1000)
+                .HasColumnName("nombre");
+            entity.Property(e => e.ImagenBytes)
+                .HasColumnName("imagen")
+                .HasColumnType("longblob");
         });
 
         modelBuilder.Entity<Alimentospedido>(entity =>

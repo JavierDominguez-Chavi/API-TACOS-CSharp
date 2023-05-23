@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SistemaDeEmail", "SistemaDe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JWTTokens", "JWTTokens\JWTTokens.csproj", "{DAD47AD4-8B47-40AF-ACF9-860B7A396A5A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TACOSImagenesAPI", "TACOSImagenesAPI\TACOSImagenesAPI.csproj", "{D467A51F-FD5C-4B2F-A392-8F75B842354B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DAD47AD4-8B47-40AF-ACF9-860B7A396A5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAD47AD4-8B47-40AF-ACF9-860B7A396A5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAD47AD4-8B47-40AF-ACF9-860B7A396A5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D467A51F-FD5C-4B2F-A392-8F75B842354B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D467A51F-FD5C-4B2F-A392-8F75B842354B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D467A51F-FD5C-4B2F-A392-8F75B842354B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D467A51F-FD5C-4B2F-A392-8F75B842354B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
