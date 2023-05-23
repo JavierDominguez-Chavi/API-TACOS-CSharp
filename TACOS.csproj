@@ -13,12 +13,16 @@
   <ItemGroup>
     <Compile Remove="JWTTokens\**" />
     <Compile Remove="SistemaDeEmail\**" />
+    <Compile Remove="TACOSImagenesAPI\**" />
     <Content Remove="JWTTokens\**" />
     <Content Remove="SistemaDeEmail\**" />
+    <Content Remove="TACOSImagenesAPI\**" />
     <EmbeddedResource Remove="JWTTokens\**" />
     <EmbeddedResource Remove="SistemaDeEmail\**" />
+    <EmbeddedResource Remove="TACOSImagenesAPI\**" />
     <None Remove="JWTTokens\**" />
     <None Remove="SistemaDeEmail\**" />
+    <None Remove="TACOSImagenesAPI\**" />
   </ItemGroup>
 
   <ItemGroup>
