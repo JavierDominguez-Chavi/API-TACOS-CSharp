@@ -2,9 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Text.Json.Serialization;
+using System.Text.Json;
 namespace TACOS.Modelos;
 
+/// <summary>
+/// Alimento
+/// </summary>
 public partial class Alimento
 {
     public int Id { get; set; }
@@ -24,6 +28,6 @@ public partial class Alimento
     public int IdCategoria { get; set; }
 
     public virtual ICollection<Alimentospedido> Alimentospedidos { get; set; } = new List<Alimentospedido>();
-
+    [JsonIgnore]
     public virtual Categorium Categoria { get; set; } = null!;
 }

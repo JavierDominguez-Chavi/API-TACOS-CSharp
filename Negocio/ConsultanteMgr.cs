@@ -36,7 +36,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
             );
         if (miembroDePersonaEncontrada is null)
         {
-            throw new ArgumentException("400");
+            throw new ArgumentException("401");
         }
 
         personaEncontrada.Miembros.Add(miembroDePersonaEncontrada);
