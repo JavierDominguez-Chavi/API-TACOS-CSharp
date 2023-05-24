@@ -19,11 +19,11 @@ public class MenuMgr : ManagerBase, IMenuMgt
             this.tacosdbContext.Alimentos.FirstOrDefault(a => a.Id == alimento.IdAlimento);
         if (alimentoEncontrado is null)
         {
-            throw new KeyNotFoundException("No se encontró el alimento solicitado.");
+            throw new Exception("404");
         }
         if (alimento.Cantidad < 0 && alimentoEncontrado.Existencia < 1)
         {
-            throw new ArgumentException("El alimento solicitado no está disponible.");
+            throw new Exception("409");
         }
 
         alimentoEncontrado.Existencia += alimento.Cantidad;

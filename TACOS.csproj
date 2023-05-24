@@ -41,4 +41,8 @@
     <ProjectReference Include="SistemaDeEmail\SistemaDeEmail.csproj" />
   </ItemGroup>
 
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+
 </Project>
