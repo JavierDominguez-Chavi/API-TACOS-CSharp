@@ -26,7 +26,7 @@ namespace TACOS.Controladores.personas
         }
 
         [HttpPost(Name = "IniciarSesion")]
-        public IActionResult IniciarSesion([FromBody] Persona credenciales)
+        public IActionResult IniciarSesion([FromBody] Credenciales credenciales)
         {
             try
             {
