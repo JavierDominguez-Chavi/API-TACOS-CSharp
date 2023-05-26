@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc;
 using TACOS.Negocio;
 using TACOS.Negocio.Interfaces;
 using TACOS.Controladores.menu;

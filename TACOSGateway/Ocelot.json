@@ -1,0 +1,72 @@
+{
+  "Routes": [
+    {
+      "UpstreamPathTemplate": "/menu/Alimentos",
+      "UpstreamHttpMethod": [ "GET", "PATCH" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5087
+        }
+      ],
+      "DownstreamPathTemplate": "/menu/Alimentos"
+    },
+    {
+      "UpstreamPathTemplate": "/Miembros",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5087
+        }
+      ],
+      "DownstreamPathTemplate": "/Miembros"
+    },
+    {
+      "UpstreamPathTemplate": "/Pedidos",
+      "UpstreamHttpMethod": [ "GET", "POST", "PATCH" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5087
+        }
+      ],
+      "DownstreamPathTemplate": "/Pedidos"
+    },
+    {
+      "UpstreamPathTemplate": "/Persona",
+      "UpstreamHttpMethod": [ "POST", "PUT" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5087
+        }
+      ],
+      "DownstreamPathTemplate": "/Persona"
+    },
+    {
+      "UpstreamPathTemplate": "/Menu",
+      "UpstreamHttpMethod": [ "GET", "PATCH" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5027
+        }
+      ],
+      "DownstreamPathTemplate": "/Menu"
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl":"http://localhost:5174" 
+  }
+}

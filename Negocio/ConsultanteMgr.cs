@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Data.Common;
 using System.Collections.ObjectModel;
 using System.Linq;
+using BCrypt.Net;
+using Microsoft.AspNetCore.Identity;
 
 public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 {
@@ -13,11 +15,12 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
     {
     }
 
-    public Persona IniciarSesion(Persona credenciales)
+    public Persona IniciarSesion(Credenciales credenciales)
     {
+        string contrasena = credenciales.Contrasena;
         if (credenciales is null
             || String.IsNullOrWhiteSpace(credenciales.Email)
-            || String.IsNullOrWhiteSpace(credenciales.Miembros.ElementAt(0).Contrasena))
+            || String.IsNullOrWhiteSpace(contrasena))
         {
             throw new ArgumentException("400");
         }
@@ -32,9 +35,10 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         Miembro? miembroDePersonaEncontrada =
             this.tacosdbContext.Miembros.FirstOrDefault(m =>
                 m.IdPersona == personaEncontrada.Id
-                && m.Contrasena!.Equals(credenciales.Miembros.ElementAt(0).Contrasena)
             );
-        if (miembroDePersonaEncontrada is null)
+        var contrasenaCorrecta = 
+            BCrypt.Verify(contrasena, miembroDePersonaEncontrada.Contrasena);
+        if (miembroDePersonaEncontrada is null || !contrasenaCorrecta)
         {
             throw new ArgumentException("401");
         }
@@ -46,6 +50,8 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
     public bool RegistrarMiembro(Persona persona)
     {
         bool confirmacion = false;
+        persona.Miembros.ElementAt(0).Contrasena = 
+            BCrypt.HashPassword(persona.Miembros.ElementAt(0).Contrasena);
         this.tacosdbContext.Personas.Add(persona);
         try
         {
