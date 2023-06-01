@@ -6,6 +6,7 @@ using TACOS.Modelos;
 using Microsoft.EntityFrameworkCore;
 
 using SistemaDeEmail;
+using TACOS.Modelos.PeticionesRespuestas;
 
 namespace TACOS.Controladores.personas
 {
@@ -22,12 +23,12 @@ namespace TACOS.Controladores.personas
             this._consultanteMgr = consultanteMgr;
         }
         [HttpPut(Name = "ConfirmarRegistro")]
-        public IActionResult ConfirmarRegistro(Persona persona)
+        public IActionResult ConfirmarRegistro(Miembro miembro)
         {
             try
             {
-                this._consultanteMgr.ConfirmarRegistro(persona);
-                return new JsonResult(persona) { StatusCode = 200 };
+                this._consultanteMgr.ConfirmarRegistro(miembro);
+                return new JsonResult(miembro) { StatusCode = 200 };
             }
             catch (Exception ex) 
             {
@@ -50,13 +51,13 @@ namespace TACOS.Controladores.personas
 
 
         [HttpPost(Name = "RegistrarMiembro")]
-        public IActionResult RegistrarMiembro(Persona persona)
+        public IActionResult RegistrarMiembro(Miembro miembro)
         {
             try
             {
-                this._consultanteMgr.RegistrarMiembro(persona);
-                this.EnviarCodigoConfirmacion(persona);
-                return new JsonResult(persona) { StatusCode = 200 };
+                this._consultanteMgr.RegistrarMiembro(miembro);
+                this.EnviarCodigoConfirmacion(miembro);
+                return new JsonResult(miembro) { StatusCode = 200 };
             }
             catch (Exception ex)
             {
@@ -75,11 +76,11 @@ namespace TACOS.Controladores.personas
             
         }
 
-        private void EnviarCodigoConfirmacion(Persona persona)
+        private void EnviarCodigoConfirmacion(Miembro miembro)
         {
             new ServicioEmail().EnviarCodigoConfirmacion(
-                persona.Email,
-                (int)persona.Miembros.ElementAt(0).CodigoConfirmacion!
+                miembro.Persona.Email,
+                (int)miembro.CodigoConfirmacion!
             );
         }
 

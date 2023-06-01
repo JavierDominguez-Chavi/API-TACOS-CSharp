@@ -3,6 +3,7 @@ using TACOS.Modelos;
 using TACOS.Negocio.Interfaces;
 using TACOS.Negocio;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TACOS.Controladores.personas
 {
@@ -22,6 +23,7 @@ namespace TACOS.Controladores.personas
         }
 
         [HttpPost(Name = "RegistrarPedido")]
+        [Authorize]
         public IActionResult RegistrarPedido([FromBody] Pedido pedido)
         {
             try
@@ -35,6 +37,7 @@ namespace TACOS.Controladores.personas
         }
 
         [HttpGet(Name = "ObtenerPedidos")]
+        [Authorize]
         public IActionResult ObtenerPedidos()
         {
             try
@@ -51,6 +54,7 @@ namespace TACOS.Controladores.personas
         }
 
         [HttpPatch(Name = "ActualizarPedido")]
+        [Authorize]
         public IActionResult ActualizarPedido(PedidoSimple pedido)
         {
             try

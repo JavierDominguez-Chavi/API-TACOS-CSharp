@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Identity;
+using TACOS.Modelos.PeticionesRespuestas;
 
 public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 {
@@ -47,17 +48,19 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         return personaEncontrada;
     }
 
-    public bool RegistrarMiembro(Persona persona)
+    public bool RegistrarMiembro(Miembro miembro)
     {
         bool confirmacion = false;
-        persona.Miembros.ElementAt(0).Contrasena = 
-            BCrypt.HashPassword(persona.Miembros.ElementAt(0).Contrasena);
+        miembro.Contrasena = 
+            BCrypt.HashPassword(miembro.Contrasena);
+        Persona persona = miembro.Persona;
+        persona.Miembros.Add(miembro);
         this.tacosdbContext.Personas.Add(persona);
         try
         {
             int columnasAfectadas = this.tacosdbContext.SaveChanges();
             confirmacion =
-                (AsignarCodigoConfirmacion(persona)
+                (AsignarCodigoConfirmacion(miembro.Persona)
                 && columnasAfectadas > 0);
         }
         catch (DbUpdateException)
@@ -84,9 +87,8 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         return this.tacosdbContext.SaveChanges() > 0;
     }
 
-    public bool ConfirmarRegistro(Persona persona)
+    public bool ConfirmarRegistro(Miembro miembro)
     {
-        Miembro miembro = persona.Miembros.ElementAt(0);
         Miembro miembroEncontrado =
             this.tacosdbContext.Miembros.SingleOrDefault(m => m.Id == miembro.Id);
         if (miembroEncontrado is null)
@@ -99,12 +101,12 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         }
         miembroEncontrado.CodigoConfirmacion = 0;
         miembro.CodigoConfirmacion = 0;
-        bool confirmacion = this.tacosdbContext.SaveChanges() > 0;
-        if (!confirmacion)
+        bool operacionExitosa = this.tacosdbContext.SaveChanges() > 0;
+        if (!operacionExitosa)
         {
             throw new ArgumentException("500");
         }
-        return confirmacion;
+        return operacionExitosa;
     }
 
     public List<Pedido> ObtenerPedidos()

@@ -12,21 +12,25 @@
 
   <ItemGroup>
     <Compile Remove="JWTTokens\**" />
+    <Compile Remove="Pruebas\**" />
     <Compile Remove="SistemaDeEmail\**" />
     <Compile Remove="TACOSGateway\**" />
     <Compile Remove="TACOSImagenesAPI\**" />
     <Compile Remove="TACOSMenuAPI\**" />
     <Content Remove="JWTTokens\**" />
+    <Content Remove="Pruebas\**" />
     <Content Remove="SistemaDeEmail\**" />
     <Content Remove="TACOSGateway\**" />
     <Content Remove="TACOSImagenesAPI\**" />
     <Content Remove="TACOSMenuAPI\**" />
     <EmbeddedResource Remove="JWTTokens\**" />
+    <EmbeddedResource Remove="Pruebas\**" />
     <EmbeddedResource Remove="SistemaDeEmail\**" />
     <EmbeddedResource Remove="TACOSGateway\**" />
     <EmbeddedResource Remove="TACOSImagenesAPI\**" />
     <EmbeddedResource Remove="TACOSMenuAPI\**" />
     <None Remove="JWTTokens\**" />
+    <None Remove="Pruebas\**" />
     <None Remove="SistemaDeEmail\**" />
     <None Remove="TACOSGateway\**" />
     <None Remove="TACOSImagenesAPI\**" />
@@ -44,6 +48,7 @@
     </PackageReference>
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.2" />
   </ItemGroup>
 
   <ItemGroup>
