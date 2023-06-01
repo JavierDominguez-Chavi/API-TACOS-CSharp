@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Text.Json.Serialization;
+using System;
 using System.Collections.Generic;
 
 namespace TACOS.Modelos;
@@ -19,6 +20,7 @@ public partial class Persona : ICloneable
 
     public string Telefono { get; set; } = null!;
 
+    [JsonIgnore]
     public virtual ICollection<Miembro> Miembros { get; set; } = new List<Miembro>();
 
     public object Clone()

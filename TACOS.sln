@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClienteTACOSWeb", "..\Clien
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TACOSMenuAPI", "TACOSMenuAPI\TACOSMenuAPI.csproj", "{1A202183-F5C9-4AB5-866C-40E511B83960}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pruebas", "Pruebas\Pruebas.csproj", "{9F8FBE03-11FB-4B8A-B0D5-D36E188A9002}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{1A202183-F5C9-4AB5-866C-40E511B83960}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A202183-F5C9-4AB5-866C-40E511B83960}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A202183-F5C9-4AB5-866C-40E511B83960}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F8FBE03-11FB-4B8A-B0D5-D36E188A9002}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F8FBE03-11FB-4B8A-B0D5-D36E188A9002}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F8FBE03-11FB-4B8A-B0D5-D36E188A9002}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F8FBE03-11FB-4B8A-B0D5-D36E188A9002}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

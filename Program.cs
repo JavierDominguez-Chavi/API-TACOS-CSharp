@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Http.Headers;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddJwtAuthentication();
 builder.Services.AddControllers()
                 .AddJsonOptions(x =>
                      x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve); ;
