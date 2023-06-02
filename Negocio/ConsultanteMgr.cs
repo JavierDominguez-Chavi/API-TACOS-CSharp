@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Identity;
-using TACOS.Modelos.PeticionesRespuestas;
+using TACOS.Negocio.PeticionesRespuestas;
 
 public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 {
@@ -16,7 +16,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
     {
     }
 
-    public Persona IniciarSesion(Credenciales credenciales)
+    public Miembro IniciarSesion(Credenciales credenciales)
     {
         string contrasena = credenciales.Contrasena;
         if (credenciales is null
@@ -44,8 +44,8 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
             throw new ArgumentException("401");
         }
 
-        personaEncontrada.Miembros.Add(miembroDePersonaEncontrada);
-        return personaEncontrada;
+        miembroDePersonaEncontrada.Persona = personaEncontrada;
+        return miembroDePersonaEncontrada;
     }
 
     public bool RegistrarMiembro(Miembro miembro)

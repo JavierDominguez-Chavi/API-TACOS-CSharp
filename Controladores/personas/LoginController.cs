@@ -5,18 +5,19 @@ using TACOS.Negocio.Interfaces;
 using TACOS.Controladores.menu;
 using TACOS.Modelos;
 using JWTTokens;
+using TACOS.Negocio.PeticionesRespuestas;
 
 namespace TACOS.Controladores.personas
 {
     [ApiController]
     [Route("[controller]")]
-    public class MiembrosController : ControllerBase
+    public class LoginController : ControllerBase
     {
-        private readonly ILogger<MiembrosController> logger;
+        private readonly ILogger<LoginController> logger;
         private IConsultanteMgt _consultanteMgr;
         private JwtTokenHandler jwtTokenHandler;
 
-        public MiembrosController(ILogger<MiembrosController> logger,
+        public LoginController(ILogger<LoginController> logger,
                                   IConsultanteMgt consultanteMgr,
                                   JwtTokenHandler jwtTokenHandler)
         {
@@ -25,20 +26,38 @@ namespace TACOS.Controladores.personas
             this.jwtTokenHandler=jwtTokenHandler;
         }
 
+        /// <summary>
+        /// IniciarSesion().
+        /// </summary>
+        /// <remarks>
+        /// Autentica las credenciales (email y contraseña) de un Miembro para permitirle entrar.
+        /// Regresa la información del miembro si la encuentra, incluyendo su información de empleado, 
+        /// en caso de encontrar alguna.
+        /// </remarks>
+        /// <response code="200">La petición fue aceptada.</response>
+        /// <response code="400">Campos vacíos.</response>
+        /// <response code="401">No se encontró ninguna cuenta con ese email y/o contraseña.</response>
+        /// <response code="500">El servidor falló inesperadamente.</response>
+        /// <returns>Miembro con el código de confirmación limpio.</returns>
+        [ProducesResponseType(typeof(RespuestaCredenciales), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
+        [Produces("application/json")]
         [HttpPost(Name = "IniciarSesion")]
         public IActionResult IniciarSesion([FromBody] Credenciales credenciales)
         {
             try
             {
-                Persona persona = this._consultanteMgr.IniciarSesion(credenciales);
+                Miembro miembro = this._consultanteMgr.IniciarSesion(credenciales);
                 var token = jwtTokenHandler.GenerarToken(
-                    persona.Email,
-                    $"{persona.Nombre} {persona.ApellidoPaterno} {persona.ApellidoMaterno}",
-                    persona.Id.ToString()
+                    miembro.Persona.Email,
+                    $"{miembro.Persona.Nombre} {miembro.Persona.ApellidoPaterno} {miembro.Persona.ApellidoMaterno}",
+                    miembro.Id.ToString()
                 );
                 return new JsonResult(new
                 {
-                    persona = persona,
+                    miembro = miembro,
+                    staff = "Aqui iria el staff",
                     token = token.Item1,
                     expira = token.Item2
                 })

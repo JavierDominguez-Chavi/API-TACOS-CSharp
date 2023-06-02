@@ -1,4 +1,4 @@
-﻿namespace TACOS.Negocio
+﻿namespace TACOS.Negocio.PeticionesRespuestas
 {
     public class Credenciales
     {

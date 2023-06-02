@@ -8,10 +8,10 @@ namespace TACOS.Controladores.personas
     [Route("[controller]")]
     public class ResenasController
     {
-        private readonly ILogger<PersonaController> logger;
+        private readonly ILogger<MiembroController> logger;
         private IConsultanteMgt _consultanteMgr;
 
-        public ResenasController(ILogger<PersonaController> logger,
+        public ResenasController(ILogger<MiembroController> logger,
                                   IConsultanteMgt consultanteMgr)
         {
             this.logger = logger;

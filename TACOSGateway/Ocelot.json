@@ -14,7 +14,7 @@
       "DownstreamPathTemplate": "/menu/Alimentos"
     },
     {
-      "UpstreamPathTemplate": "/Miembros",
+      "UpstreamPathTemplate": "/Login",
       "UpstreamHttpMethod": [ "POST" ],
       "UpstreamScheme": "http",
       "DownstreamScheme": "http",
@@ -24,7 +24,7 @@
           "Port": 5087
         }
       ],
-      "DownstreamPathTemplate": "/Miembros"
+      "DownstreamPathTemplate": "/Login"
     },
     {
       "UpstreamPathTemplate": "/Pedidos",
@@ -40,7 +40,7 @@
       "DownstreamPathTemplate": "/Pedidos"
     },
     {
-      "UpstreamPathTemplate": "/Persona",
+      "UpstreamPathTemplate": "/Miembro",
       "UpstreamHttpMethod": [ "POST", "PUT" ],
       "UpstreamScheme": "http",
       "DownstreamScheme": "http",
@@ -50,7 +50,7 @@
           "Port": 5087
         }
       ],
-      "DownstreamPathTemplate": "/Persona"
+      "DownstreamPathTemplate": "/Miembro"
     },
     {
       "UpstreamPathTemplate": "/Resenas",

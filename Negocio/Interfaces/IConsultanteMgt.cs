@@ -1,12 +1,12 @@
 ﻿using System.Collections.ObjectModel;
 using TACOS.Modelos;
-using TACOS.Modelos.PeticionesRespuestas;
+using TACOS.Negocio.PeticionesRespuestas;
 
 namespace TACOS.Negocio.Interfaces
 {
     public interface IConsultanteMgt
     {
-        public Persona IniciarSesion(Credenciales credenciales);
+        public Miembro IniciarSesion(Credenciales credenciales);
         public bool RegistrarMiembro(Miembro miembro);
         public bool ConfirmarRegistro(Miembro miembro);
         public bool RegistrarPedido(Pedido nuevoPedido);
