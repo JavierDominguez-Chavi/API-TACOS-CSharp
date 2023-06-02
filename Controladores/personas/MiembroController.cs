@@ -6,22 +6,39 @@ using TACOS.Modelos;
 using Microsoft.EntityFrameworkCore;
 
 using SistemaDeEmail;
-using TACOS.Modelos.PeticionesRespuestas;
+
 
 namespace TACOS.Controladores.personas
 {
     [ApiController]
     [Route("[controller]")]
-    public class PersonaController : ControllerBase
+    public class MiembroController : ControllerBase
     {
-        private readonly ILogger<PersonaController> logger;
+        private readonly ILogger<MiembroController> logger;
         private IConsultanteMgt _consultanteMgr;
-        public PersonaController(ILogger<PersonaController> logger,
+        public MiembroController(ILogger<MiembroController> logger,
                                  IConsultanteMgt consultanteMgr)
         {
             this.logger = logger;
             this._consultanteMgr = consultanteMgr;
         }
+
+        /// <summary>
+        /// ConfirmarRegistro(). Completa registro de miembro.
+        /// </summary>
+        /// <remarks>
+        /// Usa el código de confirmación para completar el registro de un miembro. 
+        /// La petición sólo necesita el IdMiembro y el CodigoConfirmacion.
+        /// </remarks>
+        /// <response code="200">La petición fue aceptada.</response>
+        /// <response code="401">El código es incorrecto.</response>
+        /// <response code="404">No se encontró el miembro solicitado.</response>
+        /// <response code="500">El servidor falló inesperadamente.</response>
+        /// <returns>Miembro con el código de confirmación limpio.</returns>
+        [ProducesResponseType(typeof(Miembro), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
         [HttpPut(Name = "ConfirmarRegistro")]
         public IActionResult ConfirmarRegistro(Miembro miembro)
         {
