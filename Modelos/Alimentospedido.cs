@@ -20,3 +20,4 @@ public partial class Alimentospedido
     [JsonIgnore]
     public virtual Pedido? Pedido { get; set; } = null!;
 }
+

@@ -40,6 +40,19 @@
       "DownstreamPathTemplate": "/Pedidos"
     },
     {
+      "UpstreamPathTemplate": "/Pedidos/ObtenerPedidosEntre",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5087
+        }
+      ],
+      "DownstreamPathTemplate": "/Pedidos/ObtenerPedidosEntre"
+    },
+    {
       "UpstreamPathTemplate": "/Miembro",
       "UpstreamHttpMethod": [ "POST", "PUT" ],
       "UpstreamScheme": "http",
