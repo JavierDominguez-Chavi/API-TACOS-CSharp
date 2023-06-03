@@ -9,6 +9,7 @@ using System.Linq;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Identity;
 using TACOS.Negocio.PeticionesRespuestas;
+using Microsoft.IdentityModel.Tokens;
 
 public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 {
@@ -109,24 +110,29 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         return operacionExitosa;
     }
 
-    public List<Pedido> ObtenerPedidos()
+    public List<PedidoReporte> ObtenerPedidosEntre(RangoFecha rango)
     {
-        List<Pedido> pedidos = this.tacosdbContext.Pedidos.OrderBy(p => p.Fecha).ToList();
-        int numPedidos = pedidos.Count();
-        for (int i = 0; i < numPedidos; i++)
+        List<Pedido> pedidosEncontrados =
+            this.tacosdbContext
+                .Pedidos
+                .Where(p => p.Fecha >= rango.Desde 
+                            && p.Fecha <= rango.Hasta)
+                .Include(pedido => pedido.Alimentospedidos)
+                .ThenInclude(alimentoPedido => alimentoPedido.Alimento)
+                .Include(pedido => pedido.Miembro)
+                .ThenInclude(miembro => miembro.Persona)
+                .OrderBy(pedido => pedido.Id)
+                .ToList();
+        if (pedidosEncontrados.IsNullOrEmpty())
         {
-            Miembro? miembroPedido = this.tacosdbContext
-                                        .Miembros
-                                        .FirstOrDefault(m => m.Id == pedidos[i].IdMiembro);
-            if (miembroPedido != null)
-            {
-                miembroPedido.Persona = this.tacosdbContext
-                                            .Personas
-                                            .FirstOrDefault(p => p.Id == miembroPedido.IdPersona);
-            }
-            pedidos[i].Miembro = miembroPedido;
+            throw new HttpRequestException("404");
         }
-        return pedidos;
+        List<PedidoReporte> pedidosReporte = new List<PedidoReporte>();
+        foreach (Pedido pedido in pedidosEncontrados)
+        {
+            pedidosReporte.Add(new PedidoReporte(pedido));
+        }
+        return pedidosReporte;
     }
 
     public bool RegistrarPedido(Pedido nuevoPedido)

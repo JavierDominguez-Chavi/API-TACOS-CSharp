@@ -4,6 +4,7 @@ using TACOS.Negocio.Interfaces;
 using TACOS.Negocio;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using TACOS.Negocio.PeticionesRespuestas;
 
 namespace TACOS.Controladores.personas
 {
@@ -36,20 +37,45 @@ namespace TACOS.Controladores.personas
             }
         }
 
-        [HttpGet(Name = "ObtenerPedidos")]
-        [Authorize]
-        public IActionResult ObtenerPedidos()
+        /// <summary>
+        /// Obtiene pedidos por rango de fechas.
+        /// </summary>
+        /// <remarks>
+        /// Regresa una lista de PedidoSimple (Pedido sin propiedad Miembro)
+        /// </remarks>
+        /// <response code="200">La petición fue aceptada.</response>
+        /// <response code="401">El código es incorrecto.</response>
+        /// <response code="404">No se encontró el miembro solicitado.</response>
+        /// <response code="500">El servidor falló inesperadamente.</response>
+        /// <returns>Miembro con el código de confirmación limpio.</returns>
+        /// <param name="rango"></param>
+        [ProducesResponseType(typeof(List<PedidoSimple>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status404NotFound)]
+        [Produces("application/json")]
+        [HttpPost("ObtenerPedidosEntre")]
+        //[Authorize]
+        public IActionResult ObtenerPedidosEntre([FromBody] RangoFecha rango)
         {
             try
             {
-                return new JsonResult(_consultanteMgr.ObtenerPedidos()) { StatusCode = 200 };
+                return new JsonResult(this._consultanteMgr.ObtenerPedidosEntre(rango)) { StatusCode = 200 };
             }
-            catch (Exception exception)
+            catch (HttpRequestException httpRequestException)
             {
+                string mensaje = "";
+                switch (httpRequestException.Message)
+                {
+                    case "404":
+                        mensaje = $"No se encontraron pedidos entre {rango.Desde} y {rango.Hasta}.";
+                        break;
+                    default:
+                        mensaje = "No hay conexión con la base de datos.";
+                        break;
+                }
                 return new JsonResult(
-                    new Error { Mensaje = "No hay conexión con la base de datos" }
-                )
-                { StatusCode = 500 };
+                    new { mensaje }
+                ){ StatusCode = Int32.Parse(httpRequestException.Message) };
             }
         }
 
