@@ -13,7 +13,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using TACOS.Negocio.PeticionesRespuestas;
 
-namespace Pruebas;
+namespace Pruebas.Integracion;
 
 public class PedidoTest
 {
