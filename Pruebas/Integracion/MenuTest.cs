@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using Xunit.Sdk;
 
-namespace Pruebas;
+namespace Pruebas.Integracion;
 
 public class MenuTest
 {

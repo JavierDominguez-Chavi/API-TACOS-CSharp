@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 using TACOS.Modelos;
 using TACOS.Negocio.PeticionesRespuestas;
 
-namespace Pruebas;
+namespace Pruebas.Integracion;
 
 public class LoginTest
 {
