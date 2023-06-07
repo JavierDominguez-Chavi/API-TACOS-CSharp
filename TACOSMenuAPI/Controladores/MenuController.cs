@@ -46,9 +46,9 @@
             {
                 return new JsonResult(_menuMgr.ObtenerAlimentosSinImagenes()) { StatusCode = 200 };
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return new JsonResult(new Error { Mensaje = "No hay conexión con la base de datos" }) { StatusCode = 500 };
+                return new JsonResult(new Respuesta<object> { Codigo=500, Mensaje=Mensajes.ErrorInterno }) { StatusCode = 500 };
             }
         }
 
@@ -70,31 +70,12 @@
         {
             try
             {
-                return new JsonResult(this._menuMgr.ActualizarExistenciaAlimentos(idAlimentos_Cantidades));
+                var respuesta = this._menuMgr.ActualizarExistenciaAlimentos(idAlimentos_Cantidades);
+                return new JsonResult(respuesta) { StatusCode = respuesta.Codigo };
             }
-            catch (ArgumentNullException anException)
+            catch (Exception)
             {
-                return new JsonResult(
-                    new Error { Mensaje = anException.Message }
-                ){ StatusCode = 404 };
-            }
-            catch (HttpRequestException e)
-            {
-                switch (e.Message)
-                {
-                    case "409":
-                        return new JsonResult(
-                            new Error
-                            {
-                                Mensaje = "La existencia del alimento solicitado ya no puede decrecer."
-                            }){ StatusCode = 409 };
-                    default:
-                        return new JsonResult(
-                            new Error
-                            {
-                                Mensaje = "No hay conexión con la base de datos."
-                            }){ StatusCode = 500 };
-                }
+                return new JsonResult(new Respuesta<object> { Codigo=500, Mensaje=Mensajes.ErrorInterno}) { StatusCode = 500 };
             }
         }
 

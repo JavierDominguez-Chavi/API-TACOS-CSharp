@@ -1,22 +1,14 @@
-﻿using TACOS.Modelos;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using TACOS.Modelos;
 
 namespace TACOS.Negocio.PeticionesRespuestas;
 
 public class RespuestaCredenciales
 {
-    /*
-    private Miembro miembro;
-    public Miembro Miembro
-    {
-        set
-        {
-            this.Persona.Miembros.Add(value);
-            this.miembro = value;
-        }
-        get { return this.miembro; }
-    }
-    */
-    public Miembro Miembro { get; set; }
+    public Miembro Miembro { get; set; } = null;
+    public int Codigo { get; set; } = 500;
+    public string Mensaje { get; set; }
     public string Token { get; set; }
-    public string Expera { get; set; }
+    public int Expira { get; set; }
 }

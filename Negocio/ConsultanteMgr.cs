@@ -10,6 +10,9 @@ using BCrypt.Net;
 using Microsoft.AspNetCore.Identity;
 using TACOS.Negocio.PeticionesRespuestas;
 using Microsoft.IdentityModel.Tokens;
+using System.Reflection;
+using System.Resources;
+using System.Globalization;
 
 public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 {
@@ -17,39 +20,47 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
     {
     }
 
-    public Miembro IniciarSesion(Credenciales credenciales)
+
+    public RespuestaCredenciales IniciarSesion(Credenciales credenciales)
     {
         string contrasena = credenciales.Contrasena;
         if (credenciales is null
             || String.IsNullOrWhiteSpace(credenciales.Email)
             || String.IsNullOrWhiteSpace(contrasena))
         {
-            throw new ArgumentException("400");
+            return new RespuestaCredenciales { Codigo = 400,Mensaje = Mensajes.IniciarSesion_400};
         }
 
         Persona? personaEncontrada =
             this.tacosdbContext.Personas.FirstOrDefault(p => p.Email!.Equals(credenciales.Email));
         if (personaEncontrada is null)
         {
-            throw new ArgumentException("401");
+            return new RespuestaCredenciales { Codigo = 401, Mensaje = Mensajes.IniciarSesion_401 };
         }
 
         Miembro? miembroDePersonaEncontrada =
-            this.tacosdbContext.Miembros.FirstOrDefault(m =>
-                m.IdPersona == personaEncontrada.Id
-            );
-        var contrasenaCorrecta = 
-            BCrypt.Verify(contrasena, miembroDePersonaEncontrada.Contrasena);
+            this.tacosdbContext.Miembros.FirstOrDefault(m =>m.IdPersona == personaEncontrada.Id);
+        bool contrasenaCorrecta = false;
+        try
+        {
+            contrasenaCorrecta =
+                BCrypt.Verify(contrasena, miembroDePersonaEncontrada.Contrasena);
+        }
+        catch (SaltParseException)
+        {
+            return new RespuestaCredenciales { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
+        }
         if (miembroDePersonaEncontrada is null || !contrasenaCorrecta)
         {
-            throw new ArgumentException("401");
+            return new RespuestaCredenciales { Codigo = 401, Mensaje = Mensajes.IniciarSesion_401 };
         }
 
         miembroDePersonaEncontrada.Persona = personaEncontrada;
-        return miembroDePersonaEncontrada;
+        return new RespuestaCredenciales 
+            { Miembro = miembroDePersonaEncontrada, Codigo = 200, Mensaje = Mensajes.OperacionExitosa };
     }
 
-    public bool RegistrarMiembro(Miembro miembro)
+    public Respuesta<Miembro> RegistrarMiembro(Miembro miembro)
     {
         bool confirmacion = false;
         miembro.Contrasena = 
@@ -66,13 +77,13 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         }
         catch (DbUpdateException)
         {
-            throw new ArgumentException("422");
+            return new Respuesta<Miembro> { Codigo = 422, Mensaje = Mensajes.RegistrarMiembro_422 };
         }
         if (!confirmacion)
         {
-            throw new ArgumentException("500");
+            return new Respuesta<Miembro> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
         }
-        return confirmacion;
+        return new Respuesta<Miembro> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = miembro };
     }
 
     public bool AsignarCodigoConfirmacion(Persona persona)
@@ -88,29 +99,29 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         return this.tacosdbContext.SaveChanges() > 0;
     }
 
-    public bool ConfirmarRegistro(Miembro miembro)
+    public Respuesta<Miembro> ConfirmarRegistro(Miembro miembro)
     {
         Miembro miembroEncontrado =
             this.tacosdbContext.Miembros.SingleOrDefault(m => m.Id == miembro.Id);
+        Console.WriteLine(miembro.Id);
         if (miembroEncontrado is null)
         {
-            throw new ArgumentException("404");
+            return new Respuesta<Miembro> { Codigo = 404, Mensaje = Mensajes.ConfirmarRegistro_404 };
         }
         if (miembroEncontrado.CodigoConfirmacion != miembro.CodigoConfirmacion)
         {
-            throw new ArgumentException("401");
+            return new Respuesta<Miembro> { Codigo = 401, Mensaje = Mensajes.ConfirmarRegistro_401 };
         }
         miembroEncontrado.CodigoConfirmacion = 0;
         miembro.CodigoConfirmacion = 0;
-        bool operacionExitosa = this.tacosdbContext.SaveChanges() > 0;
-        if (!operacionExitosa)
+        if (! (this.tacosdbContext.SaveChanges() > 0))
         {
-            throw new ArgumentException("500");
+            return new Respuesta<Miembro> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
         }
-        return operacionExitosa;
+        return new Respuesta<Miembro> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = miembro};
     }
 
-    public List<PedidoReporte> ObtenerPedidosEntre(RangoFecha rango)
+    public Respuesta<List<PedidoReporte>> ObtenerPedidosEntre(RangoFecha rango)
     {
         List<Pedido> pedidosEncontrados =
             this.tacosdbContext
@@ -125,61 +136,80 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
                 .ToList();
         if (pedidosEncontrados.IsNullOrEmpty())
         {
-            throw new HttpRequestException("404");
+            return new Respuesta<List<PedidoReporte>> { Codigo = 404, Mensaje = Mensajes.ObtenerPedidosEntre_404 };
         }
         List<PedidoReporte> pedidosReporte = new List<PedidoReporte>();
         foreach (Pedido pedido in pedidosEncontrados)
         {
             pedidosReporte.Add(new PedidoReporte(pedido));
         }
-        return pedidosReporte;
+        return new Respuesta<List<PedidoReporte>> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos=pedidosReporte};
     }
 
-    public bool RegistrarPedido(Pedido nuevoPedido)
+    public Respuesta<Pedido> RegistrarPedido(Pedido nuevoPedido)
     {
+        if (nuevoPedido.Alimentospedidos.IsNullOrEmpty())
+        {
+            return new Respuesta<Pedido> { Codigo = 400, Mensaje = Mensajes.RegistrarPedido_400};
+        }
+        foreach (Alimentospedido alimento in nuevoPedido.Alimentospedidos)
+        {
+            if (alimento.Cantidad < 1)
+            {
+                return new Respuesta<Pedido> { Codigo = 400, Mensaje = Mensajes.RegistrarPedido_400 };
+            }
+        }
         this.tacosdbContext.Pedidos.Add(nuevoPedido);
-        return this.tacosdbContext.SaveChanges() > 0;
+        if ( ! (this.tacosdbContext.SaveChanges() > 0) )
+        {
+            return new Respuesta<Pedido> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
+        }
+        return new Respuesta<Pedido> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos=nuevoPedido };
     }
 
-    public bool ActualizarPedido(PedidoSimple pedidoActualizado)
+    public Respuesta<PedidoSimple> ActualizarPedido(PedidoSimple pedidoActualizado)
     {
         if (pedidoActualizado is null
             || pedidoActualizado.Id is 0
             || pedidoActualizado.IdMiembro is 0)
         {
-            throw new HttpRequestException("400");
+            return new Respuesta<PedidoSimple> { Codigo = 400, Mensaje = Mensajes.ActualizarPedido_400 };
         }
 
         Pedido pedidoEncontrado =
             this.tacosdbContext.Pedidos.FirstOrDefault(p => p.Id == pedidoActualizado!.Id);
         if (pedidoEncontrado is null)
         {
-            throw new HttpRequestException("404");
+            return new Respuesta<PedidoSimple> { Codigo = 404, Mensaje = Mensajes.ActualizarPedido_404 };
         }
 
         if (pedidoActualizado.IdMiembro != pedidoEncontrado.IdMiembro)
         {
-            throw new HttpRequestException("422");
+            return new Respuesta<PedidoSimple> { Codigo = 422, Mensaje = Mensajes.ActualizarPedido_422 };
         }
 
         if (pedidoEncontrado.Estado == 3)
         {
-            throw new HttpRequestException("403");
+            return new Respuesta<PedidoSimple> { Codigo = 403, Mensaje = Mensajes.ActualizarPedido_403 };
         }
 
         pedidoEncontrado.Estado = pedidoActualizado.Estado;
-        ActualizarPedidosPagados(pedidoEncontrado, pedidoEncontrado);
-
-        bool confirmacion = this.tacosdbContext.SaveChanges() > 0;
-        if (!confirmacion)
+        try
         {
-            throw new HttpRequestException("500");
+            ActualizarPedidosPagados(pedidoEncontrado);
         }
-        return confirmacion;
+        catch (HttpRequestException)
+        {
+            return new Respuesta<PedidoSimple> { Codigo = 404, Mensaje = Mensajes.ActualizarPedido_404 };
+        }
+
+        if (! (this.tacosdbContext.SaveChanges() > 0))
+        {
+            return new Respuesta<PedidoSimple> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
+        }
+        return new Respuesta<PedidoSimple> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa };
     }
-    public void ActualizarPedidosPagados(
-        Pedido pedidoActualizado,
-        Pedido pedidoEncontrado)
+    public void ActualizarPedidosPagados(Pedido pedidoActualizado)
     {
         if (pedidoActualizado.Estado == 3)
         {
