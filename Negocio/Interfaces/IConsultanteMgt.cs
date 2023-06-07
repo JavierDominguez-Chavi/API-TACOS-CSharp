@@ -6,12 +6,12 @@ namespace TACOS.Negocio.Interfaces
 {
     public interface IConsultanteMgt
     {
-        public Miembro IniciarSesion(Credenciales credenciales);
-        public bool RegistrarMiembro(Miembro miembro);
-        public bool ConfirmarRegistro(Miembro miembro);
-        public bool RegistrarPedido(Pedido nuevoPedido);
-        public List<PedidoReporte> ObtenerPedidosEntre(RangoFecha rango);
-        public bool ActualizarPedido(PedidoSimple pedido);
+        public RespuestaCredenciales IniciarSesion(Credenciales credenciales);
+        public Respuesta<Miembro> RegistrarMiembro(Miembro miembro);
+        public Respuesta<Miembro> ConfirmarRegistro(Miembro miembro);
+        public Respuesta<Pedido> RegistrarPedido(Pedido nuevoPedido);
+        public Respuesta<List<PedidoReporte>> ObtenerPedidosEntre(RangoFecha rango);
+        public Respuesta<PedidoSimple> ActualizarPedido(PedidoSimple pedido);
         public List<Resena> ObtenerResenas();
     }
 }

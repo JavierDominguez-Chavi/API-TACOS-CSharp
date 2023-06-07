@@ -15,7 +15,7 @@ public class MenuMgr : ManagerBase, IMenuMgt
     {
     }
 
-    public Dictionary<int,int> ActualizarExistenciaAlimentos
+    public Respuesta<Dictionary<int,int>> ActualizarExistenciaAlimentos
         ([FromBody] Dictionary<int,int> idAlimentos_Cantidades)
     {
         int cantidadAlimentos = idAlimentos_Cantidades.Count;
@@ -23,17 +23,17 @@ public class MenuMgr : ManagerBase, IMenuMgt
         for (int i = 0; i < cantidadAlimentos; i++)
         {
             KeyValuePair<int,int> registro = idAlimentos_Cantidades.ElementAt(i);
-            Alimento? alimentoEncontrado = this.tacosdbContext.Alimentos
-                                                              .FirstOrDefault(a => a.Id == registro.Key);
+            Alimento? alimentoEncontrado = 
+                this.tacosdbContext.Alimentos.FirstOrDefault(a => a.Id == registro.Key);
             if (alimentoEncontrado is null)
             {
-                throw new ArgumentNullException(
-                    $"No hay un alimento con el id {registro.Key}"
-                );
+                return new Respuesta<Dictionary<int,int>>
+                    { Codigo = 404,Mensaje = Mensajes.ActualizarExistenciaAlimentos_404};
             }
             if (registro.Value < 0 && alimentoEncontrado.Existencia < 1)
             {
-                throw new HttpRequestException("409");
+                return new Respuesta<Dictionary<int, int>>
+                    { Codigo = 409, Mensaje = Mensajes.ActualizarExistenciaAlimentos_409 };
             }
             alimentos[i] = alimentoEncontrado;
         }
@@ -43,7 +43,8 @@ public class MenuMgr : ManagerBase, IMenuMgt
         }
         if (this.tacosdbContext.SaveChanges() != cantidadAlimentos)
         {
-            throw new HttpRequestException("500");
+            return new Respuesta<Dictionary<int, int>>
+            { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
         }
 
         Dictionary<int,int> nuevasExistencias = new Dictionary<int, int>();
@@ -51,13 +52,18 @@ public class MenuMgr : ManagerBase, IMenuMgt
         {
             nuevasExistencias.Add(alimento.Id, (int)alimento.Existencia);
         }
-        return nuevasExistencias;
+        return new Respuesta<Dictionary<int, int>>
+            { Codigo = 200, Mensaje = Mensajes.Exito, Datos = nuevasExistencias };
     }
 
-    public List<Alimento> ObtenerAlimentosSinImagenes()
+    public Respuesta<List<Alimento>> ObtenerAlimentosSinImagenes()
     {
-        return this.tacosdbContext.Alimentos.OrderBy(a => a.Nombre)
-                                            .ToList();
+        return new Respuesta<List<Alimento>>
+        { 
+            Codigo = 200, 
+            Mensaje = Mensajes.Exito, 
+            Datos = this.tacosdbContext.Alimentos.OrderBy(a => a.Nombre).ToList() 
+        };
     }
 
 }

@@ -40,49 +40,26 @@ namespace TACOS.Controladores.personas
         /// <response code="500">El servidor falló inesperadamente.</response>
         /// <returns>Miembro con el código de confirmación limpio.</returns>
         [ProducesResponseType(typeof(RespuestaCredenciales), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Error), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(Error), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(RespuestaCredenciales), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RespuestaCredenciales), StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(typeof(RespuestaCredenciales), StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpPost(Name = "IniciarSesion")]
         public IActionResult IniciarSesion([FromBody] Credenciales credenciales)
         {
-            try
+            RespuestaCredenciales respuesta = this._consultanteMgr.IniciarSesion(credenciales);
+            Tuple<string,int> token = new Tuple<string, int>("",0);
+            if (respuesta.Codigo == 200)
             {
-                Miembro miembro = this._consultanteMgr.IniciarSesion(credenciales);
-                var token = jwtTokenHandler.GenerarToken(
-                    miembro.Persona.Email,
-                    $"{miembro.Persona.Nombre} {miembro.Persona.ApellidoPaterno} {miembro.Persona.ApellidoMaterno}",
-                    miembro.Id.ToString()
+                token = jwtTokenHandler.GenerarToken(
+                    respuesta.Miembro.Persona.Email,
+                    $"{respuesta.Miembro.Persona.Nombre} {respuesta.Miembro.Persona.ApellidoPaterno} {respuesta.Miembro.Persona.ApellidoMaterno}",
+                    respuesta.Miembro.Id.ToString()
                 );
-                return new JsonResult(new
-                {
-                    miembro = miembro,
-                    staff = "Aqui iria el staff",
-                    token = token.Item1,
-                    expira = token.Item2
-                })
-                { StatusCode = 200 };
             }
-            catch (ArgumentException exception)
-            {
-                string mensaje;
-                switch (exception.Message)
-                {
-                    case "400":
-                        mensaje = "Todos los campos son obligatorios.";
-                        break;
-                    case "401":
-                        mensaje = "No se encontró ninguna cuenta con ese email y/o contraseña.";
-                        break;
-                    default:
-                        mensaje = "No hay conexión con la base de datos.";
-                        break;
-                }
-                return new JsonResult(new { mensaje })
-                {
-                    StatusCode = Int32.Parse(exception.Message)
-                };
-            }
+            respuesta.Token = token.Item1;
+            respuesta.Expira = token.Item2;
+            return new JsonResult(respuesta){ StatusCode = respuesta.Codigo };
         }
     }
 }

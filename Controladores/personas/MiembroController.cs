@@ -6,7 +6,7 @@ using TACOS.Modelos;
 using Microsoft.EntityFrameworkCore;
 
 using SistemaDeEmail;
-
+using TACOS.Negocio.PeticionesRespuestas;
 
 namespace TACOS.Controladores.personas
 {
@@ -42,55 +42,34 @@ namespace TACOS.Controladores.personas
         [HttpPut(Name = "ConfirmarRegistro")]
         public IActionResult ConfirmarRegistro(Miembro miembro)
         {
-            try
-            {
-                this._consultanteMgr.ConfirmarRegistro(miembro);
-                return new JsonResult(miembro) { StatusCode = 200 };
-            }
-            catch (Exception ex) 
-            {
-                string mensaje = "";
-                switch (ex.Message)
-                {
-                    case "404":
-                        mensaje = "No se encontró el miembro solicitado.";
-                        break;
-                    case "401":
-                        mensaje = "El código es incorrecto.";
-                        break;
-                    default:
-                        mensaje = "No hay conexión con la base de datos.";
-                        break;
-                }
-                return new JsonResult(new { mensaje }) { StatusCode = Int32.Parse(ex.Message) };
-            }
+            Respuesta<Miembro> respuesta = this._consultanteMgr.ConfirmarRegistro(miembro);
+            return new JsonResult(respuesta) { StatusCode = respuesta.Codigo };
         }
 
-
+        /// <summary>
+        /// RegistrarMiembro(). Registra Miembro con su respectiva Persona.
+        /// </summary>
+        /// <remarks>
+        /// Si el registro es exitoso, se asigna un CodigoConfirmacion al Miembro y 
+        /// se envía al Email proporcionado.
+        /// </remarks>
+        /// <response code="200">Operación exitosa.</response>
+        /// <response code="422">Ya existe una cuenta con este email.</response>
+        /// <response code="500">Error en el servidor.</response>
+        /// <returns>Miembro con el código de confirmación limpio.</returns>
+        [ProducesResponseType(typeof(Respuesta<Miembro>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Respuesta<Miembro>), StatusCodes.Status422UnprocessableEntity)]
+        [ProducesResponseType(typeof(Respuesta<Miembro>), StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
         [HttpPost(Name = "RegistrarMiembro")]
         public IActionResult RegistrarMiembro(Miembro miembro)
         {
-            try
+            Respuesta<Miembro> respuesta = this._consultanteMgr.RegistrarMiembro(miembro);
+            if (respuesta.Codigo == 200)
             {
-                this._consultanteMgr.RegistrarMiembro(miembro);
                 this.EnviarCodigoConfirmacion(miembro);
-                return new JsonResult(miembro) { StatusCode = 200 };
             }
-            catch (Exception ex)
-            {
-                string mensaje = "";
-                switch (ex.Message)
-                {
-                    case "422":
-                        mensaje = "Ya existe una cuenta con este email.";
-                        break;
-                    case "500":
-                        mensaje = "No hay conexión con la base de datos.";
-                        break;
-                }
-                return new JsonResult(new { mensaje }) { StatusCode = Int32.Parse(ex.Message) };
-            }
-            
+            return new JsonResult(respuesta) { StatusCode = respuesta.Codigo };
         }
 
         private void EnviarCodigoConfirmacion(Miembro miembro)
