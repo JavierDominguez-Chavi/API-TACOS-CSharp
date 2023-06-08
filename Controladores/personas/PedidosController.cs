@@ -56,7 +56,7 @@ namespace TACOS.Controladores.personas
         /// </remarks>
         /// <response code="200">La petición fue aceptada.</response>
         /// <response code="401">No autorizado.</response>
-        /// <response code="404">No se encontraron pedidos en el rango especificado7.</response>
+        /// <response code="404">No se encontraron pedidos en el rango especificado.</response>
         /// <response code="500">El servidor falló inesperadamente.</response>
         /// <returns>Miembro con el código de confirmación limpio.</returns>
         /// <param name="rango"></param>
