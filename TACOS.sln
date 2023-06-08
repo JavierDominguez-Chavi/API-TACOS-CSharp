@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TACOSMenuAPI", "TACOSMenuAP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pruebas", "Pruebas\Pruebas.csproj", "{9F8FBE03-11FB-4B8A-B0D5-D36E188A9002}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TACOSImagenesAPI", "..\TACOSImagenesAPI\TACOSImagenesAPI.csproj", "{0AC9B8FB-26D2-4D21-984E-346CDEB3A8CF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{9F8FBE03-11FB-4B8A-B0D5-D36E188A9002}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F8FBE03-11FB-4B8A-B0D5-D36E188A9002}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F8FBE03-11FB-4B8A-B0D5-D36E188A9002}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC9B8FB-26D2-4D21-984E-346CDEB3A8CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC9B8FB-26D2-4D21-984E-346CDEB3A8CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC9B8FB-26D2-4D21-984E-346CDEB3A8CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC9B8FB-26D2-4D21-984E-346CDEB3A8CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
