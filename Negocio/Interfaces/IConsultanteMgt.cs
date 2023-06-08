@@ -11,7 +11,7 @@ namespace TACOS.Negocio.Interfaces
         public Respuesta<Miembro> ConfirmarRegistro(Miembro miembro);
         public Respuesta<Pedido> RegistrarPedido(Pedido nuevoPedido);
         public Respuesta<List<PedidoReporte>> ObtenerPedidosEntre(RangoFecha rango);
-        public Respuesta<PedidoSimple> ActualizarPedido(PedidoSimple pedido);
+        public Respuesta<Pedido> ActualizarPedido(PedidoSimple pedido);
         public List<Resena> ObtenerResenas();
     }
 }

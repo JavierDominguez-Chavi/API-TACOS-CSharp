@@ -160,37 +160,41 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
             }
         }
         this.tacosdbContext.Pedidos.Add(nuevoPedido);
-        if ( ! (this.tacosdbContext.SaveChanges() > 0) )
+        try
+        {
+            this.tacosdbContext.SaveChanges();
+        }
+        catch (DbUpdateException)
         {
             return new Respuesta<Pedido> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
         }
         return new Respuesta<Pedido> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos=nuevoPedido };
     }
 
-    public Respuesta<PedidoSimple> ActualizarPedido(PedidoSimple pedidoActualizado)
+    public Respuesta<Pedido> ActualizarPedido(PedidoSimple pedidoActualizado)
     {
         if (pedidoActualizado is null
             || pedidoActualizado.Id is 0
             || pedidoActualizado.IdMiembro is 0)
         {
-            return new Respuesta<PedidoSimple> { Codigo = 400, Mensaje = Mensajes.ActualizarPedido_400 };
+            return new Respuesta<Pedido> { Codigo = 400, Mensaje = Mensajes.ActualizarPedido_400 };
         }
 
         Pedido pedidoEncontrado =
             this.tacosdbContext.Pedidos.FirstOrDefault(p => p.Id == pedidoActualizado!.Id);
         if (pedidoEncontrado is null)
         {
-            return new Respuesta<PedidoSimple> { Codigo = 404, Mensaje = Mensajes.ActualizarPedido_404 };
+            return new Respuesta<Pedido> { Codigo = 404, Mensaje = Mensajes.ActualizarPedido_404 };
         }
 
         if (pedidoActualizado.IdMiembro != pedidoEncontrado.IdMiembro)
         {
-            return new Respuesta<PedidoSimple> { Codigo = 422, Mensaje = Mensajes.ActualizarPedido_422 };
+            return new Respuesta<Pedido> { Codigo = 422, Mensaje = Mensajes.ActualizarPedido_422 };
         }
 
         if (pedidoEncontrado.Estado == 3)
         {
-            return new Respuesta<PedidoSimple> { Codigo = 403, Mensaje = Mensajes.ActualizarPedido_403 };
+            return new Respuesta<Pedido> { Codigo = 403, Mensaje = Mensajes.ActualizarPedido_403 };
         }
 
         pedidoEncontrado.Estado = pedidoActualizado.Estado;
@@ -200,14 +204,18 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         }
         catch (HttpRequestException)
         {
-            return new Respuesta<PedidoSimple> { Codigo = 404, Mensaje = Mensajes.ActualizarPedido_404 };
+            return new Respuesta<Pedido> { Codigo = 404, Mensaje = Mensajes.ActualizarPedido_404 };
         }
 
-        if (! (this.tacosdbContext.SaveChanges() > 0))
+        try
         {
-            return new Respuesta<PedidoSimple> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
+            this.tacosdbContext.SaveChanges();
         }
-        return new Respuesta<PedidoSimple> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa };
+        catch(DbUpdateException)
+        {
+            return new Respuesta<Pedido> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
+        }
+        return new Respuesta<Pedido> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa , Datos= pedidoEncontrado };
     }
     public void ActualizarPedidosPagados(Pedido pedidoActualizado)
     {
