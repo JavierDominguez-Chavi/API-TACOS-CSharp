@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Resources;
 using System.Globalization;
+using System.ComponentModel.DataAnnotations;
 
 public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 {
@@ -62,6 +63,12 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 
     public Respuesta<Miembro> RegistrarMiembro(Miembro miembro)
     {
+        var resultados = new MiembroValidador().Validate(miembro);
+        if (!resultados.IsValid)
+        {
+            return new Respuesta<Miembro> { Codigo = 400, Mensaje = resultados.Errors.First().ErrorMessage};
+        }
+
         bool confirmacion = false;
         miembro.Contrasena = 
             BCrypt.HashPassword(miembro.Contrasena);
@@ -126,12 +133,12 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         List<Pedido> pedidosEncontrados =
             this.tacosdbContext
                 .Pedidos
-                .Where(p => p.Fecha >= rango.Desde 
-                            && p.Fecha <= rango.Hasta)
+                .Where(p => ((DateTime)p.Fecha!).Date >= rango.Desde.Date 
+                            && ((DateTime)p.Fecha).Date <= rango.Hasta.Date)
                 .Include(pedido => pedido.Alimentospedidos)
                 .ThenInclude(alimentoPedido => alimentoPedido.Alimento)
                 .Include(pedido => pedido.Miembro)
-                .ThenInclude(miembro => miembro.Persona)
+                .ThenInclude(miembro => miembro!.Persona)
                 .OrderBy(pedido => pedido.Id)
                 .ToList();
         if (pedidosEncontrados.IsNullOrEmpty())
