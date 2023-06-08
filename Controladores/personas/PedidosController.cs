@@ -94,7 +94,7 @@ namespace TACOS.Controladores.personas
         [ProducesResponseType(typeof(Respuesta<List<PedidoSimple>>), StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
         [HttpPatch(Name = "ActualizarPedido")]
-        [Authorize]
+        //[Authorize]
         public IActionResult ActualizarPedido(PedidoSimple pedido)
         {
             var respuesta = this._consultanteMgr.ActualizarPedido(pedido);

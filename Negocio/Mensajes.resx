@@ -156,4 +156,7 @@
   <data name="RegistrarPedido_400" xml:space="preserve">
     <value>El pedido debe contener al menos un alimento, y todos los alimentos deben tener una cantidad mayor a 0.</value>
   </data>
+  <data name="RegistrarPedido_404" xml:space="preserve">
+    <value>El alimento solicitado no existe.</value>
+  </data>
 </root>

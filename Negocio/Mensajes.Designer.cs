@@ -176,5 +176,14 @@ namespace TACOS.Negocio {
                 return ResourceManager.GetString("RegistrarPedido_400", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El alimento solicitado no existe..
+        /// </summary>
+        public static string RegistrarPedido_404 {
+            get {
+                return ResourceManager.GetString("RegistrarPedido_404", resourceCulture);
+            }
+        }
     }
 }

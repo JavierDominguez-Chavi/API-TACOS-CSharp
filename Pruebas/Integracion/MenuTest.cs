@@ -121,4 +121,24 @@ public class MenuTest
             Assert.True(error.Mensaje.Contains("La existencia del alimento solicitado ya no puede decrecer."));
         }
     }
+
+    [Fact]
+    public void ObtenerImagenes_Exito()
+    {
+        using (var clienteHttp = new HttpClient())
+        {
+            Dictionary<int, int> existenciasAModificar = new Dictionary<int, int>
+            {
+                { 1, -20}
+            };
+            clienteHttp.BaseAddress = this.uri;
+            clienteHttp.PatchAsJsonAsync("menu", existenciasAModificar);
+            HttpResponseMessage respuesta =
+                clienteHttp.PatchAsJsonAsync("menu",existenciasAModificar).Result;
+
+            var error = respuesta.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<Dictionary<int,int>>>().Result;
+            Assert.True(error.Codigo == ((int)System.Net.HttpStatusCode.Conflict));
+            Assert.True(error.Mensaje.Contains("La existencia del alimento solicitado ya no puede decrecer."));
+        }
+    }
 }

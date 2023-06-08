@@ -30,7 +30,7 @@ public class MenuMgr : ManagerBase, IMenuMgt
                 return new Respuesta<Dictionary<int,int>>
                     { Codigo = 404,Mensaje = Mensajes.ActualizarExistenciaAlimentos_404};
             }
-            if (registro.Value < 0 && alimentoEncontrado.Existencia < 1)
+            if ((alimentoEncontrado.Existencia + registro.Value) < 0)
             {
                 return new Respuesta<Dictionary<int, int>>
                     { Codigo = 409, Mensaje = Mensajes.ActualizarExistenciaAlimentos_409 };
