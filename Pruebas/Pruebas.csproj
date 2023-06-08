@@ -28,8 +28,4 @@
     <ProjectReference Include="..\TACOSMenuAPI\TACOSMenuAPI.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Unitarias\" />
-  </ItemGroup>
-
 </Project>

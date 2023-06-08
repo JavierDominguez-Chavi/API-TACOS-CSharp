@@ -26,7 +26,7 @@ public class MenuTest
             response.EnsureSuccessStatusCode();
 
             alimentos = new ObservableCollection<Alimento>(
-                response.Content.ReadAsAsync<Respuesta<List<Alimento>>>().Result.Datos
+                response.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<List<Alimento>>>().Result.Datos
             );
             Assert.True( alimentos.Count > 0);
             Assert.True( alimentos.ElementAt(0).Nombre.Equals("Orden de bisteck") );
@@ -63,7 +63,7 @@ public class MenuTest
             Assert.True(respuesta.IsSuccessStatusCode);
 
             Dictionary<int,int> nuevasExistencias = new Dictionary < int, int >(
-                respuesta.Content.ReadAsAsync<Respuesta<Dictionary<int,int>>>().Result.Datos
+                respuesta.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<Dictionary<int,int>>>().Result.Datos
             );
 
             Assert.NotNull(nuevasExistencias);
@@ -96,7 +96,7 @@ public class MenuTest
                         existenciasAModificar
                     ).Result;
 
-            var error = respuesta.Content.ReadAsAsync<Respuesta<Dictionary<int,int>>>().Result;
+            var error = respuesta.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<Dictionary<int,int>>>().Result;
             Assert.True(error.Codigo == ((int)System.Net.HttpStatusCode.NotFound));
             Assert.True(error.Mensaje.Contains($"El alimento solicitado no existe."));
         }
@@ -116,7 +116,7 @@ public class MenuTest
             HttpResponseMessage respuesta =
                 clienteHttp.PatchAsJsonAsync("menu",existenciasAModificar).Result;
 
-            var error = respuesta.Content.ReadAsAsync<Respuesta<Dictionary<int,int>>>().Result;
+            var error = respuesta.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<Dictionary<int,int>>>().Result;
             Assert.True(error.Codigo == ((int)System.Net.HttpStatusCode.Conflict));
             Assert.True(error.Mensaje.Contains("La existencia del alimento solicitado ya no puede decrecer."));
         }
