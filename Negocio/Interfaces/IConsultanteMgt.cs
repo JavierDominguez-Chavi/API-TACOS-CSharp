@@ -13,5 +13,6 @@ namespace TACOS.Negocio.Interfaces
         public Respuesta<List<PedidoReporte>> ObtenerPedidosEntre(RangoFecha rango);
         public Respuesta<PedidoSimple> ActualizarPedido(PedidoSimple pedido);
         public List<Resena> ObtenerResenas();
+        public bool BorrarResena(int idResena);
     }
 }
