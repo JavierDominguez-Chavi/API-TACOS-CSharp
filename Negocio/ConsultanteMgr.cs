@@ -281,4 +281,27 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         }
         return resenasObtenidas;
     }
+
+    public bool BorrarResena(int idResena)
+    {
+        if (idResena == null || idResena == 0)
+        {
+            throw new HttpRequestException("400");
+        }
+        var resenaEncontrada = tacosdbContext.Resenas.FirstOrDefault(r => r.Id == idResena);
+        if (resenaEncontrada is null)
+        {
+            throw new HttpRequestException("404");
+        }
+
+        tacosdbContext.Resenas.Remove(resenaEncontrada);
+        bool operacionExitosa = this.tacosdbContext.SaveChanges() > 0;
+
+        if (!operacionExitosa)
+        {
+            throw new HttpRequestException("500");
+        }
+        return operacionExitosa;
+
+    }
 }

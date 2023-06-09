@@ -66,17 +66,17 @@
       "DownstreamPathTemplate": "/Miembro"
     },
     {
-      "UpstreamPathTemplate": "/Resenas",
-      "UpstreamHttpMethod": [ "GET" ],
-      "UpstreamScheme": "http",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5087
-        }
-      ],
-      "DownstreamPathTemplate": "/Resenas"
+        "UpstreamPathTemplate": "/Resenas",
+        "UpstreamHttpMethod": [ "GET", "POST" ],
+        "UpstreamScheme": "http",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5087
+            }
+        ],
+        "DownstreamPathTemplate": "/Resenas"
     },
     {
       "UpstreamPathTemplate": "/Menu",
