@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Win32;
 using Microsoft.EntityFrameworkCore;
 
+/// <summary>
+/// Implementación de la interfaz IMenuMgt.
+/// </summary>
 public class MenuMgr : ManagerBase, IMenuMgt
 {
     public MenuMgr(TacosdbContext tacosdbContext) : base(tacosdbContext)

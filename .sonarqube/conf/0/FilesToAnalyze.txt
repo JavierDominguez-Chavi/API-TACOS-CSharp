@@ -1,0 +1,6 @@
+﻿C:\Users\52228\source\repos\API-TACOS-CSharp\SistemaDeEmail\Email.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\SistemaDeEmail\IEnviarEmail.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\SistemaDeEmail\Properties\AssemblyInfo.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\SistemaDeEmail\ServicioEmail.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\SistemaDeEmail\Properties\CredencialesEmail.resx
+C:\Users\52228\source\repos\API-TACOS-CSharp\SistemaDeEmail\packages.config

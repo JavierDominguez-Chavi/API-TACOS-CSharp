@@ -7,6 +7,9 @@ using TACOS.Negocio.Interfaces;
 
 namespace TACOS.Controladores.personas
 {
+    /// <summary>
+    /// Controlador para el manejo de reseñas.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class ResenasController
@@ -14,11 +17,16 @@ namespace TACOS.Controladores.personas
         private readonly ILogger<MiembroController> logger;
         private IConsultanteMgt _consultanteMgr;
 
+        /// <summary>
+        /// Constructor del controlador.
+        /// </summary>
+        /// <param name="logger">Inyectado por dependencias.</param>
+        /// <param name="consultanteMgr">Componente para operaciones con personas. Inyectado por dependencias.</param>
         public ResenasController(ILogger<MiembroController> logger,
                                   IConsultanteMgt consultanteMgr)
         {
             this.logger = logger;
-            _consultanteMgr = consultanteMgr;
+            this._consultanteMgr = consultanteMgr;
         }
 
 
@@ -60,8 +68,6 @@ namespace TACOS.Controladores.personas
                 { StatusCode = Int32.Parse(httpRequestException.Message) };
             }
         }
-
-
 
         /// <summary>
         /// BorrarResena(int idResena). Borra una reseña seleccionada mediante su Id.

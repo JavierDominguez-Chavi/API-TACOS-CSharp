@@ -30,9 +30,7 @@ builder.Services.AddDbContext<TacosdbContext>(options =>
                     "server=localhost;database=tacosdb;uid=tacosUser;pwd=T4C05",
                     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.25-mysql"
                 )));
-builder.Services.AddScoped<IMenuMgt, MenuMgr>();
 builder.Services.AddScoped<IConsultanteMgt, ConsultanteMgr>();
-builder.Services.AddScoped<JwtTokenHandler>();
 
 var app = builder.Build();
 

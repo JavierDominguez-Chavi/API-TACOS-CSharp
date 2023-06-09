@@ -2,28 +2,32 @@
 using Microsoft.AspNetCore.Mvc;
 using TACOS.Negocio;
 using TACOS.Negocio.Interfaces;
-using TACOS.Controladores.menu;
 using TACOS.Modelos;
 using JWTTokens;
 using TACOS.Negocio.PeticionesRespuestas;
 
 namespace TACOS.Controladores.personas
 {
+    /// <summary>
+    /// Controlador del servicio de inicio de sesión.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class LoginController : ControllerBase
     {
         private readonly ILogger<LoginController> logger;
         private IConsultanteMgt _consultanteMgr;
-        private JwtTokenHandler jwtTokenHandler;
 
+        /// <summary>
+        /// Constructor del controlador.
+        /// </summary>
+        /// <param name="logger">Inyectado por dependencias.</param>
+        /// <param name="consultanteMgr">Componente para operaciones con personas. Inyectado por dependencias.</param>
         public LoginController(ILogger<LoginController> logger,
-                                  IConsultanteMgt consultanteMgr,
-                                  JwtTokenHandler jwtTokenHandler)
+                                  IConsultanteMgt consultanteMgr)
         {
             this.logger = logger;
             this._consultanteMgr = consultanteMgr;
-            this.jwtTokenHandler=jwtTokenHandler;
         }
 
         /// <summary>
@@ -51,8 +55,8 @@ namespace TACOS.Controladores.personas
             Tuple<string,int> token = new Tuple<string, int>("",0);
             if (respuesta.Codigo == 200)
             {
-                token = jwtTokenHandler.GenerarToken(
-                    respuesta.Miembro.Persona.Email,
+                token = JwtTokenHandler.GenerarToken(
+                    respuesta.Miembro!.Persona!.Email!,
                     $"{respuesta.Miembro.Persona.Nombre} {respuesta.Miembro.Persona.ApellidoPaterno} {respuesta.Miembro.Persona.ApellidoMaterno}",
                     respuesta.Miembro.Id.ToString()
                 );
