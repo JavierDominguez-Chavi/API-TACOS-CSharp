@@ -12,9 +12,7 @@ public class AlimentoActualizar
     /// </summary>
     public int Id { get; set; }
 
-    /// <summary>
-    /// Nombre del alimento.
-    /// </summary>
+    /// <summary></summary>
     public string? Nombre { get; set; }
 
     /// <summary>

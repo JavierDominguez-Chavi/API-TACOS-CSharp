@@ -18,7 +18,7 @@ namespace TACOS.Controladores.personas
     {
 
         private readonly ILogger<PedidosController> logger;
-        private IConsultanteMgt _consultanteMgr;
+        private IConsultanteMgt consultanteMgr;
 
         /// <summary>
         /// Constructor del controlador.
@@ -29,7 +29,7 @@ namespace TACOS.Controladores.personas
                                   IConsultanteMgt consultanteMgr)
         {
             this.logger = logger;
-            _consultanteMgr = consultanteMgr;
+            this.consultanteMgr = consultanteMgr;
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace TACOS.Controladores.personas
         [Authorize]
         public IActionResult RegistrarPedido([FromBody] Pedido pedido)
         {
-            Respuesta<Pedido> respuesta = this._consultanteMgr.RegistrarPedido(pedido);
+            Respuesta<Pedido> respuesta = this.consultanteMgr.RegistrarPedido(pedido);
             return new JsonResult(respuesta) { StatusCode = respuesta.Codigo};
         }
 
@@ -76,7 +76,7 @@ namespace TACOS.Controladores.personas
         [Authorize]
         public IActionResult ObtenerPedidosEntre([FromBody] RangoFecha rango)
         {
-            var respuesta = this._consultanteMgr.ObtenerPedidosEntre(rango);
+            var respuesta = this.consultanteMgr.ObtenerPedidosEntre(rango);
             return new JsonResult(respuesta) { StatusCode = respuesta.Codigo };
         }
 
@@ -105,7 +105,7 @@ namespace TACOS.Controladores.personas
         //[Authorize]
         public IActionResult ActualizarPedido(PedidoSimple pedido)
         {
-            var respuesta = this._consultanteMgr.ActualizarPedido(pedido);
+            var respuesta = this.consultanteMgr.ActualizarPedido(pedido);
             return new JsonResult(respuesta) { StatusCode = respuesta.Codigo };
         }
     }
