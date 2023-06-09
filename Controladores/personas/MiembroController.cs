@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TACOS.Negocio;
 using TACOS.Negocio.Interfaces;
-using TACOS.Controladores.menu;
 using TACOS.Modelos;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,12 +9,18 @@ using TACOS.Negocio.PeticionesRespuestas;
 
 namespace TACOS.Controladores.personas
 {
+    /// <summary>
+    /// Controlador responsable de las operaciones con Miembros registrados.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class MiembroController : ControllerBase
     {
         private readonly ILogger<MiembroController> logger;
         private IConsultanteMgt _consultanteMgr;
+
+        /// <param name="logger">Normalmente inyectado</param>
+        /// <param name="consultanteMgr">Normalmente inyectado</param>
         public MiembroController(ILogger<MiembroController> logger,
                                  IConsultanteMgt consultanteMgr)
         {
@@ -72,14 +77,13 @@ namespace TACOS.Controladores.personas
             return new JsonResult(respuesta) { StatusCode = respuesta.Codigo };
         }
 
+
         private void EnviarCodigoConfirmacion(Miembro miembro)
         {
             new ServicioEmail().EnviarCodigoConfirmacion(
-                miembro.Persona.Email,
+                miembro.Persona!.Email!,
                 (int)miembro.CodigoConfirmacion!
             );
         }
-
-
     }
 }

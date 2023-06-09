@@ -4,35 +4,71 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TACOS.Modelos;
 
+/// <summary>
+/// Punto de acceso a la base de datos mediante EntityFrameworkCore.
+/// </summary>
 public partial class TacosdbContext : DbContext
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public TacosdbContext()
     {
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public TacosdbContext(DbContextOptions<TacosdbContext> options)
         : base(options)
     {
     }
 
+    /// <summary>
+    /// Alimentos en la base de datos.
+    /// </summary>
     public virtual DbSet<Alimento> Alimentos { get; set; }
 
+    /// <summary>
+    /// Alimentospedidos en la base de datos.
+    /// </summary>
     public virtual DbSet<Alimentospedido> Alimentospedidos { get; set; }
 
+    /// <summary>
+    /// Categorias en la base de datos.
+    /// </summary>
     public virtual DbSet<Categorium> Categoria { get; set; }
 
+    /// <summary>
+    /// Miembros en la base de datos.
+    /// </summary>
     public virtual DbSet<Miembro> Miembros { get; set; }
 
+    /// <summary>
+    /// Pedidos en la base de datos.
+    /// </summary>
     public virtual DbSet<Pedido> Pedidos { get; set; }
 
+    /// <summary>
+    /// Personas en la base de datos.
+    /// </summary>
     public virtual DbSet<Persona> Personas { get; set; }
 
+    /// <summary>
+    /// Reseñas en la base de datos.
+    /// </summary>
     public virtual DbSet<Resena> Resenas { get; set; }
 
+    /// <summary>
+    /// Conexión con la base de datos.
+    /// </summary>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySql("server=localhost;database=tacosdb;uid=tacosUser;pwd=T4C05", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.29-mysql"));
 
+    /// <summary>
+    /// Modelado code-first de la base de datos relacional.
+    /// </summary>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -222,7 +258,7 @@ public partial class TacosdbContext : DbContext
                 .HasConstraintName("resenas_ibfk_1");
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        this.OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

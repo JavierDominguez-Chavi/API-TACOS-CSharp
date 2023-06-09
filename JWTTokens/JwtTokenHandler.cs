@@ -5,18 +5,13 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace JWTTokens;
 
-public class JwtTokenHandler
+public static class JwtTokenHandler
 {
     public const String JWT_SECURITY_Key = 
         "i-like-2_eat??tacos1!!!!!fdsaf+ewr5f+645";
     private const int JWT_TOKEN_MINS = 30;
 
-    public JwtTokenHandler()
-    {
-
-    }
-
-    public Tuple<String, Int32> GenerarToken(String login, String nombreCompleto, String _Id)
+    public static Tuple<String, Int32> GenerarToken(String login, String nombreCompleto, String _Id)
     {
         var expiraToken = DateTime.Now.AddHours(6).AddMinutes(JWT_TOKEN_MINS) ;
         var tokeney = Encoding.ASCII.GetBytes(JWT_SECURITY_Key);

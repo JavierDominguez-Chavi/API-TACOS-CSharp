@@ -2,8 +2,37 @@
 using FluentValidation;
 using System.Text.RegularExpressions;
 
-public class MiembroValidador : AbstractValidator<Miembro>
+/// <summary>
+/// Valida que todos los campos de un miembro sean correctos previo al registro en la
+/// base de datos.
+/// </summary>
+public partial class MiembroValidador : AbstractValidator<Miembro>
 {
+    [GeneratedRegex(
+        "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)"
+        +"*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", 
+        RegexOptions.CultureInvariant) ]
+    private partial Regex regexEmail();
+
+    [GeneratedRegex(
+        "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$",
+        RegexOptions.CultureInvariant)]
+    private partial Regex regexContrasena();
+
+    [GeneratedRegex(
+        @"^(\d{3}[- ]?){2}\d{4}$",
+        RegexOptions.CultureInvariant)]
+    private partial Regex regexTelefono();
+
+    [GeneratedRegex(
+        "^[a-zA-ZáéíóúñÑ][a-zA-ZáéíóúñÑ0-9]*$",
+        RegexOptions.CultureInvariant)]
+    private partial Regex regexAlfanumerico();
+
+    /// <summary>
+    /// Especifica las reglas que debe seguir el Miembro para ser admitido a la
+    /// base de datos.
+    /// </summary>
     public MiembroValidador()
     {
         string obligatorio = "Todos los campos son obligatorios";
@@ -12,37 +41,30 @@ public class MiembroValidador : AbstractValidator<Miembro>
             "al menos una letra minúscula; al menos una mayúscula y al menos un número";
         string formatoEmail = "El email no tiene el formato correcto.";
         string formatoTelefono = "El telefono no tiene el formato correcto.";
-        Regex regexAlfanumerico = new Regex("^[a-zA-ZáéíóúñÑ][a-zA-ZáéíóúñÑ0-9]*$");
-        Regex regexContrasena = new Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$");
-        Regex regexEmail = new Regex(
-            "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)"
-           +"*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
-        );
-        Regex regexTelefono = new Regex(@"^(\d{3}[- ]?){2}\d{4}$");
-        RuleFor(miembro => miembro.Persona.Email)
+        this.RuleFor(miembro => miembro.Persona!.Email)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(regexEmail)
+            .Matches(this.regexEmail())
                 .WithMessage(formatoEmail);
-        RuleFor(miembro => miembro.Contrasena)
+        this.RuleFor(miembro => miembro.Contrasena)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(regexContrasena)
+            .Matches(this.regexContrasena())
                 .WithMessage(formatoContrasena);
-        RuleFor(miembro => miembro.Persona.Nombre)
+        this.RuleFor(miembro => miembro.Persona!.Nombre)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(regexAlfanumerico)
+            .Matches(this.regexAlfanumerico())
                 .WithMessage(alfanumerico);
-        RuleFor(miembro => miembro.Persona.ApellidoPaterno)
+        this.RuleFor(miembro => miembro.Persona!.ApellidoPaterno)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(regexAlfanumerico)
+            .Matches(this.regexAlfanumerico())
                 .WithMessage(alfanumerico);
-        RuleFor(miembro => miembro.Persona.ApellidoMaterno)
+        this.RuleFor(miembro => miembro.Persona!.ApellidoMaterno)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(regexAlfanumerico).WithMessage(alfanumerico);
-        RuleFor(miembro => miembro.Persona.Direccion)
+            .Matches(this.regexAlfanumerico()).WithMessage(alfanumerico);
+        this.RuleFor(miembro => miembro.Persona!.Direccion)
             .NotEmpty().WithMessage(obligatorio);
-        RuleFor(miembro => miembro.Persona.Telefono)
+        this.RuleFor(miembro => miembro.Persona!.Telefono)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(regexTelefono)
+            .Matches(this.regexTelefono())
                 .WithMessage(formatoTelefono);
     }   
 }

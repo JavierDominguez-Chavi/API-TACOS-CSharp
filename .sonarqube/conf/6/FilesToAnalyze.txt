@@ -1,0 +1,11 @@
+﻿C:\Users\52228\source\repos\API-TACOS-CSharp\Pruebas\Unitarias\LoginTest.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\Pruebas\Unitarias\MenuTest.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\Pruebas\Unitarias\MiembroTest.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\Pruebas\Unitarias\PedidoTest.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\Pruebas\Usings.cs
+C:\Users\52228\.nuget\packages\microsoft.net.test.sdk\17.3.2\build\netcoreapp2.1\Microsoft.NET.Test.Sdk.Program.cs
+C:\Users\52228\.nuget\packages\microsoft.testplatform.testhost\17.3.2\build\netcoreapp2.1\x64\testhost.exe
+C:\Users\52228\.nuget\packages\microsoft.testplatform.testhost\17.3.2\build\netcoreapp2.1\x64\testhost.dll
+C:\Users\52228\.nuget\packages\xunit.runner.visualstudio\2.4.5\build\netcoreapp3.1\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\Users\52228\.nuget\packages\xunit.runner.visualstudio\2.4.5\build\netcoreapp3.1\xunit.runner.reporters.netcoreapp10.dll
+C:\Users\52228\.nuget\packages\xunit.runner.visualstudio\2.4.5\build\netcoreapp3.1\xunit.runner.utility.netcoreapp10.dll

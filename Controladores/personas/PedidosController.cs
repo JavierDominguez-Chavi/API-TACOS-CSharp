@@ -9,6 +9,9 @@ using System.Net.Http;
 
 namespace TACOS.Controladores.personas
 {
+    /// <summary>
+    /// Controlador para servicios de pedidos.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class PedidosController : Controller
@@ -17,6 +20,11 @@ namespace TACOS.Controladores.personas
         private readonly ILogger<PedidosController> logger;
         private IConsultanteMgt _consultanteMgr;
 
+        /// <summary>
+        /// Constructor del controlador.
+        /// </summary>
+        /// <param name="logger">Inyectado por dependencias.</param>
+        /// <param name="consultanteMgr">Componente para operaciones con personas. Inyectado por dependencias.</param>
         public PedidosController(ILogger<PedidosController> logger,
                                   IConsultanteMgt consultanteMgr)
         {
@@ -44,7 +52,7 @@ namespace TACOS.Controladores.personas
         [Authorize]
         public IActionResult RegistrarPedido([FromBody] Pedido pedido)
         {
-            Respuesta<Pedido> respuesta = _consultanteMgr.RegistrarPedido(pedido);
+            Respuesta<Pedido> respuesta = this._consultanteMgr.RegistrarPedido(pedido);
             return new JsonResult(respuesta) { StatusCode = respuesta.Codigo};
         }
 

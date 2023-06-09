@@ -4,23 +4,43 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TACOSMenuAPI.Modelos;
 
+/// <summary>
+/// Punto de acceso a la base de datos mediante EntityFrameworkCore.
+/// </summary>
 public partial class TacosdbContext : DbContext
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public TacosdbContext()
     {
     }
-
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="options"></param>
     public TacosdbContext(DbContextOptions<TacosdbContext> options)
         : base(options)
     {
     }
+    /// <summary>
+    /// Alimentos en la base de datos.
+    /// </summary>
     public virtual DbSet<Alimento> Alimentos { get; set; }
+    /// <summary>
+    /// Imagenes en la base de datos.
+    /// </summary>
     public virtual DbSet<Imagen> Imagenes { get; set; }
 
+    /// <summary>
+    /// Conexión con la base de datos.
+    /// </summary>
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
         => optionsBuilder.UseMySql("server=localhost;database=tacosdb;uid=tacosUser;pwd=T4C05", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.29-mysql"));
-
+    /// <summary>
+    /// Modelado code-first de la base de datos relacional.
+    /// </summary>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
@@ -66,7 +86,7 @@ public partial class TacosdbContext : DbContext
                 .HasColumnName("nombre");
         });
 
-        OnModelCreatingPartial(modelBuilder);
+        this.OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
