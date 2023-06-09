@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActualizarAlimento_Parcial" xml:space="preserve">
+    <value>La petición contiene alimentos que no fueron encontrados en la base de datos.</value>
+  </data>
   <data name="ActualizarExistenciaAlimentos_404" xml:space="preserve">
     <value>El alimento solicitado no existe.</value>
   </data>

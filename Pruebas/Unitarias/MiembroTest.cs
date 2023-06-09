@@ -12,7 +12,7 @@ using TACOS.Modelos;
 using FluentAssertions;
 using TACOS.Negocio.PeticionesRespuestas;
 
-namespace Pruebas.Integracion;
+namespace Pruebas.Unitarias;
 
 public class MiembroTest
 {
