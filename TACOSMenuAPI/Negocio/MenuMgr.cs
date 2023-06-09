@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Threading.Channels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Win32;
+using Microsoft.EntityFrameworkCore;
 
 public class MenuMgr : ManagerBase, IMenuMgt
 {
@@ -54,6 +55,46 @@ public class MenuMgr : ManagerBase, IMenuMgt
         }
         return new Respuesta<Dictionary<int, int>>
             { Codigo = 200, Mensaje = Mensajes.Exito, Datos = nuevasExistencias };
+    }
+
+    public Respuesta<List<AlimentoActualizar>> ActualizarAlimentos(List<AlimentoActualizar> alimentos)
+    {
+        List<AlimentoActualizar> alimentosModificados = new List<AlimentoActualizar>();
+        Respuesta<List<AlimentoActualizar>> respuesta = new Respuesta<List<AlimentoActualizar>>();
+        foreach (AlimentoActualizar alimento in alimentos)
+        {
+            Alimento? alimentoEncontrado = this.tacosdbContext.Alimentos.Find(alimento.Id);
+            
+            if (alimentoEncontrado is null) 
+            {
+                respuesta.Mensaje = Mensajes.ActualizarAlimento_Parcial;
+                continue; 
+            }
+            
+            alimentoEncontrado.Nombre = alimento.Nombre;
+            alimentoEncontrado.Descripcion = alimento.Descripcion;
+            alimentoEncontrado.Existencia = alimento.Existencia;
+            alimentoEncontrado.Precio= alimento.Precio;
+            alimentosModificados.Add(new AlimentoActualizar(alimentoEncontrado));
+        }
+        try
+        {
+            this.tacosdbContext.SaveChanges();
+            respuesta.Codigo = 200;
+        }
+        catch (DbUpdateException)
+        {
+            respuesta.Mensaje = Mensajes.ErrorInterno;
+            respuesta.Codigo = 500;
+        }
+        if (String.IsNullOrEmpty(respuesta.Mensaje))
+        {
+            respuesta.Mensaje = Mensajes.Exito;
+        }
+
+        respuesta.Datos = alimentosModificados;
+        
+        return respuesta;
     }
 
     public Respuesta<List<Alimento>> ObtenerAlimentosSinImagenes()

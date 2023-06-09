@@ -79,6 +79,29 @@
             }
         }
 
-
+        /// <summary>
+        /// ActualizarAlimentos(). Modifica la información de alimentos.
+        /// </summary>
+        /// <param name="idAlimentos_Cantidades">Diccionario con los IDs de los alimentos a modificar, 
+        /// y las cantidades a sumar o restar de cada alimento.</param>
+        /// <response code="200">Los alimentos fueron modificados. Si algún alimento no fue encontrado, 
+        /// la petición no se rechaza pero se menciona el acontecimiento en la respuesta.</response>
+        /// <response code="500">El servidor falló inesperadamente.</response>
+        /// <returns>Lista de Alimentos</returns>
+        [ProducesResponseType(typeof(Respuesta<List<AlimentoActualizar>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Respuesta<List<AlimentoActualizar>>), StatusCodes.Status500InternalServerError)]
+        [HttpPut(Name = "ActualizarAlimento")]
+        public IActionResult ActualizarAlimentos([FromBody] List<AlimentoActualizar> alimentosAModificar)
+        {
+            try
+            {
+                var respuesta = this._menuMgr.ActualizarAlimentos(alimentosAModificar);
+                return new JsonResult(respuesta) { StatusCode = respuesta.Codigo };
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new Respuesta<object> { Codigo=500, Mensaje=Mensajes.ErrorInterno }) { StatusCode = 500 };
+            }
+        }
     }
 }
