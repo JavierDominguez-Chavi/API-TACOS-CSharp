@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using TACOS.Modelos;
+using TACOS.Modelos.Interfaces;
+using System.Text.Json.Serialization;
 
 namespace TACOS.Negocio.PeticionesRespuestas;
 
@@ -9,10 +11,17 @@ namespace TACOS.Negocio.PeticionesRespuestas;
 /// </summary>
 public class RespuestaCredenciales
 {
+
     /// <summary>
-    /// Miembro obtenido, cuyas credenciales coinciden con las provistas a IniciarSesion().
+    /// Necesaria para simplificar la generación del token. NO serializar.
     /// </summary>
-    public Miembro? Miembro { get; set; } = null;
+    [JsonIgnore]
+    public IAsociado Asociado { get; set; } = null;
+
+    /// <summary></summary>
+    public Miembro Miembro { get; set; } = null;
+    /// <summary></summary>
+    public Staff Staff { get; set; } = null;
 
     /// <summary>
     /// Codigo HTTP de la respuesta.

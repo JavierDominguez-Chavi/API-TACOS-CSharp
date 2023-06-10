@@ -7,28 +7,28 @@ using TACOS.Modelos.Interfaces;
 /// Valida que todos los campos de un miembro o staff sean correctos previo al registro en la
 /// base de datos.
 /// </summary>
-public class MiembroValidador : AbstractValidator<IAsociado>
+public partial class MiembroValidador : AbstractValidator<IAsociado>
 {
     [GeneratedRegex(
         "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)"
         +"*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$", 
         RegexOptions.CultureInvariant) ]
-    private partial Regex regexEmail();
+    private partial Regex RegexEmail();
 
     [GeneratedRegex(
         "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$",
         RegexOptions.CultureInvariant)]
-    private partial Regex regexContrasena();
+    private partial Regex RegexContrasena();
 
     [GeneratedRegex(
         @"^(\d{3}[- ]?){2}\d{4}$",
         RegexOptions.CultureInvariant)]
-    private partial Regex regexTelefono();
+    private partial Regex RegexTelefono();
 
     [GeneratedRegex(
         "^[a-zA-ZáéíóúñÑ][a-zA-ZáéíóúñÑ0-9]*$",
         RegexOptions.CultureInvariant)]
-    private partial Regex regexAlfanumerico();
+    private partial Regex RegexAlfanumerico();
 
     /// <summary>
     /// Especifica las reglas que debe seguir el Miembro para ser admitido a la
@@ -37,7 +37,7 @@ public class MiembroValidador : AbstractValidator<IAsociado>
     public MiembroValidador()
     {
         string obligatorio = "Todos los campos son obligatorios";
-        string alfanumerico = "Los nombres sólo pueden contener letras y números";
+        string alfanumerico = "Los nombres sólo pueden contener letras.";
         string formatoContrasena = "La contraseña debe tener al menos 8 caracteres: " +
             "al menos una letra minúscula; al menos una mayúscula y al menos un número";
         string formatoEmail = "El email no tiene el formato correcto.";
@@ -52,19 +52,19 @@ public class MiembroValidador : AbstractValidator<IAsociado>
         Regex regexTelefono = new Regex(@"^(\d{3}[- ]?){2}\d{4}$");
         RuleFor(IAsociado => IAsociado.Persona.Email)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(this.regexEmail())
+            .Matches(this.RegexEmail())
                 .WithMessage(formatoEmail);
         RuleFor(IAsociado => IAsociado.Contrasena)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(this.regexContrasena())
+            .Matches(this.RegexContrasena())
                 .WithMessage(formatoContrasena);
         RuleFor(IAsociado => IAsociado.Persona.Nombre)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(this.regexAlfanumerico())
+            .Matches(this.RegexAlfanumerico())
                 .WithMessage(alfanumerico);
         RuleFor(IAsociado => IAsociado.Persona.ApellidoPaterno)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(this.regexAlfanumerico())
+            .Matches(this.RegexAlfanumerico())
                 .WithMessage(alfanumerico);
         RuleFor(IAsociado => IAsociado.Persona.ApellidoMaterno)
             .NotEmpty().WithMessage(obligatorio)
@@ -73,7 +73,7 @@ public class MiembroValidador : AbstractValidator<IAsociado>
             .NotEmpty().WithMessage(obligatorio);
         RuleFor(IAsociado => IAsociado.Persona.Telefono)
             .NotEmpty().WithMessage(obligatorio)
-            .Matches(this.regexTelefono())
+            .Matches(this.RegexTelefono())
                 .WithMessage(formatoTelefono);
     }   
 }

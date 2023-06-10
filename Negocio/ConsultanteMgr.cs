@@ -2,8 +2,10 @@
 using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using SistemaDeEmail;
 using System.Linq;
 using TACOS.Modelos;
+using TACOS.Modelos.Interfaces;
 using TACOS.Negocio.Interfaces;
 using TACOS.Negocio.PeticionesRespuestas;
 
@@ -18,48 +20,79 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
     }
 
     #pragma warning disable CS1591
+    public Persona ObtenerPersona(string email)
+    {
+        if (String.IsNullOrWhiteSpace(email))
+        {
+            throw new HttpRequestException("400");
+        }
+
+        Persona? personaEncontrada =
+            this.tacosdbContext.Personas.First(persona => persona.Email!.Equals(email));
+        if (personaEncontrada is null)
+        {
+            throw new HttpRequestException("401");
+        }
+        return personaEncontrada;
+    }
+
     public RespuestaCredenciales IniciarSesion(Credenciales credenciales)
     {
-        if (credenciales is null
-            || String.IsNullOrWhiteSpace(credenciales.Email)
-            || String.IsNullOrWhiteSpace(credenciales.Contrasena))
+        if (!credenciales.Llenas)
         {
             return new RespuestaCredenciales { Codigo = 400, Mensaje = Mensajes.IniciarSesion_400 };
         }
-        string contrasena = credenciales.Contrasena!;
 
-        Persona? personaEncontrada =
-            this.tacosdbContext.Personas.FirstOrDefault(p => p.Email!.Equals(credenciales.Email));
-        if (personaEncontrada is null)
+        List<IAsociado> asociadosEncontrados = new List<IAsociado>();
+        List<Persona> personas = this.tacosdbContext.Personas
+                                 .Where(persona => persona.Email.Equals(credenciales.Email))
+                                 .Include(persona => persona.Miembros)
+                                 .Include(persona => persona.Staff)
+                                 .ToList();
+        if (personas.IsNullOrEmpty()) 
+        {
+            return new RespuestaCredenciales { Codigo = 400, Mensaje = Mensajes.IniciarSesion_400 };
+        }
+
+        RespuestaCredenciales respuesta = new RespuestaCredenciales();
+
+        IAsociado asociadoEncontrado;
+        if (credenciales.EsStaff)
+        {
+            respuesta.Staff = personas.First().Staff.FirstOrDefault();
+            asociadoEncontrado = respuesta.Staff;
+        }
+        else
+        {
+            respuesta.Miembro = personas.First().Miembros.FirstOrDefault();
+            asociadoEncontrado = respuesta.Miembro;
+        }
+
+        if (asociadoEncontrado == null)
         {
             return new RespuestaCredenciales { Codigo = 401, Mensaje = Mensajes.IniciarSesion_401 };
         }
 
-        Miembro? miembroDePersonaEncontrada =
-            this.tacosdbContext.Miembros.FirstOrDefault(m => m.IdPersona == personaEncontrada.Id);
-        bool contrasenaCorrecta = false;
-        if (miembroDePersonaEncontrada is null)
-        {
-            return new RespuestaCredenciales { Codigo = 401, Mensaje = Mensajes.IniciarSesion_401 };
-        }
         try
         {
-            contrasenaCorrecta =
-                BCrypt.Verify(contrasena, miembroDePersonaEncontrada!.Contrasena);
+            if (BCrypt.Verify(credenciales.Contrasena, asociadoEncontrado.Contrasena))
+            {
+                respuesta.Asociado = asociadoEncontrado;
+                respuesta.Codigo = 200;
+                respuesta.Mensaje = Mensajes.OperacionExitosa;
+                return respuesta;
+            }
+            else
+            {
+                return new RespuestaCredenciales { Codigo = 401, Mensaje = Mensajes.IniciarSesion_401 };
+            }
         }
         catch (SaltParseException)
         {
             return new RespuestaCredenciales { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
         }
-        if (!contrasenaCorrecta)
-        {
-            return new RespuestaCredenciales { Codigo = 401, Mensaje = Mensajes.IniciarSesion_401 };
-        }
-
-        miembroDePersonaEncontrada.Persona = personaEncontrada;
-        return new RespuestaCredenciales
-        { Miembro = miembroDePersonaEncontrada, Codigo = 200, Mensaje = Mensajes.OperacionExitosa };
     }
+
 
     public Respuesta<Miembro> RegistrarMiembro(Miembro miembro)
     {
@@ -388,4 +421,8 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         return idPersona;
     }
 
+    public RespuestaCredenciales IniciarSesionStaff(Credenciales credenciales)
+    {
+        throw new NotImplementedException();
+    }
 }
