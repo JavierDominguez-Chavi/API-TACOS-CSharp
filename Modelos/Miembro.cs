@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using TACOS.Modelos.Interfaces;
 
 namespace TACOS.Modelos;
 
 /// <summary>
 /// Credenciales de una Persona registrada en la base de datos.
 /// </summary>
-public partial class Miembro
+public partial class Miembro : IAsociado
 {
     /// <summary>
     /// Llave primaria en la base de datos.

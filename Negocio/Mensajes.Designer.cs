@@ -97,6 +97,24 @@ namespace TACOS.Negocio {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Se requiere un ID de reseña válido para eliminar el registro..
+        /// </summary>
+        public static string BorrarResena_400 {
+            get {
+                return ResourceManager.GetString("BorrarResena_400", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ningun registro coincide con la reseña que desea eliminar..
+        /// </summary>
+        public static string BorrarResena_404 {
+            get {
+                return ResourceManager.GetString("BorrarResena_404", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to El código es incorrecto..
         /// </summary>
         public static string ConfirmarRegistro_401 {
@@ -115,7 +133,7 @@ namespace TACOS.Negocio {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Error en el servidor..
+        ///   Looks up a localized string similar to Error de servidor, intente de nuevo más tarde..
         /// </summary>
         public static string ErrorInterno {
             get {
@@ -156,6 +174,15 @@ namespace TACOS.Negocio {
         public static string OperacionExitosa {
             get {
                 return ResourceManager.GetString("OperacionExitosa", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El nombre y/o email que desea registrar ya existe en el sistema..
+        /// </summary>
+        public static string RegistrarEmpleadoStaff_422 {
+            get {
+                return ResourceManager.GetString("RegistrarEmpleadoStaff_422", resourceCulture);
             }
         }
         

@@ -37,7 +37,7 @@ namespace TACOS.Controladores.personas
         /// <response code="200">
         /// La petición fue aceptada.
         /// </response>
-        /// <response code="409">El servidor tiene conflictos para procesar la peticion.</response>
+        /// <response code="500">Error de servidor, intente de nuevo más tarde.</response>
         /// <returns>Lista de Reseñas</returns>
         [ProducesResponseType(typeof(List<Resena>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(Error), StatusCodes.Status409Conflict)]
@@ -52,17 +52,11 @@ namespace TACOS.Controladores.personas
             }
             catch (HttpRequestException httpRequestException)
             {
-                string mensaje = "";
-                switch (httpRequestException.Message)
-                {
-                    case "409":
-                        mensaje = "El servidor tiene conflictos por favor reintenta";
-                        break;
-                    default:
-                        mensaje = "No hay conexión con la base de datos.";
-                        break;
-                }
-                return new JsonResult(new { mensaje })
+
+                Dictionary<string, string> respuestasExcepcion = new Dictionary<string, string>();
+                respuestasExcepcion.Add("500", Mensajes.ErrorInterno);
+
+                return new JsonResult(new { mensaje = respuestasExcepcion[httpRequestException.Message] })
                 { StatusCode = Int32.Parse(httpRequestException.Message) };
             }
         }
@@ -71,7 +65,7 @@ namespace TACOS.Controladores.personas
         /// BorrarResena(int idResena). Borra una reseña seleccionada mediante su Id.
         /// </summary>
         /// <remarks>
-        /// Soolo es necesario el Id de la reseña para el proceso.
+        /// Solo es necesario el Id de la reseña para el proceso.
         /// </remarks>
         /// <response code="204">
         /// La operación fue exitosa.
@@ -98,9 +92,9 @@ namespace TACOS.Controladores.personas
             catch (HttpRequestException httpRequestException)
             {
                 Dictionary<string, string> respuestasExcepcion = new Dictionary<string, string>();
-                respuestasExcepcion.Add("400", "Se requiere un ID de reseña válido para eliminar el registro.");
-                respuestasExcepcion.Add("404", "Ningun registro coincide con la reseña que desea eliminar.");
-                respuestasExcepcion.Add("500", "Error de servidor, intente de nuevo más tarde.");
+                respuestasExcepcion.Add("400", Mensajes.BorrarResena_400);
+                respuestasExcepcion.Add("404", Mensajes.BorrarResena_404);
+                respuestasExcepcion.Add("500", Mensajes.ErrorInterno);
 
                 return new JsonResult(new { mensaje = respuestasExcepcion[httpRequestException.Message] })
                 { StatusCode = Int32.Parse(httpRequestException.Message) };

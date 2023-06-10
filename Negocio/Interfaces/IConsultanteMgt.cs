@@ -58,5 +58,8 @@ namespace TACOS.Negocio.Interfaces
         /// <returns>Todas las reseñas en la base de datos.</returns>
         public List<Resena> ObtenerResenas();
         public bool BorrarResena(int idResena);
+        public List<Puesto> ObtenerPuestos();
+        public List<Turno> ObtenerTurnos();
+        public void RegistrarEmpleadoStaff(Staff staff);
     }
 }

@@ -24,7 +24,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
             || String.IsNullOrWhiteSpace(credenciales.Email)
             || String.IsNullOrWhiteSpace(credenciales.Contrasena))
         {
-            return new RespuestaCredenciales { Codigo = 400,Mensaje = Mensajes.IniciarSesion_400};
+            return new RespuestaCredenciales { Codigo = 400, Mensaje = Mensajes.IniciarSesion_400 };
         }
         string contrasena = credenciales.Contrasena!;
 
@@ -36,7 +36,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         }
 
         Miembro? miembroDePersonaEncontrada =
-            this.tacosdbContext.Miembros.FirstOrDefault(m =>m.IdPersona == personaEncontrada.Id);
+            this.tacosdbContext.Miembros.FirstOrDefault(m => m.IdPersona == personaEncontrada.Id);
         bool contrasenaCorrecta = false;
         if (miembroDePersonaEncontrada is null)
         {
@@ -57,8 +57,8 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         }
 
         miembroDePersonaEncontrada.Persona = personaEncontrada;
-        return new RespuestaCredenciales 
-            { Miembro = miembroDePersonaEncontrada, Codigo = 200, Mensaje = Mensajes.OperacionExitosa };
+        return new RespuestaCredenciales
+        { Miembro = miembroDePersonaEncontrada, Codigo = 200, Mensaje = Mensajes.OperacionExitosa };
     }
 
     public Respuesta<Miembro> RegistrarMiembro(Miembro miembro)
@@ -66,11 +66,11 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         var resultados = new MiembroValidador().Validate(miembro);
         if (!resultados.IsValid)
         {
-            return new Respuesta<Miembro> { Codigo = 400, Mensaje = resultados.Errors.First().ErrorMessage};
+            return new Respuesta<Miembro> { Codigo = 400, Mensaje = resultados.Errors.First().ErrorMessage };
         }
 
         bool confirmacion = false;
-        miembro.Contrasena = 
+        miembro.Contrasena =
             BCrypt.HashPassword(miembro.Contrasena);
         Persona persona = miembro.Persona!;
         persona!.Miembros.Add(miembro);
@@ -126,11 +126,11 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         }
         miembroEncontrado.CodigoConfirmacion = 0;
         miembro.CodigoConfirmacion = 0;
-        if (! (this.tacosdbContext.SaveChanges() > 0))
+        if (!(this.tacosdbContext.SaveChanges() > 0))
         {
             return new Respuesta<Miembro> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
         }
-        return new Respuesta<Miembro> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = miembro};
+        return new Respuesta<Miembro> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = miembro };
     }
 
     public Respuesta<List<PedidoReporte>> ObtenerPedidosEntre(RangoFecha rango)
@@ -138,7 +138,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         List<Pedido> pedidosEncontrados =
             this.tacosdbContext
                 .Pedidos
-                .Where(p => ((DateTime)p.Fecha!).Date >= rango.Desde.Date 
+                .Where(p => ((DateTime)p.Fecha!).Date >= rango.Desde.Date
                             && ((DateTime)p.Fecha).Date <= rango.Hasta.Date)
                 .Include(pedido => pedido.Alimentospedidos)
                 .ThenInclude(alimentoPedido => alimentoPedido.Alimento)
@@ -155,14 +155,14 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         {
             pedidosReporte.Add(new PedidoReporte(pedido));
         }
-        return new Respuesta<List<PedidoReporte>> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos=pedidosReporte};
+        return new Respuesta<List<PedidoReporte>> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = pedidosReporte };
     }
 
     public Respuesta<Pedido> RegistrarPedido(Pedido nuevoPedido)
     {
         if (nuevoPedido.Alimentospedidos.IsNullOrEmpty())
         {
-            return new Respuesta<Pedido> { Codigo = 400, Mensaje = Mensajes.RegistrarPedido_400};
+            return new Respuesta<Pedido> { Codigo = 400, Mensaje = Mensajes.RegistrarPedido_400 };
         }
         foreach (Alimentospedido alimento in nuevoPedido.Alimentospedidos)
         {
@@ -180,7 +180,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         {
             return new Respuesta<Pedido> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
         }
-        return new Respuesta<Pedido> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos=nuevoPedido };
+        return new Respuesta<Pedido> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = nuevoPedido };
     }
 
     public Respuesta<Pedido> ActualizarPedido(PedidoSimple pedidoActualizado)
@@ -223,11 +223,11 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         {
             this.tacosdbContext.SaveChanges();
         }
-        catch(DbUpdateException)
+        catch (DbUpdateException)
         {
             return new Respuesta<Pedido> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
         }
-        return new Respuesta<Pedido> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa , Datos= pedidoEncontrado };
+        return new Respuesta<Pedido> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = pedidoEncontrado };
     }
 
     /// <summary>
@@ -255,14 +255,14 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         List<Resena> resenas = this.tacosdbContext.Resenas.OrderBy(a => a.Fecha).ToList();
         if (resenas is null)
         {
-            throw new HttpRequestException("409");
+            throw new HttpRequestException("500");
         }
         List<Resena> resenasObtenidas = new List<Resena>();
         foreach (Resena resena in resenas)
         {
-            var idPersona = (from Miembro in this.tacosdbContext.Miembros
-                                       where Miembro.Id == resena.IdMiembro
-                                       select Miembro.IdPersona).FirstOrDefault();
+            var idPersona = (from Miembro in tacosdbContext.Miembros
+                             where Miembro.Id == resena.IdMiembro
+                             select Miembro.IdPersona).FirstOrDefault();
             var miembro = resena.Miembro;
             miembro.IdPersona = idPersona;
             resena.Miembro = miembro;
@@ -302,4 +302,90 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         return operacionExitosa;
 
     }
+
+    public List<Puesto> ObtenerPuestos()
+    {
+        List<Puesto> puestos = this.tacosdbContext.Puestos.ToList();
+        if (puestos is null)
+        {
+            throw new HttpRequestException("500");
+        }
+        return puestos;
+    }
+
+    public List<Turno> ObtenerTurnos()
+    {
+        List<Turno> turnos = this.tacosdbContext.Turnos.ToList();
+        if (turnos is null)
+        {
+            throw new HttpRequestException("500");
+        }
+        return turnos;
+    }
+
+    public void RegistrarEmpleadoStaff(Staff staff)
+    {
+        var validacionStaff = new MiembroValidador().Validate(staff);
+        if (!validacionStaff.IsValid)
+        {
+            throw new HttpRequestException(validacionStaff.Errors.First().ErrorMessage)
+            {
+                Data = { { "CodigoError", "400" } }
+            };
+        }
+        staff.Contrasena = BCrypt.HashPassword(staff.Contrasena);
+        Persona persona = staff.Persona;
+
+        bool personaExiste = tacosdbContext.Personas.Any(personaBuscar => personaBuscar.Nombre == persona.Nombre &&
+             personaBuscar.ApellidoPaterno == persona.ApellidoPaterno &&
+             personaBuscar.ApellidoMaterno == persona.ApellidoMaterno ||
+             personaBuscar.Email == persona.Email);
+        if (personaExiste)
+        {
+            throw new HttpRequestException()
+            {
+                Data = { { "CodigoError", "422" } }
+            };
+        }
+        else
+        {
+            this.tacosdbContext.Personas.Add(persona);
+            bool registroExitosoPersona = this.tacosdbContext.SaveChanges() == 1;
+            staff.IdPersona = ObtenerIdPersonaRegistrada(persona);
+            this.tacosdbContext.Staff.Add(staff);
+            bool registroExitosoStaff = this.tacosdbContext.SaveChanges() == 1;
+            if (!registroExitosoPersona || !registroExitosoStaff)
+            {
+                throw new HttpRequestException()
+                {
+                    Data = { { "CodigoError", "500" } }
+                };
+            }
+
+        }
+    }
+
+    public int ObtenerIdPersonaRegistrada(Persona persona)
+    {
+        int idPersona = -1;
+        var idPersonaObtenida = (from personaBuscar in tacosdbContext.Personas
+                                   where personaBuscar.Nombre == persona.Nombre &&
+                                   personaBuscar.ApellidoPaterno == persona.ApellidoPaterno &&
+                                   personaBuscar.ApellidoMaterno == persona.ApellidoMaterno &&
+                                   personaBuscar.Email == persona.Email
+                                   select personaBuscar.Id).FirstOrDefault();
+        if (idPersonaObtenida != 0)
+        {
+            idPersona = idPersonaObtenida;
+        }
+        else
+        {
+            throw new HttpRequestException()
+            {
+                Data = { { "CodigoError", "500" } }
+            };
+        }
+        return idPersona;
+    }
+
 }

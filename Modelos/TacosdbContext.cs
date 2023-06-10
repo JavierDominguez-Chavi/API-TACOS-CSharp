@@ -58,6 +58,9 @@ public partial class TacosdbContext : DbContext
     /// Reseñas en la base de datos.
     /// </summary>
     public virtual DbSet<Resena> Resenas { get; set; }
+    public virtual DbSet<Puesto> Puestos { get; set; }
+    public virtual DbSet<Turno> Turnos { get; set; }
+    public virtual DbSet<Staff> Staff { get; set; }
 
     /// <summary>
     /// Modelado code-first de la base de datos relacional.
@@ -251,7 +254,64 @@ public partial class TacosdbContext : DbContext
                 .HasConstraintName("resenas_ibfk_1");
         });
 
-        this.OnModelCreatingPartial(modelBuilder);
+        modelBuilder.Entity<Staff>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("staff");
+
+            entity.HasIndex(e => e.IdPersona, "idPersona");
+            entity.HasIndex(e => e.IdPuesto, "idPuesto");
+            entity.HasIndex(e => e.IdTurno, "idTurno");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Contrasena)
+                .HasMaxLength(255)
+                .HasColumnName("contrasena");
+            entity.Property(e => e.IdPersona).HasColumnName("idPersona");
+            entity.Property(e => e.IdPuesto).HasColumnName("idPuesto");
+            entity.Property(e => e.IdTurno).HasColumnName("idTurno");
+
+            entity.HasOne(d => d.Persona).WithMany(p => p.Staff)
+                .HasForeignKey(d => d.IdPersona)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("staff_ibfk_1");
+            entity.HasOne(d => d.Puesto).WithMany(p => p.Staff)
+                .HasForeignKey(d => d.IdPuesto)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("staff_ibfk_2");
+            entity.HasOne(d => d.Turno).WithMany(p => p.Staff)
+            .HasForeignKey(d => d.IdTurno)
+            .OnDelete(DeleteBehavior.ClientSetNull)
+            .HasConstraintName("staff_ibfk_3");
+        });
+
+        modelBuilder.Entity<Puesto>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("puestos");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Cargo).HasColumnName("cargo");
+           
+        });
+
+        modelBuilder.Entity<Turno>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("turnos");
+
+            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Tipo).HasColumnName("tipo");
+            entity.Property(e => e.HoraInicio).HasColumnName("horaInicio");
+            entity.Property(e => e.HoraFin).HasColumnName("horaFin");
+
+        });
+
+
+        OnModelCreatingPartial(modelBuilder);
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
