@@ -1,8 +1,9 @@
 ﻿namespace TACOS.Modelos;
 using FluentValidation;
 using System.Text.RegularExpressions;
+using TACOS.Modelos.Interfaces;
 
-public class MiembroValidador : AbstractValidator<Miembro>
+public class MiembroValidador : AbstractValidator<IAsociado>
 {
     public MiembroValidador()
     {
@@ -19,28 +20,28 @@ public class MiembroValidador : AbstractValidator<Miembro>
            +"*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$"
         );
         Regex regexTelefono = new Regex(@"^(\d{3}[- ]?){2}\d{4}$");
-        RuleFor(miembro => miembro.Persona.Email)
+        RuleFor(IAsociado => IAsociado.Persona.Email)
             .NotEmpty().WithMessage(obligatorio)
             .Matches(regexEmail)
                 .WithMessage(formatoEmail);
-        RuleFor(miembro => miembro.Contrasena)
+        RuleFor(IAsociado => IAsociado.Contrasena)
             .NotEmpty().WithMessage(obligatorio)
             .Matches(regexContrasena)
                 .WithMessage(formatoContrasena);
-        RuleFor(miembro => miembro.Persona.Nombre)
+        RuleFor(IAsociado => IAsociado.Persona.Nombre)
             .NotEmpty().WithMessage(obligatorio)
             .Matches(regexAlfanumerico)
                 .WithMessage(alfanumerico);
-        RuleFor(miembro => miembro.Persona.ApellidoPaterno)
+        RuleFor(IAsociado => IAsociado.Persona.ApellidoPaterno)
             .NotEmpty().WithMessage(obligatorio)
             .Matches(regexAlfanumerico)
                 .WithMessage(alfanumerico);
-        RuleFor(miembro => miembro.Persona.ApellidoMaterno)
+        RuleFor(IAsociado => IAsociado.Persona.ApellidoMaterno)
             .NotEmpty().WithMessage(obligatorio)
             .Matches(regexAlfanumerico).WithMessage(alfanumerico);
-        RuleFor(miembro => miembro.Persona.Direccion)
+        RuleFor(IAsociado => IAsociado.Persona.Direccion)
             .NotEmpty().WithMessage(obligatorio);
-        RuleFor(miembro => miembro.Persona.Telefono)
+        RuleFor(IAsociado => IAsociado.Persona.Telefono)
             .NotEmpty().WithMessage(obligatorio)
             .Matches(regexTelefono)
                 .WithMessage(formatoTelefono);

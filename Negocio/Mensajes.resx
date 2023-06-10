@@ -129,6 +129,12 @@
   <data name="ActualizarPedido_422" xml:space="preserve">
     <value>El pedido solicitado pertenece a un miembro distinto.</value>
   </data>
+  <data name="BorrarResena_400" xml:space="preserve">
+    <value>Se requiere un ID de reseña válido para eliminar el registro.</value>
+  </data>
+  <data name="BorrarResena_404" xml:space="preserve">
+    <value>Ningun registro coincide con la reseña que desea eliminar.</value>
+  </data>
   <data name="ConfirmarRegistro_401" xml:space="preserve">
     <value>El código es incorrecto.</value>
   </data>
@@ -136,7 +142,7 @@
     <value>No se encontró el miembro solicitado.</value>
   </data>
   <data name="ErrorInterno" xml:space="preserve">
-    <value>Error en el servidor.</value>
+    <value>Error de servidor, intente de nuevo más tarde.</value>
   </data>
   <data name="IniciarSesion_400" xml:space="preserve">
     <value>Todos los campos son obligatorios.</value>
@@ -149,6 +155,9 @@
   </data>
   <data name="OperacionExitosa" xml:space="preserve">
     <value>Operación exitosa.</value>
+  </data>
+  <data name="RegistrarEmpleadoStaff_422" xml:space="preserve">
+    <value>El nombre y/o email que desea registrar ya existe en el sistema.</value>
   </data>
   <data name="RegistrarMiembro_422" xml:space="preserve">
     <value>Ya existe una cuenta con este email.</value>

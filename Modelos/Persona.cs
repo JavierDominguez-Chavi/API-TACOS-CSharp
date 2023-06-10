@@ -23,6 +23,9 @@ public partial class Persona : ICloneable
     [JsonIgnore]
     public virtual ICollection<Miembro> Miembros { get; set; } = new List<Miembro>();
 
+    [JsonIgnore]
+    public virtual ICollection<Staff> Staff { get; set; } = new List<Staff>();
+
     public object Clone()
     {
         return this.MemberwiseClone();

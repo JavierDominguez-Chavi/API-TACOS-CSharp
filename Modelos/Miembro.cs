@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using TACOS.Modelos.Interfaces;
 
 namespace TACOS.Modelos;
 
-public partial class Miembro
+public partial class Miembro : IAsociado
 {
     public int Id { get; set; }
 

@@ -79,6 +79,45 @@
         "DownstreamPathTemplate": "/Resenas"
     },
     {
+        "UpstreamPathTemplate": "/Staff",
+        "UpstreamHttpMethod": [ "POST" ],
+        "UpstreamScheme": "http",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5087
+            }
+        ],
+        "DownstreamPathTemplate": "/Staff"
+    },
+    {
+        "UpstreamPathTemplate": "/Puestos",
+        "UpstreamHttpMethod": [ "GET" ],
+        "UpstreamScheme": "http",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5087
+            }
+        ],
+        "DownstreamPathTemplate": "/Puestos"
+    },
+    {
+        "UpstreamPathTemplate": "/Turnos",
+        "UpstreamHttpMethod": [ "GET" ],
+        "UpstreamScheme": "http",
+        "DownstreamScheme": "http",
+        "DownstreamHostAndPorts": [
+            {
+                "Host": "localhost",
+                "Port": 5087
+            }
+        ],
+        "DownstreamPathTemplate": "/Turnos"
+    },
+    {
       "UpstreamPathTemplate": "/Menu",
       "UpstreamHttpMethod": [ "GET", "PATCH" ],
       "UpstreamScheme": "http",
