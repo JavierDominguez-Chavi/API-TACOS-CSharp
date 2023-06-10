@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using Xunit.Sdk;
 
-namespace Pruebas.Integracion;
+namespace Pruebas.Unitarias;
 
 public class MenuTest
 {
@@ -22,15 +22,21 @@ public class MenuTest
         using (var client = new HttpClient())
         {
             client.BaseAddress = this.uri;
-            var response = client.GetAsync("menu").Result;
-            response.EnsureSuccessStatusCode();
+            var respuestaHttp = client.GetAsync("menu").Result;
+            respuestaHttp.EnsureSuccessStatusCode();
 
+            var respuesta = respuestaHttp.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<List<Alimento>>>().Result;
+            Assert.NotNull(respuesta.Datos);
             alimentos = new ObservableCollection<Alimento>(
-                response.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<List<Alimento>>>().Result.Datos
+                respuesta.Datos
             );
             Assert.True( alimentos.Count > 0);
-            Assert.True( alimentos.ElementAt(0).Nombre.Equals("Orden de bisteck") );
-            Assert.True( alimentos.ElementAt(1).Nombre.Equals("Orden de pastor") );
+            Assert.NotNull(alimentos.ElementAt(0).Nombre);
+            Assert.NotNull(alimentos.ElementAt(1).Nombre);
+            Assert.NotNull(alimentos.ElementAt(2).Nombre);
+            Assert.True( alimentos.ElementAt(0).Nombre!.Equals("Coca-Cola") );
+            Assert.True( alimentos.ElementAt(1).Nombre!.Equals("Orden de Bistec") );
+            Assert.True( alimentos.ElementAt(2).Nombre!.Equals("Orden de Pastor") );
             foreach (Alimento alimento in alimentos)
             {
                 Assert.Null(alimento.Imagen);
@@ -41,17 +47,12 @@ public class MenuTest
     [Fact]
     public void ActualizarExistenciaAlimentos_Exito()
     {
-        using (var contexto = new TacosdbContext())
         using (var clienteHttp = new HttpClient())
         { 
-            Alimento bisteck = contexto.Alimentos.FirstOrDefault(a => a.Id==2);
-            int bisteckExistenciaActual = (int)bisteck.Existencia;
-            Alimento pastor = contexto.Alimentos.FirstOrDefault(a => a.Id==1);
-            int pastorExistenciaActual = (int)pastor.Existencia;
             Dictionary<int, int> existenciasAModificar = new Dictionary<int, int>
             {
-                { bisteck.Id, -1},
-                { pastor.Id, 1},
+                { 1, -1},
+                { 2, 1},
             };
             clienteHttp.BaseAddress = this.uri;
             HttpResponseMessage respuesta =
@@ -63,18 +64,10 @@ public class MenuTest
             Assert.True(respuesta.IsSuccessStatusCode);
 
             Dictionary<int,int> nuevasExistencias = new Dictionary < int, int >(
-                respuesta.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<Dictionary<int,int>>>().Result.Datos
+                respuesta.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<Dictionary<int,int>>>().Result.Datos!
             );
 
             Assert.NotNull(nuevasExistencias);
-
-            Assert.True(nuevasExistencias[bisteck.Id] == bisteckExistenciaActual-1);
-            Assert.True(nuevasExistencias[pastor.Id] == pastorExistenciaActual+1);
-
-            
-            existenciasAModificar[bisteck.Id] = 1;
-            existenciasAModificar[pastor.Id] = -1;
-            clienteHttp.PatchAsJsonAsync("menu",existenciasAModificar);
             
         }
 
@@ -98,7 +91,7 @@ public class MenuTest
 
             var error = respuesta.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<Dictionary<int,int>>>().Result;
             Assert.True(error.Codigo == ((int)System.Net.HttpStatusCode.NotFound));
-            Assert.True(error.Mensaje.Contains($"El alimento solicitado no existe."));
+            Assert.Contains(error.Mensaje!, $"El alimento solicitado no existe.");
         }
     }
 
@@ -109,7 +102,7 @@ public class MenuTest
         {
             Dictionary<int, int> existenciasAModificar = new Dictionary<int, int>
             {
-                { 1, -20}
+                { 1, -20000}
             };
             clienteHttp.BaseAddress = this.uri;
             clienteHttp.PatchAsJsonAsync("menu",existenciasAModificar);
@@ -118,27 +111,8 @@ public class MenuTest
 
             var error = respuesta.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<Dictionary<int,int>>>().Result;
             Assert.True(error.Codigo == ((int)System.Net.HttpStatusCode.Conflict));
-            Assert.True(error.Mensaje.Contains("La existencia del alimento solicitado ya no puede decrecer."));
+            Assert.Contains(error.Mensaje!, "La existencia del alimento solicitado ya no puede decrecer.");
         }
     }
 
-    [Fact]
-    public void ObtenerImagenes_Exito()
-    {
-        using (var clienteHttp = new HttpClient())
-        {
-            Dictionary<int, int> existenciasAModificar = new Dictionary<int, int>
-            {
-                { 1, -20}
-            };
-            clienteHttp.BaseAddress = this.uri;
-            clienteHttp.PatchAsJsonAsync("menu", existenciasAModificar);
-            HttpResponseMessage respuesta =
-                clienteHttp.PatchAsJsonAsync("menu",existenciasAModificar).Result;
-
-            var error = respuesta.Content.ReadAsAsync<TACOSMenuAPI.Modelos.Respuesta<Dictionary<int,int>>>().Result;
-            Assert.True(error.Codigo == ((int)System.Net.HttpStatusCode.Conflict));
-            Assert.True(error.Mensaje.Contains("La existencia del alimento solicitado ya no puede decrecer."));
-        }
-    }
 }

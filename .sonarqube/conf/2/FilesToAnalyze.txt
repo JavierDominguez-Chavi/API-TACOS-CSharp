@@ -1,0 +1,9 @@
+﻿C:\Users\52228\source\repos\API-TACOS-CSharp\TACOSGateway\Program.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\TACOSGateway\obj\Debug\net7.0\TACOSGateway.GlobalUsings.g.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\TACOSGateway\obj\Debug\net7.0\.NETCoreApp,Version=v7.0.AssemblyAttributes.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\TACOSGateway\obj\Debug\net7.0\TACOSGateway.AssemblyInfo.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\TACOSGateway\obj\Debug\net7.0\TACOSGateway.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp\TACOSGateway\appsettings.Development.json
+C:\Users\52228\source\repos\API-TACOS-CSharp\TACOSGateway\appsettings.json
+C:\Users\52228\source\repos\API-TACOS-CSharp\TACOSGateway\Ocelot.json
+C:\Users\52228\source\repos\API-TACOS-CSharp\TACOSGateway\Properties\launchSettings.json

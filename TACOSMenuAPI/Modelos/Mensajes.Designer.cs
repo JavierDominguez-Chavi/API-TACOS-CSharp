@@ -61,6 +61,15 @@ namespace TACOSMenuAPI.Modelos {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to La petición contiene alimentos que no fueron encontrados en la base de datos..
+        /// </summary>
+        public static string ActualizarAlimento_Parcial {
+            get {
+                return ResourceManager.GetString("ActualizarAlimento_Parcial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to El alimento solicitado no existe..
         /// </summary>
         public static string ActualizarExistenciaAlimentos_404 {

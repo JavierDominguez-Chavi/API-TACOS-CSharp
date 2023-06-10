@@ -12,7 +12,7 @@ using TACOS.Modelos;
 using FluentAssertions;
 using TACOS.Negocio.PeticionesRespuestas;
 
-namespace Pruebas.Integracion;
+namespace Pruebas.Unitarias;
 
 public class MiembroTest
 {
@@ -20,7 +20,7 @@ public class MiembroTest
     private Miembro miembroPrueba = new Miembro()
     {
         Id= 0,
-        Contrasena="PRUEBA",
+        Contrasena="PRUEBAasdf1234",
         PedidosPagados=0,
         IdPersona=0,
         CodigoConfirmacion=0,
@@ -31,15 +31,14 @@ public class MiembroTest
             ApellidoPaterno="PRUEBA",
             ApellidoMaterno="PRUEBA",
             Direccion="PRUEBA",
-            Email="vitocfdz@proton.me",
-            Telefono="123"
+            Email="vitfdsocfdz@proton.me",
+            Telefono="2288182324"
         }
     };
 
     [Fact]
     public void RegistrarMiembro_Exito()
     {
-        using (var contexto = new TacosdbContext())
         using (var clienteHttp = new HttpClient())
         {
             clienteHttp.BaseAddress = this.uri;
@@ -52,7 +51,7 @@ public class MiembroTest
             Assert.NotNull(respuesta);
             Assert.True(respuesta.IsSuccessStatusCode);
 
-            Miembro miembroObtenido = respuesta.Content.ReadAsAsync<Respuesta<Miembro>>().Result.Datos;
+            Miembro miembroObtenido = respuesta.Content.ReadAsAsync<Respuesta<Miembro>>().Result.Datos!;
 
             Assert.NotNull(miembroObtenido);
             Assert.NotNull(miembroObtenido.Persona);
@@ -72,10 +71,6 @@ public class MiembroTest
             Assert.False(String.IsNullOrWhiteSpace(miembroObtenido.Contrasena));
             Assert.NotEqual(miembroObtenido.Contrasena, this.miembroPrueba.Contrasena);
             Assert.Equal(miembroObtenido.IdPersona, miembroObtenido.Persona!.Id);
-
-            contexto.Miembros.Remove(miembroObtenido);
-            contexto.Personas.Remove(miembroObtenido.Persona);
-            contexto.SaveChanges();
         }
     }
 
@@ -106,49 +101,37 @@ public class MiembroTest
     [Fact]
     public void ConfirmarRegistro_Exito()
     {
-        using (var contexto = new TacosdbContext())
         using (var clienteHttp = new HttpClient())
         {
             clienteHttp.BaseAddress = this.uri;
             HttpResponseMessage respuestaRegistro =
                 clienteHttp.PostAsJsonAsync("miembro",this.miembroPrueba).Result;
-            Miembro miembroRegistrado = respuestaRegistro.Content
-                                                         .ReadAsAsync<Respuesta<Miembro>>()
-                                                         .Result
-                                                         .Datos;
+            Miembro miembroRegistrado = 
+                respuestaRegistro.Content.ReadAsAsync<Respuesta<Miembro>>().Result.Datos!;
             HttpResponseMessage respuestaConfirmacion =
                 clienteHttp.PutAsJsonAsync("miembro",miembroRegistrado).Result;
 
             Assert.NotNull(respuestaConfirmacion);
             Assert.True(respuestaConfirmacion.IsSuccessStatusCode);
 
-            Miembro miembroConfirmado = respuestaConfirmacion.Content
-                                                             .ReadAsAsync<Respuesta<Miembro>>()
-                                                             .Result
-                                                             .Datos;
+            Miembro miembroConfirmado = 
+                respuestaConfirmacion.Content.ReadAsAsync<Respuesta<Miembro>>().Result.Datos!;
             Assert.NotNull(miembroConfirmado);
             Assert.True(miembroConfirmado.CodigoConfirmacion==0);
             Assert.NotEqual(miembroRegistrado.CodigoConfirmacion, miembroConfirmado.CodigoConfirmacion);
-
-            contexto.Miembros.Remove(miembroConfirmado);
-            contexto.Personas.Remove(miembroConfirmado.Persona!);
-            contexto.SaveChanges();
         }
     }
 
     [Fact]
     public void ConfirmarRegistro_Fallo_IdMiembroIncorrecto()
     {
-        using (var contexto = new TacosdbContext())
         using (var clienteHttp = new HttpClient())
         {
             clienteHttp.BaseAddress = this.uri;
             HttpResponseMessage respuestaRegistro =
                 clienteHttp.PostAsJsonAsync("miembro",this.miembroPrueba).Result;
-            Miembro miembroRegistrado = respuestaRegistro.Content
-                                                         .ReadAsAsync<Respuesta<Miembro>>()
-                                                         .Result
-                                                         .Datos;
+            Miembro miembroRegistrado = 
+                respuestaRegistro.Content.ReadAsAsync<Respuesta<Miembro>>().Result.Datos!;
             int idOriginal = miembroRegistrado.Id;
             miembroRegistrado.Id = 654654654;
 
@@ -164,26 +147,20 @@ public class MiembroTest
             Assert.Equal("No se encontró el miembro solicitado.", error.Mensaje);
 
             miembroRegistrado.Id = idOriginal;
-            contexto.Miembros.Remove(miembroRegistrado);
-            contexto.Personas.Remove(miembroRegistrado.Persona!);
-            contexto.SaveChanges();
         }
     }
 
     [Fact]
     public void ConfirmarRegistro_Fallo_CodigoIncorrecto()
     {
-        using (var contexto = new TacosdbContext())
         using (var clienteHttp = new HttpClient())
         {
             clienteHttp.BaseAddress = this.uri;
             HttpResponseMessage respuestaRegistro =
                 clienteHttp.PostAsJsonAsync("miembro",this.miembroPrueba).Result;
-            Miembro miembroRegistrado = respuestaRegistro.Content
-                                                         .ReadAsAsync<Respuesta<Miembro>>()
-                                                         .Result
-                                                         .Datos;
-            int codigoOriginal = (int)miembroRegistrado.CodigoConfirmacion;
+            Miembro miembroRegistrado = 
+                respuestaRegistro.Content.ReadAsAsync<Respuesta<Miembro>>().Result.Datos!;
+            int codigoOriginal = (int)miembroRegistrado.CodigoConfirmacion!;
             miembroRegistrado.CodigoConfirmacion = -1;
 
             HttpResponseMessage respuestaConfirmacion =
@@ -198,9 +175,6 @@ public class MiembroTest
             Assert.Equal("El código es incorrecto.", error.Mensaje);
 
             miembroRegistrado.CodigoConfirmacion = codigoOriginal;
-            contexto.Miembros.Remove(miembroRegistrado);
-            contexto.Personas.Remove(miembroRegistrado.Persona!);
-            contexto.SaveChanges();
         }
     }
 }

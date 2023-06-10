@@ -119,7 +119,7 @@
     },
     {
       "UpstreamPathTemplate": "/Menu",
-      "UpstreamHttpMethod": [ "GET", "PATCH" ],
+      "UpstreamHttpMethod": [ "GET", "PATCH", "PUT" ],
       "UpstreamScheme": "http",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [

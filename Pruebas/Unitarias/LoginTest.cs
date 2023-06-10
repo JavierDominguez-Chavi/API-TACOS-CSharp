@@ -12,7 +12,7 @@ using System.Runtime.CompilerServices;
 using TACOS.Modelos;
 using TACOS.Negocio.PeticionesRespuestas;
 
-namespace Pruebas.Integracion;
+namespace Pruebas.Unitarias;
 
 public class LoginTest
 {
@@ -52,7 +52,7 @@ public class LoginTest
             Assert.True(respuesta.IsSuccessStatusCode);
             credencialesObtenidas = respuesta.Content.ReadAsAsync<RespuestaCredenciales>().Result;
             Assert.NotNull(credencialesObtenidas);
-            Assert.Equivalent(miembroEsperado, credencialesObtenidas.Miembro);
+            Assert.Equivalent(this.miembroEsperado, credencialesObtenidas.Miembro);
         }
     }
 
@@ -69,8 +69,9 @@ public class LoginTest
                     ).Result;
             Assert.NotNull(respuesta);
             Assert.False(respuesta.IsSuccessStatusCode);
-            Assert.Equal(respuesta.StatusCode, System.Net.HttpStatusCode.Unauthorized);
+            Assert.Equal(System.Net.HttpStatusCode.Unauthorized, respuesta.StatusCode);
             var error = respuesta.Content.ReadAsAsync<RespuestaCredenciales>().Result;
+            Assert.NotNull(error.Mensaje);
             Assert.True(error.Mensaje.Equals("No se encontró ninguna cuenta con ese email y/o contraseña."));
         }
     }
@@ -88,8 +89,9 @@ public class LoginTest
                     ).Result;
             Assert.NotNull(respuesta);
             Assert.False(respuesta.IsSuccessStatusCode);
-            Assert.Equal(respuesta.StatusCode, System.Net.HttpStatusCode.Unauthorized);
+            Assert.Equal(System.Net.HttpStatusCode.Unauthorized, respuesta.StatusCode);
             var error = respuesta.Content.ReadAsAsync<RespuestaCredenciales>().Result;
+            Assert.NotNull (error.Mensaje);
             Assert.True(error.Mensaje.Equals("No se encontró ninguna cuenta con ese email y/o contraseña."));
         }
     }
@@ -107,8 +109,9 @@ public class LoginTest
                     ).Result;
             Assert.NotNull(respuesta);
             Assert.False(respuesta.IsSuccessStatusCode);
-            Assert.Equal(respuesta.StatusCode, System.Net.HttpStatusCode.Unauthorized);
+            Assert.Equal(System.Net.HttpStatusCode.Unauthorized, respuesta.StatusCode);
             var error = respuesta.Content.ReadAsAsync<RespuestaCredenciales>().Result;
+            Assert.NotNull(error.Mensaje);
             Assert.True(error.Mensaje.Equals("No se encontró ninguna cuenta con ese email y/o contraseña."));
         }
     }
@@ -126,8 +129,9 @@ public class LoginTest
                     ).Result;
             Assert.NotNull(respuesta);
             Assert.False(respuesta.IsSuccessStatusCode);
-            Assert.Equal(respuesta.StatusCode, System.Net.HttpStatusCode.BadRequest);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, respuesta.StatusCode);
             var error = respuesta.Content.ReadAsAsync<RespuestaCredenciales>().Result;
+            Assert.NotNull(error.Mensaje);
             Assert.True(error.Mensaje.Equals("Todos los campos son obligatorios."));
         }
     }
@@ -145,8 +149,9 @@ public class LoginTest
                     ).Result;
             Assert.NotNull(respuesta);
             Assert.False(respuesta.IsSuccessStatusCode);
-            Assert.Equal(respuesta.StatusCode, System.Net.HttpStatusCode.BadRequest);
+            Assert.Equal(System.Net.HttpStatusCode.BadRequest, respuesta.StatusCode);
             var error = respuesta.Content.ReadAsAsync<RespuestaCredenciales>().Result;
+            Assert.NotNull(error.Mensaje);
             Assert.True(error.Mensaje.Equals("Todos los campos son obligatorios."));
         }
     }

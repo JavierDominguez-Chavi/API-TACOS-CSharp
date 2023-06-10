@@ -1,24 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using TACOS.Modelos;
 using TACOS.Negocio;
 using TACOS.Negocio.Interfaces;
 
 namespace TACOS.Controladores.personas
 {
+    /// <summary>
+    /// Controlador para el manejo de reseñas.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class ResenasController
     {
         private readonly ILogger<MiembroController> logger;
-        private IConsultanteMgt _consultanteMgr;
+        private IConsultanteMgt consultanteMgr;
 
+        /// <summary>
+        /// Constructor del controlador.
+        /// </summary>
+        /// <param name="logger">Inyectado por dependencias.</param>
+        /// <param name="consultanteMgr">Componente para operaciones con personas. Inyectado por dependencias.</param>
         public ResenasController(ILogger<MiembroController> logger,
                                   IConsultanteMgt consultanteMgr)
         {
             this.logger = logger;
-            _consultanteMgr = consultanteMgr;
+            this.consultanteMgr = consultanteMgr;
         }
 
 
@@ -42,7 +48,7 @@ namespace TACOS.Controladores.personas
         {
             try
             {
-                return new JsonResult(_consultanteMgr.ObtenerResenas()) { StatusCode = 202 };
+                return new JsonResult(this.consultanteMgr.ObtenerResenas()) { StatusCode = 202 };
             }
             catch (HttpRequestException httpRequestException)
             {
@@ -54,8 +60,6 @@ namespace TACOS.Controladores.personas
                 { StatusCode = Int32.Parse(httpRequestException.Message) };
             }
         }
-
-
 
         /// <summary>
         /// BorrarResena(int idResena). Borra una reseña seleccionada mediante su Id.
@@ -82,7 +86,7 @@ namespace TACOS.Controladores.personas
         {
             try
             {
-                _consultanteMgr.BorrarResena(idResena);
+                this.consultanteMgr.BorrarResena(idResena);
                 return new NoContentResult();
             }
             catch (HttpRequestException httpRequestException)
