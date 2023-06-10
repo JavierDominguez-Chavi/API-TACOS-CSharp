@@ -26,7 +26,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddDbContext<TacosdbContext>(options =>
                 options.UseMySql(
-                    "server=localhost;database=tacosdb;uid=tacosUser;pwd=T4C05",
+                    builder.Configuration.GetConnectionString("tacosdb"),
                     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.25-mysql"
                 )));
 builder.Services.AddScoped<IMenuMgt, MenuMgr>();

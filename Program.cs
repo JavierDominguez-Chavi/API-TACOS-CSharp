@@ -9,13 +9,11 @@ using Microsoft.AspNetCore.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddJwtAuthentication();
 builder.Services.AddControllers()
                 .AddJsonOptions(x =>
                      x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve); ;
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -25,16 +23,16 @@ builder.Services.AddSwaggerGen(c =>
     
 });
 
+
 builder.Services.AddDbContext<TacosdbContext>(options =>
                 options.UseMySql(
-                    "server=localhost;database=tacosdb;uid=tacosUser;pwd=T4C05",
+                    builder.Configuration.GetConnectionString("tacosdb"),
                     Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.25-mysql"
                 )));
 builder.Services.AddScoped<IConsultanteMgt, ConsultanteMgr>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

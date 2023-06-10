@@ -26,10 +26,10 @@ public class PedidoTest
         Estado = 1,
     };
 
+
     [Fact]
     public void RegistrarPedido_Exito()
     {
-        using (var contexto = new TacosdbContext())
         using (var cliente = new HttpClient())
         {
             this.pedidoPrueba.Alimentospedidos =
@@ -50,13 +50,6 @@ public class PedidoTest
             Assert.NotNull(pedidoRegistrado);
             Assert.True(pedidoRegistrado.Id > 0);
             Assert.True(pedidoRegistrado.Alimentospedidos.Count == 2);
-
-            foreach (Alimentospedido alimento in pedidoRegistrado.Alimentospedidos)
-            {
-                contexto.Alimentospedidos.Remove(alimento);
-            }
-            contexto.Pedidos.Remove(pedidoRegistrado);
-            Assert.True(contexto.SaveChanges() > 0);
         }
     }
 
@@ -123,7 +116,7 @@ public class PedidoTest
             cliente.BaseAddress = this.uri;
             cliente.DefaultRequestHeaders.Authorization = ObtenerAutenticacion();
             HttpResponseMessage respuestaPedido =
-                cliente.PostAsJsonAsync("pedidos",pedidoPrueba).Result;
+                cliente.PostAsJsonAsync("pedidos",this.pedidoPrueba).Result;
 
             Assert.NotNull(respuestaPedido);
             Assert.False(respuestaPedido.IsSuccessStatusCode);

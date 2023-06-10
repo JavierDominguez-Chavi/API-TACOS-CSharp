@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using TACOS.Modelos;
 using TACOS.Negocio;
 using TACOS.Negocio.Interfaces;
@@ -15,7 +13,7 @@ namespace TACOS.Controladores.personas
     public class ResenasController
     {
         private readonly ILogger<MiembroController> logger;
-        private IConsultanteMgt _consultanteMgr;
+        private IConsultanteMgt consultanteMgr;
 
         /// <summary>
         /// Constructor del controlador.
@@ -26,7 +24,7 @@ namespace TACOS.Controladores.personas
                                   IConsultanteMgt consultanteMgr)
         {
             this.logger = logger;
-            this._consultanteMgr = consultanteMgr;
+            this.consultanteMgr = consultanteMgr;
         }
 
 
@@ -50,7 +48,7 @@ namespace TACOS.Controladores.personas
         {
             try
             {
-                return new JsonResult(_consultanteMgr.ObtenerResenas()) { StatusCode = 202 };
+                return new JsonResult(this.consultanteMgr.ObtenerResenas()) { StatusCode = 202 };
             }
             catch (HttpRequestException httpRequestException)
             {
@@ -94,7 +92,7 @@ namespace TACOS.Controladores.personas
         {
             try
             {
-                _consultanteMgr.BorrarResena(idResena);
+                this.consultanteMgr.BorrarResena(idResena);
                 return new NoContentResult();
             }
             catch (HttpRequestException httpRequestException)

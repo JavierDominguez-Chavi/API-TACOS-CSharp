@@ -15,11 +15,14 @@ using Microsoft.EntityFrameworkCore;
 /// </summary>
 public class MenuMgr : ManagerBase, IMenuMgt
 {
+    /// <summary></summary>
     public MenuMgr(TacosdbContext tacosdbContext) : base(tacosdbContext)
     {
     }
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public Respuesta<Dictionary<int,int>> ActualizarExistenciaAlimentos
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         ([FromBody] Dictionary<int,int> idAlimentos_Cantidades)
     {
         int cantidadAlimentos = idAlimentos_Cantidades.Count;
@@ -54,12 +57,13 @@ public class MenuMgr : ManagerBase, IMenuMgt
         Dictionary<int,int> nuevasExistencias = new Dictionary<int, int>();
         foreach (Alimento alimento in alimentos)
         {
-            nuevasExistencias.Add(alimento.Id, (int)alimento.Existencia);
+            nuevasExistencias.Add(alimento.Id, (int)alimento.Existencia!);
         }
         return new Respuesta<Dictionary<int, int>>
             { Codigo = 200, Mensaje = Mensajes.Exito, Datos = nuevasExistencias };
     }
 
+    #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public Respuesta<List<AlimentoActualizar>> ActualizarAlimentos(List<AlimentoActualizar> alimentos)
     {
         List<AlimentoActualizar> alimentosModificados = new List<AlimentoActualizar>();

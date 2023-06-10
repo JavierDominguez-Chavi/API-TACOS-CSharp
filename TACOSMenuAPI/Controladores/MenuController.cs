@@ -49,7 +49,7 @@
         {
             try
             {
-                return new JsonResult(menuMgr.ObtenerAlimentosSinImagenes()) { StatusCode = 200 };
+                return new JsonResult(this.menuMgr.ObtenerAlimentosSinImagenes()) { StatusCode = 200 };
             }
             catch (Exception)
             {

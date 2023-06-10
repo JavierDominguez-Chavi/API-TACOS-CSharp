@@ -12,23 +12,21 @@ using TACOS.Negocio.PeticionesRespuestas;
 /// </summary>
 public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="tacosdbContext"></param>
+    #pragma warning disable CS1591
     public ConsultanteMgr(TacosdbContext tacosdbContext) : base(tacosdbContext)
     {
     }
 
+    #pragma warning disable CS1591
     public RespuestaCredenciales IniciarSesion(Credenciales credenciales)
     {
-        string contrasena = credenciales.Contrasena;
         if (credenciales is null
             || String.IsNullOrWhiteSpace(credenciales.Email)
-            || String.IsNullOrWhiteSpace(contrasena))
+            || String.IsNullOrWhiteSpace(credenciales.Contrasena))
         {
             return new RespuestaCredenciales { Codigo = 400,Mensaje = Mensajes.IniciarSesion_400};
         }
+        string contrasena = credenciales.Contrasena!;
 
         Persona? personaEncontrada =
             this.tacosdbContext.Personas.FirstOrDefault(p => p.Email!.Equals(credenciales.Email));
@@ -81,8 +79,8 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         {
             int columnasAfectadas = this.tacosdbContext.SaveChanges();
             confirmacion =
-                (this.AsignarCodigoConfirmacion(miembro.Persona!)
-                && columnasAfectadas > 0);
+                this.AsignarCodigoConfirmacion(miembro.Persona!)
+                && columnasAfectadas > 0;
         }
         catch (DbUpdateException)
         {
@@ -262,15 +260,15 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         List<Resena> resenasObtenidas = new List<Resena>();
         foreach (Resena resena in resenas)
         {
-            var idPersona = (from Miembro in tacosdbContext.Miembros
+            var idPersona = (from Miembro in this.tacosdbContext.Miembros
                                        where Miembro.Id == resena.IdMiembro
                                        select Miembro.IdPersona).FirstOrDefault();
             var miembro = resena.Miembro;
             miembro.IdPersona = idPersona;
             resena.Miembro = miembro;
             var persona =
-                   (from Persona in tacosdbContext.Personas
-                    join Miembro in tacosdbContext.Miembros
+                   (from Persona in this.tacosdbContext.Personas
+                    join Miembro in this.tacosdbContext.Miembros
                     on Persona.Id equals Miembro.IdPersona
                     where Miembro.Id == resena.IdMiembro
                     select Persona).ToList();

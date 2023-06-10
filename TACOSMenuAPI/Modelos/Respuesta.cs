@@ -4,7 +4,7 @@
 /// <summary>
 /// Estructura para responder a los clientes.
 /// </summary>
-/// <typeparam name="T">Tipo del cuerpo de la Respuesta; Respuesta<Alimento></typeparam>
+/// <typeparam name="T">Tipo del cuerpo de la Respuesta</typeparam>
 public class Respuesta<T>
 {
     /// <summary>
