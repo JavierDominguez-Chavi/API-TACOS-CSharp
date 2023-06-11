@@ -19,21 +19,28 @@ public class LoginTest
     private Uri uri = new Uri("http://localhost:5174");
     private Miembro miembroEsperado = new Miembro()
     {
-        Id= 61,
-        Contrasena="$2a$11$mNY8fms2cPVBvw32T2eYbeTkel4N28C9B45GYlH509SuA/gxHwcY2",
-        PedidosPagados=0,
-        IdPersona=105,
+        Id= 51,
+        Contrasena="$2a$11$uuoruMSUPg6k3p7afix30ub2aJuIndaQMvOdQD8rXYaZ2B1xv9vuK",
+        PedidosPagados=69,
+        IdPersona=117,
         CodigoConfirmacion=0,
         Persona=new Persona()
         {
-            Id=105,
-            Nombre="hjg",
-            ApellidoPaterno="jhg",
-            ApellidoMaterno="jhg",
-            Direccion="jh",
-            Email="maledict@proton.me",
-            Telefono="gjhg"
+            Id=117,
+            Nombre="Ricardo",
+            ApellidoPaterno="Restrepo",
+            ApellidoMaterno="Salazar",
+            Direccion="calle Pintores #56 Col.Del Rio",
+            Email="admin",
+            Telefono="2266787890"
         }
+    };
+
+    private Credenciales credenciales = new Credenciales
+    {
+        Email = "admin",
+        Contrasena = "ASDFasdf1234",
+        EsStaff = false
     };
 
     [Fact]
@@ -46,7 +53,7 @@ public class LoginTest
             HttpResponseMessage respuesta =
                     clienteHttp.PostAsJsonAsync(
                         "Login",
-                        new { Email = "maledict@proton.me", Contrasena = "asdf"}
+                        this.credenciales
                     ).Result;
             Assert.NotNull(respuesta);
             Assert.True(respuesta.IsSuccessStatusCode);
@@ -59,13 +66,14 @@ public class LoginTest
     [Fact]
     public void IniciarSesion_Fallo_Email()
     {
+        this.credenciales.Email="1234";
         using (var clienteHttp = new HttpClient())
         {
             clienteHttp.BaseAddress = this.uri;
             HttpResponseMessage respuesta =
                     clienteHttp.PostAsJsonAsync(
                         "Login",
-                        new { Email = "1234", Contrasena = "asdf"}
+                        this.credenciales
                     ).Result;
             Assert.NotNull(respuesta);
             Assert.False(respuesta.IsSuccessStatusCode);
@@ -79,13 +87,14 @@ public class LoginTest
     [Fact]
     public void IniciarSesion_Fallo_Contrasena()
     {
+        this.credenciales.Contrasena="1234";
         using (var clienteHttp = new HttpClient())
         {
             clienteHttp.BaseAddress = this.uri;
             HttpResponseMessage respuesta =
                     clienteHttp.PostAsJsonAsync(
                         "Login",
-                        new { Email = "maledict@proton.me", Contrasena = "1234"}
+                        this.credenciales
                     ).Result;
             Assert.NotNull(respuesta);
             Assert.False(respuesta.IsSuccessStatusCode);
@@ -99,6 +108,9 @@ public class LoginTest
     [Fact]
     public void IniciarSesion_Fallo_EmailContrasena()
     {
+        this.credenciales.Email="oisduyf98";
+        this.credenciales.Contrasena="6847468749877";
+
         using (var clienteHttp = new HttpClient())
         {
             clienteHttp.BaseAddress = this.uri;

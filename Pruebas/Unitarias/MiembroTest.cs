@@ -31,10 +31,19 @@ public class MiembroTest
             ApellidoPaterno="PRUEBA",
             ApellidoMaterno="PRUEBA",
             Direccion="PRUEBA",
-            Email="vitfdsocfdz@proton.me",
+            Email=$"{RandomString(10)}@sadf.lol",
             Telefono="2288182324"
         }
     };
+
+    private static Random random = new Random();
+
+    public static string RandomString(int length)
+    {
+        const string chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+        return new string(Enumerable.Repeat(chars, length)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+    }
 
     [Fact]
     public void RegistrarMiembro_Exito()
@@ -71,6 +80,8 @@ public class MiembroTest
             Assert.False(String.IsNullOrWhiteSpace(miembroObtenido.Contrasena));
             Assert.NotEqual(miembroObtenido.Contrasena, this.miembroPrueba.Contrasena);
             Assert.Equal(miembroObtenido.IdPersona, miembroObtenido.Persona!.Id);
+
+
         }
     }
 
@@ -160,7 +171,7 @@ public class MiembroTest
                 clienteHttp.PostAsJsonAsync("miembro",this.miembroPrueba).Result;
             Miembro miembroRegistrado = 
                 respuestaRegistro.Content.ReadAsAsync<Respuesta<Miembro>>().Result.Datos!;
-            int codigoOriginal = (int)miembroRegistrado.CodigoConfirmacion!;
+            int codigoOriginal = (int)miembroRegistrado.CodigoConfirmacion;
             miembroRegistrado.CodigoConfirmacion = -1;
 
             HttpResponseMessage respuestaConfirmacion =

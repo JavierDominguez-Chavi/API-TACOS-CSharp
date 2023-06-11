@@ -51,7 +51,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
                                  .ToList();
         if (personas.IsNullOrEmpty()) 
         {
-            return new RespuestaCredenciales { Codigo = 400, Mensaje = Mensajes.IniciarSesion_400 };
+            return new RespuestaCredenciales { Codigo = 401, Mensaje = Mensajes.IniciarSesion_401 };
         }
 
         RespuestaCredenciales respuesta = new RespuestaCredenciales();
