@@ -46,7 +46,15 @@ public class MenuMgr : ManagerBase, IMenuMgt
         }
         foreach (Alimento alimento in alimentos)
         {
-            alimento.Existencia += idAlimentos_Cantidades[alimento.Id];
+            //-1 = agotado.
+            if (alimento.Existencia == 0)
+            {
+                alimento.Existencia = -1;
+            }
+            if (alimento.Existencia > -1)
+            {
+                alimento.Existencia += idAlimentos_Cantidades[alimento.Id];
+            }
         }
         if (this.tacosdbContext.SaveChanges() != cantidadAlimentos)
         {
@@ -62,6 +70,7 @@ public class MenuMgr : ManagerBase, IMenuMgt
         return new Respuesta<Dictionary<int, int>>
             { Codigo = 200, Mensaje = Mensajes.Exito, Datos = nuevasExistencias };
     }
+
 
     #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public Respuesta<List<AlimentoActualizar>> ActualizarAlimentos(List<AlimentoActualizar> alimentos)
