@@ -33,10 +33,8 @@ public class MenuTest
             Assert.True( alimentos.Count > 0);
             Assert.NotNull(alimentos.ElementAt(0).Nombre);
             Assert.NotNull(alimentos.ElementAt(1).Nombre);
-            Assert.NotNull(alimentos.ElementAt(2).Nombre);
-            Assert.True( alimentos.ElementAt(0).Nombre!.Equals("Coca-Cola") );
-            Assert.True( alimentos.ElementAt(1).Nombre!.Equals("Orden de Bistec") );
-            Assert.True( alimentos.ElementAt(2).Nombre!.Equals("Orden de Pastor") );
+            Assert.True( alimentos.ElementAt(0).Nombre!.Equals("Orden de bisteck") );
+            Assert.True( alimentos.ElementAt(1).Nombre!.Equals("Orden de pastor") );
             foreach (Alimento alimento in alimentos)
             {
                 Assert.Null(alimento.Imagen);

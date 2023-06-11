@@ -160,7 +160,8 @@ public class PedidoTest
         {
             cliente.BaseAddress = this.uri;
             HttpResponseMessage respuesta =
-                cliente.PostAsJsonAsync("Login",new { Email = "maledict@proton.me", Contrasena = "asdf"}).Result;
+                cliente.PostAsJsonAsync("Login",new { Email = "admin", Contrasena = "ASDFasdf1234", EsStaff=true})
+                .Result;
             var credencialesObtenidas = respuesta.Content.ReadAsAsync<RespuestaCredenciales>().Result;
 
             autenticacion =new AuthenticationHeaderValue("Bearer", credencialesObtenidas.Token);
