@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿#pragma warning disable CS1591
+using Microsoft.AspNetCore.Mvc;
 using TACOS.Modelos;
 using TACOS.Negocio;
 using TACOS.Negocio.Interfaces;
@@ -12,13 +13,13 @@ namespace TACOS.Controladores.personas
     public class TurnosController
     {
         private readonly ILogger<StaffController> logger;
-        private IConsultanteMgt _consultanteMgr;
+        private IConsultanteMgt consultanteMgr;
 
         public TurnosController(ILogger<StaffController> logger,
                                   IConsultanteMgt consultanteMgr)
         {
             this.logger = logger;
-            _consultanteMgr = consultanteMgr;
+            this.consultanteMgr = consultanteMgr;
         }
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace TACOS.Controladores.personas
         {
             try
             {
-                return new JsonResult(_consultanteMgr.ObtenerTurnos()) { StatusCode = 202 };
+                return new JsonResult(consultanteMgr.ObtenerTurnos()) { StatusCode = 202 };
             }
             catch (HttpRequestException httpRequestException)
             {

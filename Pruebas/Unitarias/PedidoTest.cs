@@ -40,13 +40,13 @@ public class PedidoTest
                 };
 
             cliente.BaseAddress = this.uri;
-            cliente.DefaultRequestHeaders.Authorization = ObtenerAutenticacion();
+            cliente.DefaultRequestHeaders.Authorization = this.ObtenerAutenticacion();
             HttpResponseMessage respuestaPedido =
                 cliente.PostAsJsonAsync("pedidos",pedidoPrueba).Result;
 
             Assert.NotNull(respuestaPedido);
             Assert.True(respuestaPedido.IsSuccessStatusCode);
-            Pedido pedidoRegistrado = respuestaPedido.Content.ReadAsAsync<Respuesta<Pedido>>().Result.Datos;
+            Pedido pedidoRegistrado = respuestaPedido.Content.ReadAsAsync<Respuesta<Pedido>>()!.Result.Datos!;
             Assert.NotNull(pedidoRegistrado);
             Assert.True(pedidoRegistrado.Id > 0);
             Assert.True(pedidoRegistrado.Alimentospedidos.Count == 2);

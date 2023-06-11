@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿#pragma warning disable CS1591
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using TACOS.Modelos;
 using TACOS.Modelos.Interfaces;
@@ -16,21 +17,17 @@ public class RespuestaCredenciales
     /// Necesaria para simplificar la generación del token. NO serializar.
     /// </summary>
     [JsonIgnore]
-    public IAsociado Asociado { get; set; } = null;
+    public IAsociado? Asociado { get; set; } = null;
 
-    /// <summary></summary>
-    public Miembro Miembro { get; set; } = null;
-    /// <summary></summary>
-    public Staff Staff { get; set; } = null;
+
+    public Miembro? Miembro { get; set; } = null;
+    public Staff? Staff { get; set; } = null;
 
     /// <summary>
     /// Codigo HTTP de la respuesta.
     /// </summary>
     public int Codigo { get; set; } = 500;
 
-    /// <summary>
-    /// Descripción de la respuesta.
-    /// </summary>
     public string? Mensaje { get; set; }
 
     /// <summary>

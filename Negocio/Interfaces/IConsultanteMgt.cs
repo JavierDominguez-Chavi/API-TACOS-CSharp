@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿#pragma warning disable CS1591
+using System.Collections.ObjectModel;
 using TACOS.Modelos;
 using TACOS.Negocio.PeticionesRespuestas;
 
@@ -52,10 +53,6 @@ namespace TACOS.Negocio.Interfaces
         /// <returns>Pedido modificado.</returns>
         public Respuesta<Pedido> ActualizarPedido(PedidoSimple pedido);
 
-        /// <summary>
-        /// Consulta las reseñas.
-        /// </summary>
-        /// <returns>Todas las reseñas en la base de datos.</returns>
         public List<Resena> ObtenerResenas();
         public bool BorrarResena(int idResena);
         public List<Puesto> ObtenerPuestos();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable CS1591
+using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,54 +10,27 @@ namespace TACOS.Modelos;
 /// </summary>
 public partial class TacosdbContext : DbContext
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public TacosdbContext()
     {
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
     public TacosdbContext(DbContextOptions<TacosdbContext> options)
         : base(options)
     {
     }
 
-    /// <summary>
-    /// Alimentos en la base de datos.
-    /// </summary>
     public virtual DbSet<Alimento> Alimentos { get; set; }
 
-    /// <summary>
-    /// Alimentospedidos en la base de datos.
-    /// </summary>
     public virtual DbSet<Alimentospedido> Alimentospedidos { get; set; }
 
-    /// <summary>
-    /// Categorias en la base de datos.
-    /// </summary>
     public virtual DbSet<Categorium> Categoria { get; set; }
 
-    /// <summary>
-    /// Miembros en la base de datos.
-    /// </summary>
     public virtual DbSet<Miembro> Miembros { get; set; }
 
-    /// <summary>
-    /// Pedidos en la base de datos.
-    /// </summary>
     public virtual DbSet<Pedido> Pedidos { get; set; }
 
-    /// <summary>
-    /// Personas en la base de datos.
-    /// </summary>
     public virtual DbSet<Persona> Personas { get; set; }
 
-    /// <summary>
-    /// Reseñas en la base de datos.
-    /// </summary>
     public virtual DbSet<Resena> Resenas { get; set; }
     public virtual DbSet<Puesto> Puestos { get; set; }
     public virtual DbSet<Turno> Turnos { get; set; }
