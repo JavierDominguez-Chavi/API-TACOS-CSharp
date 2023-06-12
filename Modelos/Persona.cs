@@ -50,11 +50,9 @@ public partial class Persona
     [JsonIgnore]
     public virtual ICollection<Miembro> Miembros { get; set; } = new List<Miembro>();
 
+    /// <summary>
+    /// Staff asociados con la Persona. Debería siempre ser un sólo Staff.
+    /// </summary>
     [JsonIgnore]
     public virtual ICollection<Staff> Staff { get; set; } = new List<Staff>();
-
-    public object Clone()
-    {
-        return this.MemberwiseClone();
-    }
 }

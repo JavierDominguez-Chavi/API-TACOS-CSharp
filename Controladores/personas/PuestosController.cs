@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
+﻿#pragma warning disable CS1591
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using TACOS.Modelos;
 using TACOS.Negocio;
 using TACOS.Negocio.Interfaces;

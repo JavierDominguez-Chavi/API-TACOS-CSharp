@@ -58,7 +58,7 @@ namespace TACOS.Controladores.personas
                 token = JwtTokenHandler.GenerarToken(
                     respuesta.Asociado!.Persona!.Email!,
                     $"{respuesta.Asociado.Persona.Nombre} {respuesta.Asociado.Persona.ApellidoPaterno} {respuesta.Asociado.Persona.ApellidoMaterno}",
-                    respuesta.Asociado.Contrasena
+                    respuesta.Asociado.Contrasena!
                 );
             }
             respuesta.Token = token.Item1;

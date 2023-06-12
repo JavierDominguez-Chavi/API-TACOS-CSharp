@@ -1,4 +1,5 @@
-﻿namespace TACOSMenuAPI.Negocio;
+﻿#pragma warning disable CS1591
+namespace TACOSMenuAPI.Negocio;
 using System.Collections.Generic;
 using System.Globalization;
 using TACOSMenuAPI.Negocio.Interfaces;
@@ -20,9 +21,7 @@ public class MenuMgr : ManagerBase, IMenuMgt
     {
     }
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public Respuesta<Dictionary<int,int>> ActualizarExistenciaAlimentos
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
         ([FromBody] Dictionary<int,int> idAlimentos_Cantidades)
     {
         int cantidadAlimentos = idAlimentos_Cantidades.Count;
@@ -71,8 +70,6 @@ public class MenuMgr : ManagerBase, IMenuMgt
             { Codigo = 200, Mensaje = Mensajes.Exito, Datos = nuevasExistencias };
     }
 
-
-    #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public Respuesta<List<AlimentoActualizar>> ActualizarAlimentos(List<AlimentoActualizar> alimentos)
     {
         List<AlimentoActualizar> alimentosModificados = new List<AlimentoActualizar>();

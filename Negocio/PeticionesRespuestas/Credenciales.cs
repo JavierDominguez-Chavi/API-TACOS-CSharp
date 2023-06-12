@@ -20,6 +20,9 @@ namespace TACOS.Negocio.PeticionesRespuestas
         /// </summary>
         public bool EsStaff { get; set; } = false;
 
+        /// <summary>
+        /// Valida que tanto el Email como la Contrasena no sean nulos ni estén vacíos.
+        /// </summary>
         [JsonIgnore]
         public bool Llenas => 
             !String.IsNullOrWhiteSpace(this.Email) && !String.IsNullOrWhiteSpace(this.Contrasena);

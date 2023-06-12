@@ -1,4 +1,5 @@
-﻿namespace TACOS.Negocio;
+﻿#pragma warning disable CS1591
+namespace TACOS.Negocio;
 using BCrypt.Net;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -14,26 +15,8 @@ using TACOS.Negocio.PeticionesRespuestas;
 /// </summary>
 public class ConsultanteMgr : ManagerBase, IConsultanteMgt
 {
-    #pragma warning disable CS1591
     public ConsultanteMgr(TacosdbContext tacosdbContext) : base(tacosdbContext)
     {
-    }
-
-    #pragma warning disable CS1591
-    public Persona ObtenerPersona(string email)
-    {
-        if (String.IsNullOrWhiteSpace(email))
-        {
-            throw new HttpRequestException("400");
-        }
-
-        Persona? personaEncontrada =
-            this.tacosdbContext.Personas.First(persona => persona.Email!.Equals(email));
-        if (personaEncontrada is null)
-        {
-            throw new HttpRequestException("401");
-        }
-        return personaEncontrada;
     }
 
     public RespuestaCredenciales IniciarSesion(Credenciales credenciales)
@@ -59,6 +42,9 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         IAsociado asociadoEncontrado;
         if (credenciales.EsStaff)
         {
+            //El Staff/Miembro podría ser nulo; esta validación se hace en el
+            //siguiente if (asociadoEncontrado == null), para no tener que
+            //validar dos veces.
             respuesta.Staff = personas.First().Staff.FirstOrDefault();
             asociadoEncontrado = respuesta.Staff;
         }
@@ -67,7 +53,6 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
             respuesta.Miembro = personas.First().Miembros.FirstOrDefault();
             asociadoEncontrado = respuesta.Miembro;
         }
-
         if (asociadoEncontrado == null)
         {
             return new RespuestaCredenciales { Codigo = 401, Mensaje = Mensajes.IniciarSesion_401 };
@@ -134,7 +119,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
     public bool AsignarCodigoConfirmacion(Persona persona)
     {
         Miembro? miembroEncontrado =
-            this.tacosdbContext.Miembros.FirstOrDefault(m => m.IdPersona == persona.Id);
+            this.tacosdbContext.Miembros.FirstOrDefault(m => m.IdPersona == persona.Id);                               
         if (miembroEncontrado != null)
         {
             miembroEncontrado!.CodigoConfirmacion = new Random().Next(10000, 100000);
@@ -148,7 +133,6 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
     {
         Miembro? miembroEncontrado =
             this.tacosdbContext.Miembros.SingleOrDefault(m => m.Id == miembro.Id);
-        Console.WriteLine(miembro.Id);
         if (miembroEncontrado is null)
         {
             return new Respuesta<Miembro> { Codigo = 404, Mensaje = Mensajes.ConfirmarRegistro_404 };
@@ -188,7 +172,8 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         {
             pedidosReporte.Add(new PedidoReporte(pedido));
         }
-        return new Respuesta<List<PedidoReporte>> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = pedidosReporte };
+        return new Respuesta<List<PedidoReporte>> 
+            { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = pedidosReporte };
     }
 
     public Respuesta<Pedido> RegistrarPedido(Pedido nuevoPedido)
@@ -260,7 +245,8 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         {
             return new Respuesta<Pedido> { Codigo = 500, Mensaje = Mensajes.ErrorInterno };
         }
-        return new Respuesta<Pedido> { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = pedidoEncontrado };
+        return new Respuesta<Pedido> 
+            { Codigo = 200, Mensaje = Mensajes.OperacionExitosa, Datos = pedidoEncontrado };
     }
 
     /// <summary>
@@ -367,7 +353,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
             };
         }
         staff.Contrasena = BCrypt.HashPassword(staff.Contrasena);
-        Persona persona = staff.Persona;
+        Persona persona = staff.Persona!;
 
         bool personaExiste = tacosdbContext.Personas.Any(personaBuscar => personaBuscar.Nombre == persona.Nombre &&
              personaBuscar.ApellidoPaterno == persona.ApellidoPaterno &&
@@ -382,7 +368,7 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         }
         else
         {
-            this.tacosdbContext.Personas.Add(persona);
+            this.tacosdbContext.Personas.Add(persona!);
             bool registroExitosoPersona = this.tacosdbContext.SaveChanges() == 1;
             staff.IdPersona = ObtenerIdPersonaRegistrada(persona);
             this.tacosdbContext.Staff.Add(staff);

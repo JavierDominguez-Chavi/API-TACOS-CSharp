@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿#pragma warning disable CS1591
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace TACOS.Modelos
 {
+    /// <summary>
+    /// Turno en el que trabaja un determinado Staff.
+    /// </summary>
     public class Turno
     {
         public int Id { get; set; }

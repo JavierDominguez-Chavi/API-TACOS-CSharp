@@ -1,4 +1,4 @@
-﻿
+﻿#pragma warning disable CS1591
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TACOS.Modelos;
@@ -14,13 +14,13 @@ namespace TACOS.Controladores.personas
     public class StaffController
     {
         private readonly ILogger<StaffController> logger;
-        private IConsultanteMgt _consultanteMgr;
+        private IConsultanteMgt consultanteMgr;
 
         public StaffController(ILogger<StaffController> logger,
                                   IConsultanteMgt consultanteMgr)
         {
             this.logger = logger;
-            _consultanteMgr = consultanteMgr;
+            this.consultanteMgr = consultanteMgr;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace TACOS.Controladores.personas
         {
             try
             {
-                _consultanteMgr.RegistrarEmpleadoStaff(staff);
+                consultanteMgr.RegistrarEmpleadoStaff(staff);
                 return new NoContentResult();
             }
             catch (HttpRequestException httpRequestException)
@@ -57,8 +57,8 @@ namespace TACOS.Controladores.personas
                 respuestasExcepcion.Add("422", Mensajes.RegistrarEmpleadoStaff_422);
                 respuestasExcepcion.Add("500", Mensajes.ErrorInterno);
 
-                return new JsonResult(new { mensaje = respuestasExcepcion[httpRequestException.Data["CodigoError"] as string] })
-                { StatusCode = Int32.Parse(httpRequestException.Data["CodigoError"] as string) };
+                return new JsonResult(new { mensaje = respuestasExcepcion[(httpRequestException.Data["CodigoError"] as string)!] })
+                { StatusCode = Int32.Parse((httpRequestException.Data["CodigoError"] as string)!) };
             }
         }
     }

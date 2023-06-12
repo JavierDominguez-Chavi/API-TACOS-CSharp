@@ -1,3 +1,3 @@
-﻿C:\Users\52228\source\repos\API-TACOS-CSharp\JWTTokens\JwtAuthenticationExtension.cs
-C:\Users\52228\source\repos\API-TACOS-CSharp\JWTTokens\JwtTokenHandler.cs
-C:\Users\52228\source\repos\API-TACOS-CSharp\JWTTokens\Properties\launchSettings.json
+﻿C:\Users\52228\source\repos\API-TACOS-CSharp3\JWTTokens\JwtAuthenticationExtension.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp3\JWTTokens\JwtTokenHandler.cs
+C:\Users\52228\source\repos\API-TACOS-CSharp3\JWTTokens\Properties\launchSettings.json

@@ -1,4 +1,6 @@
-﻿namespace TACOS.Modelos;
+﻿#pragma warning disable CS8602 // Dereference of a possibly null reference.
+
+namespace TACOS.Modelos;
 using FluentValidation;
 using System.Text.RegularExpressions;
 using TACOS.Modelos.Interfaces;
