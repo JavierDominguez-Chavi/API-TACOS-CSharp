@@ -1,4 +1,4 @@
-﻿
+﻿#pragma warning disable CS1591
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using TACOS.Modelos;
@@ -9,7 +9,6 @@ using TACOS.Negocio.Interfaces;
 
 namespace TACOS.Controladores.personas
 {
-    #pragma warning disable CS1591
     [ApiController]
     [Route("[controller]")]
     public class StaffController
@@ -17,7 +16,6 @@ namespace TACOS.Controladores.personas
         private readonly ILogger<StaffController> logger;
         private IConsultanteMgt consultanteMgr;
 
-        #pragma warning disable CS1591
         public StaffController(ILogger<StaffController> logger,
                                   IConsultanteMgt consultanteMgr)
         {

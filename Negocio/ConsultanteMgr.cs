@@ -19,22 +19,6 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
     {
     }
 
-    public Persona ObtenerPersona(string email)
-    {
-        if (String.IsNullOrWhiteSpace(email))
-        {
-            throw new HttpRequestException("400");
-        }
-
-        Persona? personaEncontrada =
-            this.tacosdbContext.Personas.First(persona => persona.Email!.Equals(email));
-        if (personaEncontrada is null)
-        {
-            throw new HttpRequestException("401");
-        }
-        return personaEncontrada;
-    }
-
     public RespuestaCredenciales IniciarSesion(Credenciales credenciales)
     {
         if (!credenciales.Llenas)
@@ -69,7 +53,6 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
             respuesta.Miembro = personas.First().Miembros.FirstOrDefault();
             asociadoEncontrado = respuesta.Miembro;
         }
-
         if (asociadoEncontrado == null)
         {
             return new RespuestaCredenciales { Codigo = 401, Mensaje = Mensajes.IniciarSesion_401 };
@@ -150,7 +133,6 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
     {
         Miembro? miembroEncontrado =
             this.tacosdbContext.Miembros.SingleOrDefault(m => m.Id == miembro.Id);
-        Console.WriteLine(miembro.Id);
         if (miembroEncontrado is null)
         {
             return new Respuesta<Miembro> { Codigo = 404, Mensaje = Mensajes.ConfirmarRegistro_404 };
