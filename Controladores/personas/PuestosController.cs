@@ -15,6 +15,11 @@ namespace TACOS.Controladores.personas
         private readonly ILogger<StaffController> logger;
         private IConsultanteMgt _consultanteMgr;
 
+        /// <summary>
+        /// Constructor del controlador.
+        /// </summary>
+        /// <param name="logger">Inyectado por dependencias.</param>
+        /// <param name="consultanteMgr">Componente para operaciones con personas. Inyectado por dependencias.</param>
         public PuestosController(ILogger<StaffController> logger,
                                   IConsultanteMgt consultanteMgr)
         {
@@ -31,6 +36,7 @@ namespace TACOS.Controladores.personas
         /// <response code="200">
         /// La operación fue exitosa.
         /// </response>
+        /// <response code="401">No autorizado.</response>
         /// <response code="500">Error de servidor, intente de nuevo más tarde.</response>
         /// <returns>Lista de Puestos</returns>
         [ProducesResponseType(typeof(List<Puesto>), StatusCodes.Status200OK)]
@@ -39,7 +45,7 @@ namespace TACOS.Controladores.personas
 
 
         [HttpGet(Name = "ObtenerPuestos")]
-        //[Authorize]
+        [Authorize]
         public IActionResult ObtenerPuestos()
         {
             try

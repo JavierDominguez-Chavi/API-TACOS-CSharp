@@ -10,10 +10,17 @@ namespace TACOS.Modelos
     /// </summary>
     public class Puesto
     {
+        /// <summary>
+        /// Llave primaria en la base de datos.
+        /// </summary>
         public int Id { get; set; }
-
+        /// <summary>
+        /// Tipo de cargo.
+        /// </summary>
         public string? Cargo { get; set; }
-
+        /// <summary>
+        /// Personas del Staff que tienen el Puesto
+        /// </summary>
         [JsonIgnore]
         public virtual ICollection<Staff>? Staff { get; set; } = new List<Staff>();
     }

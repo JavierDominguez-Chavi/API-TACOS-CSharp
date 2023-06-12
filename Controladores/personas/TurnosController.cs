@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CS1591
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TACOS.Modelos;
 using TACOS.Negocio;
@@ -15,6 +16,11 @@ namespace TACOS.Controladores.personas
         private readonly ILogger<StaffController> logger;
         private IConsultanteMgt consultanteMgr;
 
+        /// <summary>
+        /// Constructor del controlador.
+        /// </summary>
+        /// <param name="logger">Inyectado por dependencias.</param>
+        /// <param name="consultanteMgr">Componente para operaciones con personas. Inyectado por dependencias.</param>
         public TurnosController(ILogger<StaffController> logger,
                                   IConsultanteMgt consultanteMgr)
         {
@@ -31,6 +37,7 @@ namespace TACOS.Controladores.personas
         /// <response code="200">
         /// La operación fue exitosa.
         /// </response>
+        /// <response code="401">No autorizado.</response>
         /// <response code="500">Error de servidor, intente de nuevo más tarde.</response>
         /// <returns>Lista de Turnos</returns>
         [ProducesResponseType(typeof(List<Turno>), StatusCodes.Status200OK)]
@@ -39,7 +46,7 @@ namespace TACOS.Controladores.personas
 
 
         [HttpGet(Name = "ObtenerTurnos")]
-        //[Authorize]
+        [Authorize]
         public IActionResult ObtenerTurnos()
         {
             try

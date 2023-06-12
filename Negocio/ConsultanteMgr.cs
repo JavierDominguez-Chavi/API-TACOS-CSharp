@@ -384,6 +384,11 @@ public class ConsultanteMgr : ManagerBase, IConsultanteMgt
         }
     }
 
+
+    /// <summary>
+    /// Se recuper el id de la Persona recien ingresada al sistema para posterior registrar al Staff
+    /// </summary>
+    /// <param name="persona">Pedido cuyo Estado acaba de cambiar.</param>
     public int ObtenerIdPersonaRegistrada(Persona persona)
     {
         int idPersona = -1;
