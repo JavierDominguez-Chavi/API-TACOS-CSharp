@@ -1,5 +1,6 @@
 ﻿#pragma warning disable CS1591
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TACOS.Modelos;
 using TACOS.Negocio;
@@ -16,6 +17,11 @@ namespace TACOS.Controladores.personas
         private readonly ILogger<StaffController> logger;
         private IConsultanteMgt consultanteMgr;
 
+        /// <summary>
+        /// Constructor del controlador.
+        /// </summary>
+        /// <param name="logger">Inyectado por dependencias.</param>
+        /// <param name="consultanteMgr">Componente para operaciones con personas. Inyectado por dependencias.</param>
         public StaffController(ILogger<StaffController> logger,
                                   IConsultanteMgt consultanteMgr)
         {
@@ -33,6 +39,7 @@ namespace TACOS.Controladores.personas
         /// La operación fue exitosa.
         /// </response>
         /// <response code="400">Mensaje con el error de validación proveniente de MiembroValidador</response>
+        /// <response code="401">No autorizado.</response>
         /// <response code="422">El nombre y/o email que desea registrar ya existe en el sistema.</response>
         /// <response code="500">Error de servidor, intente de nuevo más tarde.</response>
         /// <returns>>Resultado sin contenido</returns>
@@ -43,6 +50,7 @@ namespace TACOS.Controladores.personas
         [Produces("application/json")]
 
         [HttpPost(Name = "RegistrarEmpleadoStaff")]
+        [Authorize]
         public IActionResult RegistrarEmpleadoStaff(Staff staff)
         {
             try

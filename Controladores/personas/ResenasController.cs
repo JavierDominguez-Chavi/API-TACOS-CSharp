@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TACOS.Modelos;
 using TACOS.Negocio;
 using TACOS.Negocio.Interfaces;
@@ -40,7 +41,7 @@ namespace TACOS.Controladores.personas
         /// <response code="500">Error de servidor, intente de nuevo más tarde.</response>
         /// <returns>Lista de Reseñas</returns>
         [ProducesResponseType(typeof(List<Resena>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(Error), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(Error), StatusCodes.Status500InternalServerError)]
         [Produces("application/json")]
 
         [HttpGet(Name = "ObtenerResenas")]
@@ -71,6 +72,7 @@ namespace TACOS.Controladores.personas
         /// La operación fue exitosa.
         /// </response>
         /// <response code="400">Se requiere un ID de reseña válido para eliminar el registro.</response>
+        /// <response code="401">No autorizado.</response>
         /// <response code="404">Ningun registro coincide con la reseña que desea eliminar.</response>
         /// <response code="500">Error de servidor, intente de nuevo más tarde.</response>
         /// <returns>Resultado sin contenido</returns>
@@ -81,7 +83,7 @@ namespace TACOS.Controladores.personas
         [Produces("application/json")]
 
         [HttpPost(Name = "BorrarResena")]
-        //[Authorize]
+        [Authorize]
         public IActionResult BorrarResena(int idResena)
         {
             try
