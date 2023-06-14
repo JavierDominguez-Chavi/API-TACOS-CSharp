@@ -16,6 +16,12 @@ namespace TACOSMenuAPI.Negocio.Interfaces
         public Respuesta<List<Alimento>> ObtenerAlimentosSinImagenes();
 
         /// <summary>
+        /// Recupera los alimentos con sus respectivas imágenes.
+        /// </summary>
+        /// <returns>Lista de Alimentos.</returns>
+        public Respuesta<List<Alimento>> ObtenerAlimentosConImagenes();
+
+        /// <summary>
         /// Modifica existencias por lote.
         /// </summary>
         /// <param name="idAlimentos_Cantidades">El primer int es la IdAlimento, y el segundo 

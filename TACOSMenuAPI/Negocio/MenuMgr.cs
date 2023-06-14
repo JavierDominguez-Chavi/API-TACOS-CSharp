@@ -120,4 +120,14 @@ public class MenuMgr : ManagerBase, IMenuMgt
         };
     }
 
+    public Respuesta<List<Alimento>> ObtenerAlimentosConImagenes()
+    {
+        return new Respuesta<List<Alimento>>
+        {
+            Codigo = 200,
+            Mensaje = Mensajes.Exito,
+            Datos = this.tacosdbContext.Alimentos.Include(a => a.Imagen).ToList()
+        };
+    }
+
 }
