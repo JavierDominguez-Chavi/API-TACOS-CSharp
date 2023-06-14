@@ -58,6 +58,28 @@
         }
 
         /// <summary>
+        /// Obtiene todos los alimentos con sus respectivas imagenes.
+        /// </summary>
+        /// <response code="200">Se recuperaron los alimentos.</response>
+        /// <response code="500">El servidor falló inesperadamente.</response>
+        /// <returns>Lista de Alimentos</returns>
+        [ProducesResponseType(typeof(Respuesta<List<Alimento>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Respuesta<List<Alimento>>), StatusCodes.Status500InternalServerError)]
+        [HttpGet("ObtenerAlimentosConImagenes")]
+        public IActionResult ObtenerAlimentosConImagenes()
+        {
+            try
+            {
+                return new JsonResult(this.menuMgr.ObtenerAlimentosConImagenes()) { StatusCode = 200 };
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new Respuesta<object> { Codigo=500, Mensaje=Mensajes.ErrorInterno }) { StatusCode = 500 };
+            }
+        }
+
+
+        /// <summary>
         /// ActualizarExistenciaAlimentos(). Actualiza la existencia de uno o varios alimentos.
         /// </summary>
         /// <param name="idAlimentos_Cantidades">Diccionario con los IDs de los alimentos a modificar, y las cantidades a sumar o restar de cada alimento.</param>

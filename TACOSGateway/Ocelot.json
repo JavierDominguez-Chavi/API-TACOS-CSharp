@@ -1,19 +1,6 @@
 {
   "Routes": [
     {
-      "UpstreamPathTemplate": "/menu/Alimentos",
-      "UpstreamHttpMethod": [ "GET", "PATCH" ],
-      "UpstreamScheme": "http",
-      "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "localhost",
-          "Port": 5087
-        }
-      ],
-      "DownstreamPathTemplate": "/menu/Alimentos"
-    },
-    {
       "UpstreamPathTemplate": "/Login",
       "UpstreamHttpMethod": [ "POST" ],
       "UpstreamScheme": "http",
@@ -66,56 +53,56 @@
       "DownstreamPathTemplate": "/Miembro"
     },
     {
-        "UpstreamPathTemplate": "/Resenas",
-        "UpstreamHttpMethod": [ "GET", "POST" ],
-        "UpstreamScheme": "http",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-            {
-                "Host": "localhost",
-                "Port": 5087
-            }
-        ],
-        "DownstreamPathTemplate": "/Resenas"
+      "UpstreamPathTemplate": "/Resenas",
+      "UpstreamHttpMethod": [ "GET", "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5087
+        }
+      ],
+      "DownstreamPathTemplate": "/Resenas"
     },
     {
-        "UpstreamPathTemplate": "/Staff",
-        "UpstreamHttpMethod": [ "POST" ],
-        "UpstreamScheme": "http",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-            {
-                "Host": "localhost",
-                "Port": 5087
-            }
-        ],
-        "DownstreamPathTemplate": "/Staff"
+      "UpstreamPathTemplate": "/Staff",
+      "UpstreamHttpMethod": [ "POST" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5087
+        }
+      ],
+      "DownstreamPathTemplate": "/Staff"
     },
     {
-        "UpstreamPathTemplate": "/Puestos",
-        "UpstreamHttpMethod": [ "GET" ],
-        "UpstreamScheme": "http",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-            {
-                "Host": "localhost",
-                "Port": 5087
-            }
-        ],
-        "DownstreamPathTemplate": "/Puestos"
+      "UpstreamPathTemplate": "/Puestos",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5087
+        }
+      ],
+      "DownstreamPathTemplate": "/Puestos"
     },
     {
-        "UpstreamPathTemplate": "/Turnos",
-        "UpstreamHttpMethod": [ "GET" ],
-        "UpstreamScheme": "http",
-        "DownstreamScheme": "http",
-        "DownstreamHostAndPorts": [
-            {
-                "Host": "localhost",
-                "Port": 5087
-            }
-        ],
-        "DownstreamPathTemplate": "/Turnos"
+      "UpstreamPathTemplate": "/Turnos",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5087
+        }
+      ],
+      "DownstreamPathTemplate": "/Turnos"
     },
     {
       "UpstreamPathTemplate": "/Menu",
@@ -129,6 +116,19 @@
         }
       ],
       "DownstreamPathTemplate": "/Menu"
+    },
+    {
+      "UpstreamPathTemplate": "/menu/ObtenerAlimentosConImagenes",
+      "UpstreamHttpMethod": [ "GET" ],
+      "UpstreamScheme": "http",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5027
+        }
+      ],
+      "DownstreamPathTemplate": "/menu/ObtenerAlimentosConImagenes"
     }
   ],
   "GlobalConfiguration": {
