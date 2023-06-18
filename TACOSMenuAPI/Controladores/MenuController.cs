@@ -129,5 +129,33 @@
                 return new JsonResult(new Respuesta<object> { Codigo=500, Mensaje=Mensajes.ErrorInterno }) { StatusCode = 500 };
             }
         }
+
+        /// <summary>
+        /// Registra un nuevo alimento.
+        /// </summary>
+        /// <remarks>
+        /// Los alimentos vienen sin imágenes; estas deben obtenerse del TACOSImagenesAPI vía gRPC.
+        /// </remarks>
+        /// <response code="200">
+        /// La petición fue aceptada.
+        /// </response>
+        /// <response code="500">El servidor falló inesperadamente.</response>
+        /// <returns>Lista de Alimentos</returns>
+        [ProducesResponseType(typeof(Respuesta<List<Alimento>>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Respuesta<List<Alimento>>), StatusCodes.Status500InternalServerError)]
+        [Produces("application/json")]
+        [HttpPost]
+
+        public IActionResult RegistrarAlimento([FromBody] Alimento alimento)
+        {
+            try
+            {
+                return new JsonResult(this.menuMgr.RegistrarAlimento(alimento)) { StatusCode = 200 };
+            }
+            catch (Exception)
+            {
+                return new JsonResult(new Respuesta<object> { Codigo=500, Mensaje=Mensajes.ErrorInterno }) { StatusCode = 500 };
+            }
+        }
     }
 }

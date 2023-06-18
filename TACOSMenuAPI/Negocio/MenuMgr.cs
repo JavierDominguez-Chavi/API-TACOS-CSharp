@@ -110,24 +110,30 @@ public class MenuMgr : ManagerBase, IMenuMgt
         return respuesta;
     }
 
-    public Respuesta<List<Alimento>> ObtenerAlimentosSinImagenes()
+    public Respuesta<Alimento[]> ObtenerAlimentosSinImagenes()
     {
-        return new Respuesta<List<Alimento>>
-        { 
-            Codigo = 200, 
-            Mensaje = Mensajes.Exito, 
-            Datos = this.tacosdbContext.Alimentos.OrderBy(a => a.Nombre).ToList() 
-        };
-    }
-
-    public Respuesta<List<Alimento>> ObtenerAlimentosConImagenes()
-    {
-        return new Respuesta<List<Alimento>>
+        return new Respuesta<Alimento[]>
         {
             Codigo = 200,
             Mensaje = Mensajes.Exito,
-            Datos = this.tacosdbContext.Alimentos.Include(a => a.Imagen).ToList()
+            Datos = this.tacosdbContext.Alimentos.OrderBy(a => a.Nombre).ToArray()
         };
     }
 
+    public Respuesta<Alimento[]> ObtenerAlimentosConImagenes()
+    {
+        return new Respuesta<Alimento[]>
+        {
+            Codigo = 200,
+            Mensaje = Mensajes.Exito,
+            Datos = this.tacosdbContext.Alimentos.Include(a => a.Imagen).ToArray()
+        };
+    }
+
+    public Respuesta<Alimento> RegistrarAlimento(Alimento alimento)
+    {
+        this.tacosdbContext.Alimentos.Add(alimento);
+        this.tacosdbContext.SaveChanges();
+        return new Respuesta<Alimento> { Codigo = 200, Mensaje= Mensajes.Exito, Datos=alimento };
+    }
 }

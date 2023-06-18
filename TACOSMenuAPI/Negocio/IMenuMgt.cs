@@ -13,13 +13,13 @@ namespace TACOSMenuAPI.Negocio.Interfaces
         /// A la API gRPC; TACOSImagenesAPI.
         /// </summary>
         /// <returns>Lista de Alimentos.</returns>
-        public Respuesta<List<Alimento>> ObtenerAlimentosSinImagenes();
+        public Respuesta<Alimento[]> ObtenerAlimentosSinImagenes();
 
         /// <summary>
         /// Recupera los alimentos con sus respectivas imágenes.
         /// </summary>
         /// <returns>Lista de Alimentos.</returns>
-        public Respuesta<List<Alimento>> ObtenerAlimentosConImagenes();
+        public Respuesta<Alimento[]> ObtenerAlimentosConImagenes();
 
         /// <summary>
         /// Modifica existencias por lote.
@@ -35,5 +35,6 @@ namespace TACOSMenuAPI.Negocio.Interfaces
         /// <param name="alimentos">Lista de alimentos a modificar.</param>
         /// <returns>Lista de alimentos con su información ya modificada.</returns>
         public Respuesta<List<AlimentoActualizar>> ActualizarAlimentos(List<AlimentoActualizar> alimentos);
+        public Respuesta<Alimento> RegistrarAlimento(Alimento alimento);
     }
 }

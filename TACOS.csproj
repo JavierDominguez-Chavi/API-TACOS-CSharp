@@ -75,6 +75,8 @@
 
 	<PropertyGroup>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\ClienteTACOSWeb</DockerfileContext>
 	</PropertyGroup>
 
 </Project>
