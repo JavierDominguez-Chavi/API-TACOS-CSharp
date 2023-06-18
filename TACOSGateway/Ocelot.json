@@ -106,7 +106,7 @@
     },
     {
       "UpstreamPathTemplate": "/Menu",
-      "UpstreamHttpMethod": [ "GET", "PATCH", "PUT" ],
+      "UpstreamHttpMethod": [ "GET", "PATCH", "PUT", "POST" ],
       "UpstreamScheme": "http",
       "DownstreamScheme": "http",
       "DownstreamHostAndPorts": [
@@ -132,6 +132,6 @@
     }
   ],
   "GlobalConfiguration": {
-    "BaseUrl":"http://localhost:5174" 
+    "BaseUrl": "http://192.168.1.69:5174"
   }
 }
